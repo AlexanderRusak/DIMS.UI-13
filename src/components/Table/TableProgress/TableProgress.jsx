@@ -3,14 +3,14 @@ import classes from '../Table.module.css';
 
 export const TableProgress = (props) => {
   const { data } = props;
-  const { UserId, UserName, TaskName, TrackNote, TrackDate } = data;
+  const { UserID, UserName, TaskName, TrackNote, TrackDate } = data;
 
   return (
     <>
       <div className={classes.Table}>
         <ul>
           <li>
-            <p>{UserId}</p>
+            <p>{UserID}</p>
           </li>
           <li>
             <p>{UserName}</p>
