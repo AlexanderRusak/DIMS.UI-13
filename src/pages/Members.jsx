@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import { Table } from '../components/Table/TableMembers/TableMembers';
+import { getDataFromLS, setDataToLS } from '../localStorage/localStorageFunctions';
+import { MEMBERS } from '../db/tableName';
 import classes from './Members.module.css';
 import firebase from '../firebase';
 
@@ -41,16 +43,24 @@ class Members extends Component {
   );
 
   getData = () => {
-    const ref = firebase.firestore().collection('data').doc('members');
-    ref.onSnapshot((doc) => {
-      const { members } = doc.data();
-      console.log(members);
+    if (getDataFromLS(MEMBERS)) {
       this.setState(() => {
         return {
-          data: members,
+          data: getDataFromLS(MEMBERS),
         };
       });
-    });
+    } else {
+      const ref = firebase.firestore().collection('data').doc(MEMBERS);
+      ref.onSnapshot((doc) => {
+        const { members } = doc.data();
+        setDataToLS(MEMBERS, members);
+        this.setState(() => {
+          return {
+            data: members,
+          };
+        });
+      });
+    }
   };
 
   render() {

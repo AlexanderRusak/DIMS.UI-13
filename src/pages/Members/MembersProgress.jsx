@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import { TableProgress } from '../../components/Table/TableProgress/TableProgress';
+import { getDataFromLS, setDataToLS } from '../../localStorage/localStorageFunctions';
+import { PROGRESS } from '../../db/tableName';
 import classes from '../Members.module.css';
 import firebase from '../../firebase';
 
@@ -38,17 +40,24 @@ class MemebersProgress extends Component {
   );
 
   getData = () => {
-    const ref = firebase.firestore().collection('data').doc('progress');
-    console.log(ref);
-    ref.onSnapshot((doc) => {
-      const { memberProgress } = doc.data();
-      console.log(memberProgress);
+    if (getDataFromLS(PROGRESS)) {
       this.setState(() => {
         return {
-          data: memberProgress,
+          data: getDataFromLS(PROGRESS),
         };
       });
-    });
+    } else {
+      const ref = firebase.firestore().collection('data').doc(PROGRESS);
+      ref.onSnapshot((doc) => {
+        const { memberProgress } = doc.data();
+        setDataToLS(PROGRESS, memberProgress);
+        this.setState(() => {
+          return {
+            data: memberProgress,
+          };
+        });
+      });
+    }
   };
 
   render() {
