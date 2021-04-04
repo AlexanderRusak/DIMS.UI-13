@@ -1,32 +1,32 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import classes from './Drawer.module.css';
 
-const links = ['Members', 'Members Progress', 'Member Tasks'];
+const links = [
+  { to: '/members', label: 'Members', exact: true },
+  { to: '/members-progress', label: 'Members Progress', exact: false },
+  { to: '/members-tasks', label: 'Memebers Tasks', exact: false },
+];
 
 export default class Drawer extends Component {
-  renderLinks() {
-    const { onChose, onKeyPress } = this.props;
+  clickHandler = () => {
+    const { onClose } = this.props;
+    onClose();
+  };
 
-    return links.map((link, index) => {
+  renderLinks = () => {
+    return links.map((link) => {
       return (
         <li>
-          <div
-            tabIndex={0}
-            aria-label='button'
-            type='button'
-            role='button'
-            onKeyPress={onKeyPress}
-            onClick={() => onChose(index)}
-            key={link.indexOf()}
-          >
-            <p>{link}</p>
-          </div>
+          <NavLink to={link.to} exact={link.exact} activeClassName={classes.active} onClick={this.clickHandler}>
+            {link.label}
+          </NavLink>
         </li>
       );
     });
-  }
+  };
 
   render() {
     const { isOpen, onClose } = this.props;
@@ -48,10 +48,4 @@ export default class Drawer extends Component {
 Drawer.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onChose: PropTypes.func,
-  onKeyPress: PropTypes.func,
-};
-Drawer.defaultProps = {
-  onKeyPress: PropTypes.func,
-  onChose: PropTypes.func,
 };

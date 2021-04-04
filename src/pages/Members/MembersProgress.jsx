@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import { Table } from '../components/Table/TableMembers/TableMembers';
-import classes from './Members.module.css';
-import firebase from '../firebase';
+import { TableProgress } from '../../components/Table/TableProgress/TableProgress';
+import classes from '../Members.module.css';
+import firebase from '../../firebase';
 
-class Members extends Component {
+class MemebersProgress extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,24 +30,22 @@ class Members extends Component {
         <li>
           <p>Education</p>
         </li>
-        <li className={classes.age}>
-          <p>Age</p>
-        </li>
-        <li className={classes.actions}>
-          <p>Actions</p>
+        <li className={classes.date}>
+          <p>Date</p>
         </li>
       </ul>
     </div>
   );
 
   getData = () => {
-    const ref = firebase.firestore().collection('data').doc('members');
+    const ref = firebase.firestore().collection('data').doc('progress');
+    console.log(ref);
     ref.onSnapshot((doc) => {
-      const { members } = doc.data();
-      console.log(members);
+      const { memberProgress } = doc.data();
+      console.log(memberProgress);
       this.setState(() => {
         return {
-          data: members,
+          data: memberProgress,
         };
       });
     });
@@ -60,14 +58,14 @@ class Members extends Component {
       <>
         {this.getTableHeader()}
         {data.map((row) => (
-          <Table data={row} />
+          <TableProgress data={row} />
         ))}
       </>
     );
   }
 }
 
-Members.propTypes = {};
-Members.defaultProps = {};
+MemebersProgress.propTypes = {};
+MemebersProgress.defaultProps = {};
 
-export default Members;
+export default MemebersProgress;

@@ -1,0 +1,61 @@
+.Table {
+  display: flex;
+  justify-content: center;
+}
+.Table ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.Table ul li {
+  border: 1px solid #000;
+  list-style: none;
+  width: 15%;
+  min-height: 200px;
+  height: auto;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.Table ul li:first-child {
+  width: 4%;
+}
+.Table ul .age {
+  width: 5%;
+}
+.Table ul .actions {
+  justify-content: space-around;
+  align-items: center;
+  width: 20%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.Table ul li p {
+  font-size: 2rem;
+  margin: 0;
+  padding: 10px;
+  word-break: break-word;
+}
+.button {
+  width: 140px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  outline: none;
+  background-color: green;
+  border: none;
+  color: #fff;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.button .fontButton{
+  font-size: 1.5rem;
+}
+.delete {
+  background-color: red;
+}

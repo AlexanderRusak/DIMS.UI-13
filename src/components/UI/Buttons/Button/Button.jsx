@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import noop from '../../../shared/noop';
+import noop from '../../../../shared/noop';
 
 export const Button = ({ children, onClick, ...restProps }) => (
   <button type='button' onClick={onClick} {...restProps}>
