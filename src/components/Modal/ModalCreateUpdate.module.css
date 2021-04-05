@@ -1,0 +1,19 @@
+.ModalCreateUpdate {
+  width: 400px;
+  height: 400px;
+  background-color: #fff;
+  border: 2px solid gray;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  position: absolute;
+  z-index: 99;
+}
+.close {
+  display: none;
+}
+.open {
+  display: flex;
+  flex-direction: column;
+}
