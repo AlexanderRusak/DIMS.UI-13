@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
+import { FaRegTimesCircle, FaBars } from 'react-icons/fa';
 import classes from './MenuToggle.module.css';
 
 const MenuToggle = (props) => {
-  const cls = [classes.MenuToggle, 'fa'];
+  const cls = [classes.MenuToggle];
   const { onToggle, isOpen, onKeyPress } = props;
-  console.log(props);
   if (isOpen) {
-    cls.push('fa-times');
     cls.push(classes.open);
-  } else {
-    cls.push('fa-bars');
   }
 
   return (
@@ -21,7 +18,9 @@ const MenuToggle = (props) => {
       className={cls.join(' ')}
       onClick={onToggle}
       onKeyPress={onKeyPress}
-    />
+    >
+      {isOpen ? <FaRegTimesCircle /> : <FaBars />}
+    </i>
   );
 };
 MenuToggle.propTypes = {

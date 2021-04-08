@@ -6,7 +6,6 @@ import classes from './ModalCreateUpdate.module.css';
 
 export const ModalCreateUpdate = ({ isOpen, onClose }) => {
   const cls = [classes.ModalCreateUpdate];
-  console.log(isOpen);
   if (isOpen) {
     cls.push(classes.open);
   } else {

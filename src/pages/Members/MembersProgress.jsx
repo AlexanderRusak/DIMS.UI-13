@@ -62,12 +62,12 @@ class MemebersProgress extends Component {
 
   render() {
     const { data } = this.state;
-
+    const [UserID] = data;
     return (
       <>
         {this.getTableHeader()}
         {data.map((row) => (
-          <TableProgress data={row} />
+          <TableProgress key={UserID} data={row} />
         ))}
       </>
     );

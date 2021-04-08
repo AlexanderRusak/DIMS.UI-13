@@ -13,21 +13,13 @@ export class Table extends Component {
   }
 
   closeModalHandler = () => {
-    this.setState(() => {
-      return {
-        isOpen: false,
-      };
-    });
+    this.setState({ isOpen: false });
   };
 
   openModalHandler = () => {
     const { isOpen } = this.state;
 
-    this.setState(() => {
-      return {
-        isOpen: !isOpen,
-      };
-    });
+    this.setState({ isOpen: !isOpen });
   };
 
   render() {
@@ -78,8 +70,6 @@ export class Table extends Component {
 }
 
 Table.propTypes = {
-  data: PropTypes.instanceOf(Object),
+  data: PropTypes.instanceOf(Object).isRequired,
 };
-Table.defaultProps = {
-  data: PropTypes.instanceOf(Object),
-};
+Table.defaultProps = {};
