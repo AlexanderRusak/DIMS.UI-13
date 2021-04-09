@@ -1,9 +1,10 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { TableTasks } from '../../components/Table/TableTasks/TableTasks';
 import { getDataFromLS, setDataToLS } from '../../localStorage/localStorageFunctions';
 import { TASKS } from '../../db/tableName';
-import classes from '../Members.module.css';
-import firebase from '../../firebase';
+import classes from '../Headers.module.css';
+import firebase from '../../firebase/firebase';
 
 class MemebersTasks extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class MemebersTasks extends Component {
   }
 
   getTableHeader = () => (
-    <div className={classes.Members}>
+    <div className={classes.Headers}>
       <ul>
         <li>
           <p>#</p>
@@ -62,11 +63,17 @@ class MemebersTasks extends Component {
 
   render() {
     const { data } = this.state;
+    const { location } = this.props;
+    console.log(location.id);
+    const newData = data.filter((arr) => {
+      return arr.UserId === location.id;
+    });
+    console.log(newData);
 
     return (
       <>
         {this.getTableHeader()}
-        {data.map((row) => (
+        {newData.map((row) => (
           <TableTasks data={row} />
         ))}
       </>
@@ -74,7 +81,9 @@ class MemebersTasks extends Component {
   }
 }
 
-MemebersTasks.propTypes = {};
+MemebersTasks.propTypes = {
+  location: PropTypes.instanceOf(Object).isRequired,
+};
 MemebersTasks.defaultProps = {};
 
 export default MemebersTasks;

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { ModalCreateUpdate } from '../../Modal/ModalCreateUpdate';
 import { Button } from '../../UI/Buttons/Button/Button';
 import classes from '../Table.module.css';
@@ -48,12 +49,27 @@ export class Table extends Component {
               <p>{Age}</p>
             </li>
             <li className={classes.actions}>
-              <Button className={classes.button}>
-                <p className={classes.fontButton}>Progress</p>
-              </Button>
-              <Button className={classes.button}>
-                <p className={classes.fontButton}>Tasks</p>
-              </Button>
+              <Link
+                to={{
+                  pathname: '/members-progress',
+                  aboutProps: UserId,
+                }}
+              >
+                {console.log(UserId)}
+                <Button className={classes.button}>
+                  <p className={classes.fontButton}>Progress</p>
+                </Button>
+              </Link>
+              <Link
+                to={{
+                  pathname: '/members-tasks',
+                  id: UserId,
+                }}
+              >
+                <Button className={classes.button}>
+                  <p className={classes.fontButton}>Tasks</p>
+                </Button>
+              </Link>
               <Button className={classes.button} onClick={this.openModalHandler}>
                 <p className={classes.fontButton}>Edit</p>
               </Button>
