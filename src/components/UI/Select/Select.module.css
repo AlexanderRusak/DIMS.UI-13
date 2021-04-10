@@ -1,0 +1,16 @@
+.Select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+select {
+  height: 35px;
+  width: 307px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  outline: none;
+  border: 2px solid green;
+  border-radius: 10px;
+  background-color: #fff;
+}

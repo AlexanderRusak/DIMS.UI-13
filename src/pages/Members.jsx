@@ -28,7 +28,7 @@ class Members extends Component {
         <Button className={classes.registration} onClick={this.opneModal}>
           <p>Register</p>
         </Button>
-        <ModalRegisterNewUser isOpen={isOpen} />
+        {isOpen && <ModalRegisterNewUser isOpen={isOpen} onClose={this.onClose} />}
         <div className={classes.Headers}>
           <ul>
             <li>
@@ -78,6 +78,10 @@ class Members extends Component {
 
   opneModal = () => {
     this.setState({ isOpen: true });
+  };
+
+  onClose = () => {
+    this.setState({ isOpen: false });
   };
 
   render() {

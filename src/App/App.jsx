@@ -4,6 +4,7 @@ import Members from '../pages/Members';
 import MembersTasks from '../pages/Members/MembersTasks';
 import MembersProgress from '../pages/Members/MembersProgress';
 import { Tasks } from '../pages/Tasks/Tasks';
+import { SignIn } from '../pages/SignIn/SignIn';
 import Layout from '../hoc/Layout';
 import { appTitle } from '../config';
 import { Header } from '../components/Header/Header';
@@ -16,17 +17,18 @@ export const App = () => {
   }, []);
 
   return (
-    <Layout>
-      <Header />
-      <div className={classes.App}>
-        <Switch>
+    <Switch>
+      <Route path='/signin' component={SignIn} />
+      <Layout>
+        <Header />
+        <div className={classes.App}>
           <Route path='/members-tasks' component={MembersTasks} />
           <Route path='/members-progress' component={MembersProgress} />
           <Route path='/members' component={Members} />
           <Route path='/tasks' component={Tasks} />
-        </Switch>
-      </div>
-      <Footer />
-    </Layout>
+        </div>
+        <Footer />
+      </Layout>
+    </Switch>
   );
 };

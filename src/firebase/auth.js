@@ -10,3 +10,15 @@ export const createNewUser = async (email, password) => {
     return null;
   }
 };
+
+export const signIn = async (email, password) => {
+  try {
+    const response = await firebase.auth().signInWithEmailAndPassword(email, password);
+
+    return response;
+  } catch (error) {
+    console.error('Error with login: ', error);
+
+    return error;
+  }
+};
