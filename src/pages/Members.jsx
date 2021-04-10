@@ -12,6 +12,7 @@ class Members extends Component {
     super(props);
     this.state = {
       data: [],
+      isOpen: false,
     };
   }
 
@@ -19,36 +20,40 @@ class Members extends Component {
     this.getData();
   }
 
-  getTableHeader = () => (
-    <>
-      <Button className={classes.registration} onClick={this.test}>
-        <p>Register</p>
-      </Button>
+  getTableHeader = () => {
+    const { isOpen } = this.state;
 
-      <div className={classes.Headers}>
-        <ul>
-          <li>
-            <p>#</p>
-          </li>
-          <li>
-            <p>Full Name</p>
-          </li>
-          <li>
-            <p>Direction</p>
-          </li>
-          <li>
-            <p>Education</p>
-          </li>
-          <li className={classes.age}>
-            <p>Age</p>
-          </li>
-          <li className={classes.actions}>
-            <p>Actions</p>
-          </li>
-        </ul>
-      </div>
-    </>
-  );
+    return (
+      <>
+        <Button className={classes.registration} onClick={this.opneModal}>
+          <p>Register</p>
+        </Button>
+        <ModalRegisterNewUser isOpen={isOpen} />
+        <div className={classes.Headers}>
+          <ul>
+            <li>
+              <p>#</p>
+            </li>
+            <li>
+              <p>Full Name</p>
+            </li>
+            <li>
+              <p>Direction</p>
+            </li>
+            <li>
+              <p>Education</p>
+            </li>
+            <li className={classes.age}>
+              <p>Age</p>
+            </li>
+            <li className={classes.actions}>
+              <p>Actions</p>
+            </li>
+          </ul>
+        </div>
+      </>
+    );
+  };
 
   getData = () => {
     if (getDataFromLS(MEMBERS)) {
@@ -71,8 +76,8 @@ class Members extends Component {
     }
   };
 
-  test = () => {
-    ModalRegisterNewUser();
+  opneModal = () => {
+    this.setState({ isOpen: true });
   };
 
   render() {
