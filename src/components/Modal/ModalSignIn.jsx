@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Input } from '../UI/Input/Input';
 import { Button } from '../UI/Buttons/Button/Button';
 import classes from './ModalSignIn.module.css';
@@ -8,13 +9,20 @@ export class ModalSignIn extends Component {
   state = {
     Email: '',
     Password: '',
+    isValid: false,
   };
 
   signIn = async () => {
     const { Email, Password } = this.state;
     const response = await signIn(Email, Password);
     console.log(response);
-    if (response) window.open('/members');
+    if (response) {
+      this.setState(() => {
+        return {
+          isValid: true,
+        };
+      });
+    }
   };
 
   getValue = (element, value) => {
@@ -22,6 +30,7 @@ export class ModalSignIn extends Component {
   };
 
   render() {
+    const { isValid } = this.state;
     return (
       <div className={classes.ModalSignIn}>
         <h4>Wellcome to DIMS</h4>
@@ -30,6 +39,7 @@ export class ModalSignIn extends Component {
         <Button onClick={this.signIn}>
           <p>Sign in</p>
         </Button>
+        {isValid && <Redirect to='/members' />}
       </div>
     );
   }
