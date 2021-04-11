@@ -1,7 +1,7 @@
 .ModalRegisterNewUser {
   display: flex;
   width: 400px;
-  height: 500px;
+  height:auto;
   background-color: #fff;
   border: 2px solid gray;
   margin: auto;
@@ -9,6 +9,7 @@
   right: 0;
   position: absolute;
   z-index: 99;
+  padding-bottom: 20px;
 }
 h4 {
   font-size: 2rem;

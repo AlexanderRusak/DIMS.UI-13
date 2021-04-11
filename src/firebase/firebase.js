@@ -13,5 +13,41 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 export default firebase;
+
+export const setData = async (field, value) => {
+  db.collection('data')
+    .doc(field)
+    .set(
+      {
+        [field]: value,
+      },
+      { merge: true },
+    )
+    .then(() => {
+      console.error(`${field} data is written!`);
+    })
+    .catch((error) => {
+      console.error('Error with saving:', error);
+    });
+};
+
+export const getData = async (field) => {
+  const data = await db.collection('data').doc(field);
+
+  return data
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        return Object.values(doc.data())[0];
+      }
+      console.error(`Cannot find ${field} data`);
+
+      return null;
+    })
+    .catch((error) => {
+      console.error('Error with data loading:', error);
+    });
+};

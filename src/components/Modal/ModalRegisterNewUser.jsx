@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import { createNewUser, signIn } from '../../firebase/auth';
+import { createNewUser } from '../../firebase/auth';
+import { setData, getData } from '../../firebase/firebase';
 import { Input } from '../UI/Input/Input';
 import { Select } from '../UI/Select/Select';
 import { Button } from '../UI/Buttons/Button/Button';
@@ -27,7 +28,7 @@ export class ModalRegisterNewUser extends Component {
   }
 
   getValue = (element, value) => {
-    console.log(element, value);
+    console.log(element.target.value, value);
     this.setState({ [element]: value });
     console.log(this.state, 'state');
   };
@@ -36,14 +37,16 @@ export class ModalRegisterNewUser extends Component {
     const userDateObj = { ...this.state };
     const { Email: email } = this.state;
     console.log(userDateObj);
+
+    const getAllData = await getData('members');
+    console.log(getAllData);
+    const id = getAllData.length || 0;
+    userDateObj.UserId = id;
+    console.log(userDateObj);
+    const data = await setData('members', [...getAllData, userDateObj]);
+    console.log(data);
     const response = await createNewUser(email, '          ');
     console.log(response);
-  };
-
-  testLogin = async () => {
-    const { Email } = this.state;
-    const res = await signIn(Email, '12345678');
-    console.log(res);
   };
 
   render() {
@@ -58,12 +61,14 @@ export class ModalRegisterNewUser extends Component {
     return (
       <div className={cls.join(' ')}>
         <h4>Create new user</h4>
-        <Input onChange={this.getValue} title='Full Name' />
+        <Input onChange={(event) => this.getValue(event, 'FullName')} title='Full Name' />
         <Input onChange={this.getValue} type='email' title='Email' />
         <Select value={Direction} onChange={this.getValue} title='Direction' options={['Java', '.Net', 'FrontEnd']} />
         <Select value={Sex} onChange={this.getValue} title='Sex' options={['Male', 'Female']} />
-        <Input onChange={this.getValue} style={{ width: '100px' }} title='University average score' />
-        <Input onChange={this.getValue} style={{ width: '100px' }} title='Math score' />
+        <Input onChange={this.getValue} title='Education' />
+        <Input onChange={this.getValue} style={{ width: '100px' }} title='Age' />
+        <Input onChange={this.getValue} style={{ width: '100px' }} title='University Average Score' />
+        <Input onChange={this.getValue} style={{ width: '100px' }} title='Math Score' />
         <Input onChange={this.getValue} title='Address' />
         <Input onChange={this.getValue} style={{ width: '250px' }} type='number' title='Mobile Phone' />
         <Input onChange={this.getValue} type='number' title='Skype' />
@@ -73,12 +78,7 @@ export class ModalRegisterNewUser extends Component {
             Save
           </Button>
           <Button onClick={onClose} className={classes.CancelButton}>
-            {' '}
             Cancel
-          </Button>
-          <Button onClick={this.testLogin} className={classes.SaveButton}>
-            {' '}
-            Test
           </Button>
         </div>
       </div>
