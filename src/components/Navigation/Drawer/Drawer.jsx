@@ -4,7 +4,10 @@ import { NavLink } from 'react-router-dom';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import classes from './Drawer.module.css';
 
-const links = [{ to: '/members', label: 'Members', exact: true }];
+const links = [
+  { to: '/members', label: 'Members', exact: true },
+  { to: '/signIn', label: 'Sign Out', exact: true },
+];
 
 export default class Drawer extends Component {
   clickHandler = () => {
