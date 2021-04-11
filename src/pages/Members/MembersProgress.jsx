@@ -41,10 +41,8 @@ class MemebersProgress extends Component {
 
   getData = () => {
     if (getDataFromLS(PROGRESS)) {
-      this.setState(() => {
-        return {
-          data: getDataFromLS(PROGRESS),
-        };
+      this.setState({
+        data: getDataFromLS(PROGRESS),
       });
     } else {
       const ref = firebase.firestore().collection('data').doc(PROGRESS);
