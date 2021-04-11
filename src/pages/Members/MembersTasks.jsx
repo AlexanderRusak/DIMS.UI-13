@@ -42,21 +42,13 @@ class MemebersTasks extends Component {
 
   getData = () => {
     if (getDataFromLS(TASKS)) {
-      this.setState(() => {
-        return {
-          data: getDataFromLS(TASKS),
-        };
-      });
+      this.setState({ data: getDataFromLS(TASKS) });
     } else {
       const ref = firebase.firestore().collection('data').doc(TASKS);
       ref.onSnapshot((doc) => {
         const { tasksMembers } = doc.data();
         setDataToLS(TASKS, tasksMembers);
-        this.setState(() => {
-          return {
-            data: tasksMembers,
-          };
-        });
+        this.setState({ data: tasksMembers });
       });
     }
   };
@@ -74,7 +66,7 @@ class MemebersTasks extends Component {
       <>
         {this.getTableHeader()}
         {newData.map((row) => (
-          <TableTasks data={row} />
+          <TableTasks data={row} key={row.UserId} />
         ))}
       </>
     );

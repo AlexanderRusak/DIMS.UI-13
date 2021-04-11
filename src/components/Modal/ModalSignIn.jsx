@@ -43,25 +43,15 @@ export class ModalSignIn extends Component {
     const response = await signIn(Email, Password);
     console.log(response);
     if (response) {
-      this.setState(() => {
-        return {
-          isValid: true,
-        };
-      });
+      this.setState({ isValid: true });
     } else {
-      this.setState(() => {
-        return {
-          error: true,
-          Email: '',
-          Password: '',
-        };
+      this.setState({
+        error: true,
+        Email: '',
+        Password: '',
       });
       setTimeout(() => {
-        this.setState(() => {
-          return {
-            error: false,
-          };
-        });
+        this.setState({ error: false });
       }, 5000);
     }
   };

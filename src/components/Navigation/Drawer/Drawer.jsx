@@ -18,7 +18,7 @@ export default class Drawer extends Component {
   renderLinks = () => {
     return links.map((link) => {
       return (
-        <li>
+        <li key={link.label}>
           <NavLink to={link.to} exact={link.exact} activeClassName={classes.active} onClick={this.clickHandler}>
             {link.label}
           </NavLink>
