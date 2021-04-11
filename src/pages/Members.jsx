@@ -57,15 +57,21 @@ class Members extends Component {
 
   getData = () => {
     if (getDataFromLS(MEMBERS)) {
-      this.setState({
-        data: getDataFromLS(MEMBERS),
+      this.setState(() => {
+        return {
+          data: getDataFromLS(MEMBERS),
+        };
       });
     } else {
       const ref = firebase.firestore().collection('data').doc(MEMBERS);
       ref.onSnapshot((doc) => {
         const { members } = doc.data();
         setDataToLS(MEMBERS, members);
-        this.setState({ data: members });
+        this.setState(() => {
+          return {
+            data: members,
+          };
+        });
       });
     }
   };
