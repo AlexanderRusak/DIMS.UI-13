@@ -3,11 +3,7 @@ import { FaRegTimesCircle, FaBars } from 'react-icons/fa';
 import classes from './MenuToggle.module.css';
 
 const MenuToggle = (props) => {
-  const cls = [classes.MenuToggle];
   const { onToggle, isOpen, onKeyPress } = props;
-  if (isOpen) {
-    cls.push(classes.open);
-  }
 
   return (
     <i
@@ -15,7 +11,7 @@ const MenuToggle = (props) => {
       aria-label='button'
       type='button'
       role='button'
-      className={cls.join(' ')}
+      className={`${classes.MenuToggle} ${isOpen ? classes.open : ''}`}
       onClick={onToggle}
       onKeyPress={onKeyPress}
     >

@@ -8,7 +8,7 @@ export default class Alert extends Component {
     const { text } = this.props;
     this.state = {
       isShow: !!text,
-      cls: [`${classes.Alert} col col-md-4 alert  alert-dismissible `],
+      cls: `${classes.Alert} col col-md-4 alert  alert-dismissible `,
     };
   }
 
@@ -24,7 +24,7 @@ export default class Alert extends Component {
     return (
       <>
         {isShow ? (
-          <div className={cls.join(' ')} role='alert'>
+          <div className={cls} role='alert'>
             <p>{text}</p>
           </div>
         ) : null}

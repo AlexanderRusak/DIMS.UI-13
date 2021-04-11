@@ -2,19 +2,12 @@ import PropTypes from 'prop-types';
 import Backdrop from '../UI/Backdrop/Backdrop';
 import { SaveButton } from '../UI/Buttons/SaveButton/SaveButton';
 import { Button } from '../UI/Buttons/Button/Button';
-import classes from './ModalCreateUpdate.module.css';
+import classes from './ModalEdit.module.css';
 
-export const ModalCreateUpdate = ({ isOpen, onClose }) => {
-  const cls = [classes.ModalCreateUpdate];
-  if (isOpen) {
-    cls.push(classes.open);
-  } else {
-    cls.push(classes.close);
-  }
-
+export const ModalEdit = ({ isOpen, onClose }) => {
   return (
     <>
-      <div className={cls.join(' ')}>
+      <div className={`${classes.ModalEdit} ${isOpen ? classes.open : classes.close}`}>
         <h1>Header</h1>
         <span>Name</span>
         <input type='text' />
@@ -36,7 +29,7 @@ export const ModalCreateUpdate = ({ isOpen, onClose }) => {
   );
 };
 
-ModalCreateUpdate.propTypes = {
+ModalEdit.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import { createNewUser } from '../../firebase/auth';
-import { setData, getData } from '../../firebase/firebase';
+/* import { createNewUser } from '../../firebase/auth'; */
+import { /*  setData, */ getData } from '../../firebase/firebase';
 import { Input } from '../UI/Input/Input';
 import { Select } from '../UI/Select/Select';
 import { Button } from '../UI/Buttons/Button/Button';
@@ -27,39 +27,31 @@ export class ModalRegisterNewUser extends Component {
     };
   }
 
+  renderInputElements = () => {};
+
   getValue = (element, value) => {
-    console.log(element.target.value, value);
     this.setState({ [element]: value });
-    console.log(this.state, 'state');
   };
 
   createUser = async () => {
     const userDateObj = { ...this.state };
-    const { Email: email } = this.state;
-    console.log(userDateObj);
-
+    /*    const { Email: email } = this.state; */
     const getAllData = await getData('members');
-    console.log(getAllData);
+
     const id = getAllData.length || 0;
     userDateObj.UserId = id;
-    console.log(userDateObj);
-    const data = await setData('members', [...getAllData, userDateObj]);
-    console.log(data);
-    const response = await createNewUser(email, '          ');
-    console.log(response);
+
+    /* const data = await setData('members', [...getAllData, userDateObj]);
+
+        const response = await createNewUser(email, '          '); */
   };
 
   render() {
     const { isOpen, onClose } = this.props;
     const { Direction, Sex } = this.state;
-    const cls = [classes.ModalRegisterNewUser];
-    if (isOpen) {
-      cls.push(classes.open);
-    } else {
-      cls.push(classes.close);
-    }
+
     return (
-      <div className={cls.join(' ')}>
+      <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
         <h4>Create new user</h4>
         <Input onChange={(event) => this.getValue(event, 'FullName')} title='Full Name' />
         <Input onChange={this.getValue} type='email' title='Email' />

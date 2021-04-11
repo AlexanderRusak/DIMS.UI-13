@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { ModalCreateUpdate } from '../../Modal/ModalCreateUpdate';
+import { ModalEdit } from '../../Modal/ModalEdit';
 import { Button } from '../../UI/Buttons/Button/Button';
 import classes from '../Table.module.css';
 
@@ -27,7 +27,6 @@ export class Table extends Component {
     const { data } = this.props;
     const { isOpen } = this.state;
     const { UserId, FullName, Direction, Education, Age } = data;
-    const cls = [classes.button, classes.delete];
 
     return (
       <>
@@ -72,13 +71,13 @@ export class Table extends Component {
               <Button className={classes.button} onClick={this.openModalHandler}>
                 <p className={classes.fontButton}>Edit</p>
               </Button>
-              <Button className={cls.join(' ')}>
+              <Button className={`${classes.button} ${classes.delete}`}>
                 <p className={classes.fontButton}>Delete</p>
               </Button>
             </li>
           </ul>
         </div>
-        <ModalCreateUpdate onClose={this.closeModalHandler} isOpen={isOpen} />
+        <ModalEdit onClose={this.closeModalHandler} isOpen={isOpen} />
       </>
     );
   }

@@ -29,14 +29,10 @@ export default class Drawer extends Component {
 
   render() {
     const { isOpen, onClose } = this.props;
-    const cls = [classes.Drawer];
-    if (!isOpen) {
-      cls.push(classes.close);
-    }
 
     return (
       <>
-        <nav className={cls.join(' ')}>
+        <nav className={`${classes.Drawer} ${!isOpen ? classes.close : ''}`}>
           <ul>{this.renderLinks()}</ul>
         </nav>
         {isOpen ? <Backdrop onClick={onClose} /> : null}
