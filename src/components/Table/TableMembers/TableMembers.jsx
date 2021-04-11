@@ -55,7 +55,6 @@ export class Table extends Component {
                   aboutProps: UserId,
                 }}
               >
-                {console.log(UserId)}
                 <Button className={classes.button}>
                   <p className={classes.fontButton}>Progress</p>
                 </Button>

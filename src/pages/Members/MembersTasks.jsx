@@ -60,11 +60,10 @@ class MemebersTasks extends Component {
   render() {
     const { data } = this.state;
     const { location } = this.props;
-    console.log(location.id);
+
     const newData = data.filter((arr) => {
       return arr.UserId === location.id;
     });
-    console.log(newData);
 
     return (
       <>
