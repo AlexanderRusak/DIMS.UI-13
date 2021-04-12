@@ -77,7 +77,7 @@ export class ModalRegisterNewUser extends Component {
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
         <h4>Create new user</h4>
-        {this.renderInputs()}
+        <div className={classes.container}>{this.renderInputs()}</div>
         <Select value={Direction} onChange={this.getValue} title='Direction' options={['Java', '.Net', 'FrontEnd']} />
         <Select value={Sex} onChange={this.getValue} title='Sex' options={['Male', 'Female']} />
         <div className={classes.buttonGroup}>

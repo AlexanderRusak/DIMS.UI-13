@@ -1,6 +1,6 @@
 .ModalRegisterNewUser {
   display: flex;
-  width: 800px;
+  width: 500px;
   height:auto;
   background-color: #fff;
   border: 2px solid gray;
@@ -38,4 +38,9 @@ button {
 }
 .CancelButton {
   background-color: red;
+}
+.container{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 }
