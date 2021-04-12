@@ -7,6 +7,19 @@ import { Select } from '../UI/Select/Select';
 import { Button } from '../UI/Buttons/Button/Button';
 import classes from './ModalRegisterNewUser.module.css';
 
+const inputsData = [
+  'Full Name',
+  'Email',
+  'Education',
+  'Age',
+  'Universtity Avarage Score',
+  'Math Score',
+  'Address',
+  'Mobile Phone',
+  'Skype',
+  'Start Date',
+];
+
 export class ModalRegisterNewUser extends Component {
   constructor(props) {
     super(props);
@@ -27,10 +40,21 @@ export class ModalRegisterNewUser extends Component {
     };
   }
 
-  renderInputElements = () => {};
-
-  getValue = (element, value) => {
+  getValue = (value, element) => {
     this.setState({ [element]: value });
+    console.log(element, value.target.value);
+  };
+
+  renderInputs = () => {
+    return inputsData.map((inputItem) => {
+      return (
+        <Input
+          key={inputItem.toString()}
+          onChange={(event) => this.getValue(event, inputItem.trim())}
+          title={inputItem}
+        />
+      );
+    });
   };
 
   createUser = async () => {
@@ -53,18 +77,9 @@ export class ModalRegisterNewUser extends Component {
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
         <h4>Create new user</h4>
-        <Input onChange={(event) => this.getValue(event, 'FullName')} title='Full Name' />
-        <Input onChange={this.getValue} type='email' title='Email' />
+        {this.renderInputs()}
         <Select value={Direction} onChange={this.getValue} title='Direction' options={['Java', '.Net', 'FrontEnd']} />
         <Select value={Sex} onChange={this.getValue} title='Sex' options={['Male', 'Female']} />
-        <Input onChange={this.getValue} title='Education' />
-        <Input onChange={this.getValue} style={{ width: '100px' }} title='Age' />
-        <Input onChange={this.getValue} style={{ width: '100px' }} title='University Average Score' />
-        <Input onChange={this.getValue} style={{ width: '100px' }} title='Math Score' />
-        <Input onChange={this.getValue} title='Address' />
-        <Input onChange={this.getValue} style={{ width: '250px' }} type='number' title='Mobile Phone' />
-        <Input onChange={this.getValue} type='number' title='Skype' />
-        <Input onChange={this.getValue} type='date' title='Start Date' />
         <div className={classes.buttonGroup}>
           <Button onClick={this.createUser} className={classes.SaveButton}>
             Save

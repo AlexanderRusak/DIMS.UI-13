@@ -1,6 +1,6 @@
 .ModalRegisterNewUser {
   display: flex;
-  width: 400px;
+  width: 800px;
   height:auto;
   background-color: #fff;
   border: 2px solid gray;
@@ -16,10 +16,7 @@ h4 {
   margin: 10px;
   text-align: center;
 }
-.buttonGroup {
-  display: flex;
-  justify-content: space-around;
-}
+
 .close {
   display: none;
 }
