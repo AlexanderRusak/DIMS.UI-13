@@ -1,23 +1,23 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-/* import { createNewUser } from '../../firebase/auth'; */
-import { /*  setData, */ getData } from '../../firebase/firebase';
+import { createNewUser } from '../../firebase/auth';
+import { setData, getData } from '../../firebase/firebase';
 import { Input } from '../UI/Input/Input';
 import { Select } from '../UI/Select/Select';
 import { Button } from '../UI/Buttons/Button/Button';
 import classes from './ModalRegisterNewUser.module.css';
 
 const inputsData = [
-  'Full Name',
-  'Email',
-  'Education',
-  'Age',
-  'Universtity Avarage Score',
-  'Math Score',
-  'Address',
-  'Mobile Phone',
-  'Skype',
-  'Start Date',
+  { title: 'Full Name' },
+  { title: 'Email', type: 'email' },
+  { title: 'Education' },
+  { title: 'Age', type: 'number' },
+  { title: 'University Average Score', type: 'number' },
+  { title: 'Math Score', type: 'number' },
+  { title: 'Address' },
+  { title: 'Mobile Phone', type: 'number' },
+  { title: 'Skype' },
+  { title: 'Start Date', type: 'date' },
 ];
 
 export class ModalRegisterNewUser extends Component {
@@ -41,17 +41,17 @@ export class ModalRegisterNewUser extends Component {
   }
 
   getValue = (value, element) => {
-    this.setState({ [element]: value });
-    console.log(element, value.target.value);
+    this.setState({ [element.replace(/\s/g, '')]: value.target.value });
   };
 
   renderInputs = () => {
     return inputsData.map((inputItem) => {
       return (
         <Input
-          key={inputItem.toString()}
-          onChange={(event) => this.getValue(event, inputItem.trim())}
-          title={inputItem}
+          key={inputItem.title.toString()}
+          onChange={(event) => this.getValue(event, inputItem.title.trim())}
+          title={inputItem.title}
+          type={inputItem.type || 'text'}
         />
       );
     });
@@ -59,15 +59,17 @@ export class ModalRegisterNewUser extends Component {
 
   createUser = async () => {
     const userDateObj = { ...this.state };
-    /*    const { Email: email } = this.state; */
+    const { Email: email } = this.state;
     const getAllData = await getData('members');
-
     const id = getAllData.length || 0;
     userDateObj.UserId = id;
-
-    /* const data = await setData('members', [...getAllData, userDateObj]);
-
-        const response = await createNewUser(email, '          '); */
+    await setData('members', [...getAllData, userDateObj]);
+    const { user } = await createNewUser(email, '          ');
+    const getAllMembers = await getData('members');
+    const current = getAllMembers.find((userData) => userData.UserId === id);
+    current.UserId = user.uid;
+    getAllMembers[id] = current;
+    await setData('members', getAllMembers);
   };
 
   render() {
@@ -78,8 +80,18 @@ export class ModalRegisterNewUser extends Component {
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
         <h4>Create new user</h4>
         <div className={classes.container}>{this.renderInputs()}</div>
-        <Select value={Direction} onChange={this.getValue} title='Direction' options={['Java', '.Net', 'FrontEnd']} />
-        <Select value={Sex} onChange={this.getValue} title='Sex' options={['Male', 'Female']} />
+        <Select
+          value={Direction}
+          onChange={(event) => this.getValue(event, 'Direction')}
+          title='Direction'
+          options={['Java', '.Net', 'FrontEnd']}
+        />
+        <Select
+          value={Sex}
+          onChange={(event) => this.getValue(event, 'Sex')}
+          title='Sex'
+          options={['Male', 'Female']}
+        />
         <div className={classes.buttonGroup}>
           <Button onClick={this.createUser} className={classes.SaveButton}>
             Save

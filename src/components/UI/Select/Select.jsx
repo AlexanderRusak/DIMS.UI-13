@@ -5,7 +5,7 @@ export const Select = ({ title, options, value, onChange, name }) => {
   return (
     <div className={classes.Select}>
       <label htmlFor={name}>{title}</label>
-      <select name={name} value={value} onChange={(e) => onChange(title.replace(/\s/g, ''), e.target.value)}>
+      <select name={name} value={value} onChange={onChange}>
         <option value=''>Please select...</option>
         {options.map((el) => (
           <option value={el} key={el}>
@@ -19,8 +19,13 @@ export const Select = ({ title, options, value, onChange, name }) => {
 
 Select.propTypes = {
   options: PropTypes.instanceOf(Array).isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  value: PropTypes.node.isRequired,
+};
+
+Select.defaultProps = {
+  title: 'title',
+  name: '',
 };

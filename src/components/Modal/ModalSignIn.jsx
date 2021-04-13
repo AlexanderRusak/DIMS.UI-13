@@ -39,8 +39,12 @@ export class ModalSignIn extends Component {
   };
 
   signIn = async () => {
-    const { Email, Password } = this.state;
-    const response = await signIn(Email, Password);
+    const { formControls } = this.state;
+    const response = await signIn(formControls.email.value, formControls.password.value);
+
+    const setNewState = { ...formControls };
+    setNewState.email.value = '';
+    setNewState.password.value = '';
 
     if (response) {
       this.setState({
@@ -48,9 +52,7 @@ export class ModalSignIn extends Component {
       });
     } else {
       this.setState({
-        error: true,
-        Email: '',
-        Password: '',
+        formControls: { ...setNewState },
       });
       setTimeout(() => {
         this.setState({
@@ -62,7 +64,7 @@ export class ModalSignIn extends Component {
 
   onChangeHandler = (event, controlName) => {
     const { formControls } = this.state;
-
+    console.log(this.state);
     const form = { ...formControls };
     const control = { ...form[controlName] };
 
