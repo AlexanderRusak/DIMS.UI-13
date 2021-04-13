@@ -20,6 +20,12 @@ const inputsData = [
   { title: 'Start Date', type: 'date' },
 ];
 
+const selectData = [
+  { title: 'Direction', options: ['Frontend', 'Java', '.Net'] },
+  { title: 'Sex', options: ['Male', 'Female'] },
+  { title: 'Role', options: ['Admin', 'Mentor', 'Student'] },
+];
+
 export class ModalRegisterNewUser extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +43,7 @@ export class ModalRegisterNewUser extends Component {
       MobilePhone: null,
       Skype: '',
       StartDate: null,
+      Role: '',
     };
   }
 
@@ -57,7 +64,21 @@ export class ModalRegisterNewUser extends Component {
     });
   };
 
+  renderSelects = () => {
+    return selectData.map((selectItem) => {
+      return (
+        <Select
+          title={selectItem.title}
+          key={selectItem.title.toString()}
+          onChange={(event) => this.getValue(event, selectItem.title.trim())}
+          options={selectItem.options}
+        />
+      );
+    });
+  };
+
   createUser = async () => {
+    const { onClose } = this.props;
     const userDateObj = { ...this.state };
     const { Email: email } = this.state;
     const getAllData = await getData('members');
@@ -70,28 +91,19 @@ export class ModalRegisterNewUser extends Component {
     current.UserId = user.uid;
     getAllMembers[id] = current;
     await setData('members', getAllMembers);
+    onClose();
   };
 
   render() {
     const { isOpen, onClose } = this.props;
-    const { Direction, Sex } = this.state;
+    const { Direction, Sex, Role } = this.state;
+    console.log(Direction, Sex, Role);
 
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
         <h4>Create new user</h4>
         <div className={classes.container}>{this.renderInputs()}</div>
-        <Select
-          value={Direction}
-          onChange={(event) => this.getValue(event, 'Direction')}
-          title='Direction'
-          options={['Java', '.Net', 'FrontEnd']}
-        />
-        <Select
-          value={Sex}
-          onChange={(event) => this.getValue(event, 'Sex')}
-          title='Sex'
-          options={['Male', 'Female']}
-        />
+        {this.renderSelects()}
         <div className={classes.buttonGroup}>
           <Button onClick={this.createUser} className={classes.SaveButton}>
             Save
