@@ -1,10 +1,10 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Drawer from '../components/Navigation/Drawer/Drawer';
 import MenuToggle from '../components/Navigation/MenuToggle/MenuToggle';
 import classes from './Layout.module.css';
 
-export default class Layout extends Component {
+export default class Layout extends PureComponent {
   state = {
     menu: false,
   };
@@ -25,7 +25,7 @@ export default class Layout extends Component {
     const { children } = this.props;
 
     return (
-      <div className={classes.Layout}>
+      <div>
         <Drawer isOpen={menu} onClose={this.menuCloseHandler} onKeyPress={null} onChose={null} />
         <MenuToggle onToggle={this.toggleMenuHandler} isOpen={menu} onKeyPress={null} />
         <main className={classes.center}>{children}</main>
@@ -34,5 +34,7 @@ export default class Layout extends Component {
   }
 }
 Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.shape({
+    children: PropTypes.node,
+  }).isRequired,
 };

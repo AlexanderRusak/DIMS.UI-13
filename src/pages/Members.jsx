@@ -84,7 +84,9 @@ class Members extends Component {
     return (
       <>
         {this.getTableHeader()}
-        {newData ? newData.map((row) => <Table data={row} />) : null}
+        {data.map((row) => (
+          <Table data={row} key={row.Email.toString()} />
+        ))}
       </>
     );
   }
