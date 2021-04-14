@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Table } from '../components/Table/TableMembers/TableMembers';
-import { getDataFromLS, setDataToLS } from '../localStorage/localStorageFunctions';
+/* import { getDataFromLS, setDataToLS } from '../localStorage/localStorageFunctions'; */
 import { MEMBERS } from '../db/tableName';
 import { Button } from '../components/UI/Buttons/Button/Button';
 import { ModalRegisterNewUser } from '../components/Modal/ModalRegisterNewUser';
@@ -56,20 +56,14 @@ class Members extends Component {
   };
 
   getData = () => {
-    if (getDataFromLS(MEMBERS)) {
+    const ref = firebase.firestore().collection('data').doc(MEMBERS);
+    ref.onSnapshot((doc) => {
+      const members = doc.data() || [];
+
       this.setState({
-        data: getDataFromLS(MEMBERS),
+        data: members,
       });
-    } else {
-      const ref = firebase.firestore().collection('data').doc(MEMBERS);
-      ref.onSnapshot((doc) => {
-        const { members } = doc.data();
-        setDataToLS(MEMBERS, members);
-        this.setState({
-          data: members,
-        });
-      });
-    }
+    });
   };
 
   opneModal = () => {
@@ -82,13 +76,15 @@ class Members extends Component {
 
   render() {
     const { data } = this.state;
+    console.log(data, 'data');
+    const newData = Object.values(data);
 
+    console.log(newData, 'data');
+    /*     const newArrData = [data]; */
     return (
       <>
         {this.getTableHeader()}
-        {data.map((row) => (
-          <Table data={row} />
-        ))}
+        {newData ? newData.map((row) => <Table data={row} />) : null}
       </>
     );
   }

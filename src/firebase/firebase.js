@@ -3,6 +3,14 @@ import 'firebase/auth';
 import 'firebase/firestore';
 
 const firebaseConfig = {
+  /*   apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.AUTH_DOMAIN,
+    projectId: process.env.PROJECT_ID,
+    storageBucket: process.env.STORAGE_BUCKET,
+    messagingSenderId: process.env.MESSAGING_SENDER_ID,
+    appId: process.env.APP_ID,
+    measurementId: process.env.MEASUREMENT_ID, */
+
   apiKey: 'AIzaSyClG2HvDOhiTZMfKCCDdBhAVKolO0uj-e8',
   authDomain: 'dims-13.firebaseapp.com',
   projectId: 'dims-13',
@@ -17,17 +25,17 @@ const db = firebase.firestore();
 
 export default firebase;
 
-export const setData = async (field, value) => {
+export const setData = async (field, value, email) => {
   db.collection('data')
     .doc(field)
     .set(
       {
-        [field]: value,
+        [email]: value,
       },
       { merge: true },
     )
     .then(() => {
-      console.error(`${field} data is written!`);
+      console.log(`${email} data is written!`);
     })
     .catch((error) => {
       console.error('Error with saving:', error);

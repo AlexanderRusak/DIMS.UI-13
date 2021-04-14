@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import { createNewUser } from '../../firebase/auth';
-import { setData, getData } from '../../firebase/firebase';
+/* import { createNewUser } from '../../firebase/auth'; */
+import { setData /* , getData  */ } from '../../firebase/firebase';
 import { Input } from '../UI/Input/Input';
 import { Select } from '../UI/Select/Select';
 import { Button } from '../UI/Buttons/Button/Button';
@@ -30,7 +30,6 @@ export class ModalRegisterNewUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      UserId: '',
       FullName: '',
       Email: '',
       Direction: '',
@@ -81,23 +80,15 @@ export class ModalRegisterNewUser extends Component {
     const { onClose } = this.props;
     const userDateObj = { ...this.state };
     const { Email: email } = this.state;
-    const getAllData = await getData('members');
-    const id = getAllData.length || 0;
-    userDateObj.UserId = id;
-    await setData('members', [...getAllData, userDateObj]);
-    const { user } = await createNewUser(email, '          ');
-    const getAllMembers = await getData('members');
-    const current = getAllMembers.find((userData) => userData.UserId === id);
-    current.UserId = user.uid;
-    getAllMembers[id] = current;
-    await setData('members', getAllMembers);
+    console.log(userDateObj);
+    const response = await setData('members', userDateObj, email);
+    /*  await createNewUser(email, '          '); */
+    console.log(response);
     onClose();
   };
 
   render() {
     const { isOpen, onClose } = this.props;
-    const { Direction, Sex, Role } = this.state;
-    console.log(Direction, Sex, Role);
 
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
