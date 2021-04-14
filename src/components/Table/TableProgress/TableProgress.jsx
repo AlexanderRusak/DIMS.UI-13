@@ -31,8 +31,11 @@ export const TableProgress = (props) => {
 };
 
 TableProgress.propTypes = {
-  data: PropTypes.instanceOf(Object),
-};
-TableProgress.defaultProps = {
-  data: PropTypes.instanceOf(Object),
+  data: PropTypes.shape({
+    UserID: PropTypes.number.isRequired,
+    UserName: PropTypes.string.isRequired,
+    TaskName: PropTypes.string.isRequired,
+    TrackNote: PropTypes.string.isRequired,
+    TrackDate: PropTypes.string.isRequired,
+  }).isRequired,
 };

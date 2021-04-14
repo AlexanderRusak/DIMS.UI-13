@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import classes from './Backdrop.module.css';
 
-const Backdrop = (props) => {
-  const { onClick, onKeyPress } = props;
-
+const Backdrop = ({ onClick, onKeyPress }) => {
   return (
     <div
       tabIndex={0}

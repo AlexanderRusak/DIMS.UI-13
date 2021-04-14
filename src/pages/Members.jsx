@@ -54,10 +54,8 @@ class Members extends Component {
       ref.onSnapshot((doc) => {
         const { members } = doc.data();
         setDataToLS(MEMBERS, members);
-        this.setState(() => {
-          return {
-            data: members,
-          };
+        this.setState({
+          data: members,
         });
       });
     }
@@ -70,7 +68,7 @@ class Members extends Component {
       <>
         {this.getTableHeader()}
         {data.map((row) => (
-          <Table data={row} />
+          <Table data={row} key={row.Email.toString()} />
         ))}
       </>
     );
