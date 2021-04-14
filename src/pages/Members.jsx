@@ -80,11 +80,10 @@ class Members extends Component {
     const newData = Object.values(data);
 
     console.log(newData, 'data');
-    /*     const newArrData = [data]; */
     return (
       <>
         {this.getTableHeader()}
-        {data.map((row) => (
+        {newData.map((row) => (
           <Table data={row} key={row.Email.toString()} />
         ))}
       </>
