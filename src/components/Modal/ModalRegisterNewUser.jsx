@@ -94,7 +94,7 @@ export class ModalRegisterNewUser extends Component {
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
         <h4>Create new user</h4>
         <div className={classes.container}>{this.renderInputs()}</div>
-        {this.renderSelects()}
+        <div className={classes.container}> {this.renderSelects()}</div>
         <div className={classes.buttonGroup}>
           <Button onClick={this.createUser} className={classes.SaveButton}>
             Save

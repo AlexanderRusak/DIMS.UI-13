@@ -19,7 +19,7 @@
 }
 
 .Headers ul li:first-child {
-  width: 4%;
+  width: 3%;
 }
 .Headers ul .age {
   width: 6%;
@@ -30,7 +30,7 @@
 }
 .Headers ul li p {
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #fff;
   margin: 0;
   padding: 5px;
@@ -39,6 +39,7 @@
 .registration {
   display: flex;
   justify-content: center;
+  align-self: flex-start;
   align-items: center;
   margin-top: 50px;
   margin-bottom: 20px;

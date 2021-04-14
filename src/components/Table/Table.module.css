@@ -15,33 +15,32 @@
   border: 1px solid #000;
   list-style: none;
   width: 20%;
-  min-height: 200px;
   height: auto;
   padding-bottom: 10px;
   padding-top: 10px;
 }
 .Table ul li:first-child {
-  width: 4%;
+  width: 3%;
 }
 .Table ul .age {
   width: 6%;
 }
 .Table ul .actions {
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
   width: 28%;
   display: flex;
   flex-wrap: wrap;
 }
 .Table ul li p {
-  font-size: 2rem;
+  font-size: 1.2rem;
   margin: 0;
   padding: 10px;
   word-break: break-word;
 }
 .button {
-  width: 140px;
-  height: 60px;
+  width: 120px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,8 +53,12 @@
   margin-bottom: 5px;
 }
 .button .fontButton {
-  font-size: 1.5rem;
+  font-size: 16px;
+  
 }
 .delete {
   background-color: red;
+}
+a{
+  text-decoration: none;
 }
