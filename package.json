@@ -12,6 +12,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:watch": "yarn test --watchAll",
     "test:ci": "set CI=true && yarn run test",
     "test:coverage": "yarn test --coverage",
     "test:coverage:ci": "set CI=true && yarn test:coverage",
@@ -110,7 +111,6 @@
     "husky": "4.3.6",
     "lint-staged": "10.5.4",
     "prettier": "2.2.1",
-    "save": "^2.4.0",
     "semantic-release": "^17.3.9"
   },
   "repository": {
