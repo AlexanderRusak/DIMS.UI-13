@@ -1,9 +1,9 @@
 import { Component } from 'react';
+import { getRefFirebase } from '../../firebase/helpers';
 import { TableProgress } from '../../components/Table/TableProgress/TableProgress';
-import { getDataFromLS, setDataToLS } from '../../localStorage/localStorageFunctions';
+import { setDataToLS } from '../../localStorage/localStorageFunctions';
 import { PROGRESS } from '../../db/tableName';
 import classes from '../Headers.module.css';
-import firebase from '../../firebase/firebase';
 
 class MemebersProgress extends Component {
   constructor(props) {
@@ -40,20 +40,13 @@ class MemebersProgress extends Component {
   );
 
   getData = () => {
-    if (getDataFromLS(PROGRESS)) {
+    getRefFirebase(PROGRESS).onSnapshot((doc) => {
+      const { memberProgress } = doc.data();
+      setDataToLS(PROGRESS, memberProgress);
       this.setState({
-        data: getDataFromLS(PROGRESS),
+        data: memberProgress,
       });
-    } else {
-      const ref = firebase.firestore().collection('data').doc(PROGRESS);
-      ref.onSnapshot((doc) => {
-        const { memberProgress } = doc.data();
-        setDataToLS(PROGRESS, memberProgress);
-        this.setState({
-          data: memberProgress,
-        });
-      });
-    }
+    });
   };
 
   render() {

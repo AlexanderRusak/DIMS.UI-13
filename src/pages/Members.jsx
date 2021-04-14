@@ -5,7 +5,7 @@ import { MEMBERS } from '../db/tableName';
 import { Button } from '../components/UI/Buttons/Button/Button';
 import { ModalRegisterNewUser } from '../components/Modal/ModalRegisterNewUser';
 import classes from './Headers.module.css';
-import firebase from '../firebase/firebase';
+import { getRefFirebase } from '../firebase/helpers';
 
 class Members extends Component {
   constructor(props) {
@@ -56,10 +56,8 @@ class Members extends Component {
   };
 
   getData = () => {
-    const ref = firebase.firestore().collection('data').doc(MEMBERS);
-    ref.onSnapshot((doc) => {
+    getRefFirebase(MEMBERS).onSnapshot((doc) => {
       const members = doc.data() || [];
-
       this.setState({
         data: members,
       });
@@ -76,14 +74,11 @@ class Members extends Component {
 
   render() {
     const { data } = this.state;
-    console.log(data, 'data');
-    const newData = Object.values(data);
 
-    console.log(newData, 'data');
     return (
       <>
         {this.getTableHeader()}
-        {newData.map((row) => (
+        {Object.values(data).map((row) => (
           <Table data={row} key={row.Email.toString()} />
         ))}
       </>

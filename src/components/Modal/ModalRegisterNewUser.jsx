@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-/* import { createNewUser } from '../../firebase/auth'; */
-import { setData /* , getData  */ } from '../../firebase/firebase';
+import { MEMBERS } from '../../db/tableName';
+import { createNewUser } from '../../firebase/auth';
+import { setData } from '../../firebase/firebase';
 import { Input } from '../UI/Input/Input';
 import { Select } from '../UI/Select/Select';
 import { Button } from '../UI/Buttons/Button/Button';
@@ -80,10 +81,9 @@ export class ModalRegisterNewUser extends Component {
     const { onClose } = this.props;
     const userDateObj = { ...this.state };
     const { Email: email } = this.state;
-    console.log(userDateObj);
-    const response = await setData('members', userDateObj, email);
-    /*  await createNewUser(email, '          '); */
-    console.log(response);
+    await setData(MEMBERS, userDateObj, email);
+    await createNewUser(email, '          ');
+
     onClose();
   };
 

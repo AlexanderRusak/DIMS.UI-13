@@ -1,11 +1,12 @@
-.Layout{
-  height: 100vh;
+.Layout {
+
   display: flex;
   flex-direction: row;
 }
-.center{
+.center {
   display: flex;
   flex-direction: column;
   width: 100vw;
-  justify-content:space-between;
+  height: 100vh;
+  justify-content: space-between;
 }
