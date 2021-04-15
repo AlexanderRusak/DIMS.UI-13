@@ -24,16 +24,16 @@ export class Table extends Component {
   };
 
   render() {
-    const { data } = this.props;
+    const { data, index } = this.props;
     const { isOpen } = this.state;
-    const { FullName, Direction, Education, Age } = data;
+    const { FullName, Direction, Education, Age, Email } = data;
 
     return (
       <>
         <div className={classes.Table}>
           <ul>
             <li>
-              <p>1</p>
+              <p>{index + 1}</p>
             </li>
             <li>
               <p>{FullName}</p>
@@ -51,7 +51,7 @@ export class Table extends Component {
               <Link
                 to={{
                   pathname: '/members-progress',
-                  /*   aboutProps: UserId, */
+                  aboutProps: Email,
                 }}
               >
                 <Button className={classes.button}>
@@ -61,7 +61,7 @@ export class Table extends Component {
               <Link
                 to={{
                   pathname: '/members-tasks',
-                  /*       id: UserId, */
+                  id: Email,
                 }}
               >
                 <Button className={classes.button}>
@@ -89,5 +89,7 @@ Table.propTypes = {
     Direction: PropTypes.string.isRequired,
     Education: PropTypes.string.isRequired,
     Age: PropTypes.string.isRequired,
+    Email: PropTypes.string.isRequired,
   }).isRequired,
+  index: PropTypes.number.isRequired,
 };

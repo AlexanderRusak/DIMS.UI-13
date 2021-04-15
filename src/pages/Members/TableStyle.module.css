@@ -1,0 +1,48 @@
+.TableStyle ul{
+    height: auto;
+}
+.TableStyle ul li{
+    padding: 10px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    align-items: center;
+    justify-content: center;
+}
+.TableStyle ul li:first-child{
+    width: 2%;
+}
+.TableStyle ul li{
+    width: 32%;
+}
+
+ul{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.header{
+    background-color: green;
+
+}
+p{
+    display: inline-block;
+    word-break: break-all;
+}
+
+
+
+
+
+.table{
+    height: 35px;
+    background-color: #fff;
+}
+.table li{
+    height: auto;
+}

@@ -1,9 +1,8 @@
 import { Component } from 'react';
 import { getRefFirebase } from '../../firebase/helpers';
-import { TableProgress } from '../../components/Table/TableProgress/TableProgress';
 import { setDataToLS } from '../../localStorage/localStorageFunctions';
 import { PROGRESS } from '../../db/tableName';
-import classes from '../Headers.module.css';
+import classes from './TableStyle.module.css';
 
 class MemebersProgress extends Component {
   constructor(props) {
@@ -18,19 +17,16 @@ class MemebersProgress extends Component {
   }
 
   getTableHeader = () => (
-    <div className={classes.Headers}>
-      <ul>
+    <div className={classes.TableStyle}>
+      <ul className={classes.header}>
         <li>
           <p>#</p>
         </li>
         <li>
-          <p>Full Name</p>
+          <p>Task Name</p>
         </li>
         <li>
-          <p>Direction</p>
-        </li>
-        <li>
-          <p>Education</p>
+          <p>Track Note</p>
         </li>
         <li className={classes.date}>
           <p>Date</p>
@@ -38,6 +34,27 @@ class MemebersProgress extends Component {
       </ul>
     </div>
   );
+
+  getTable = ({ TaskName, TrackNote, TrackDate }, index) => {
+    return (
+      <div className={classes.TableStyle}>
+        <ul className={classes.table}>
+          <li>
+            <p>{index + 1}</p>
+          </li>
+          <li>
+            <p>{TaskName}</p>
+          </li>
+          <li>
+            <p>{TrackNote}</p>
+          </li>
+          <li>
+            <p>{TrackDate}</p>
+          </li>
+        </ul>
+      </div>
+    );
+  };
 
   getData = () => {
     getRefFirebase(PROGRESS).onSnapshot((doc) => {
@@ -51,13 +68,15 @@ class MemebersProgress extends Component {
 
   render() {
     const { data } = this.state;
-    const [UserID] = data;
+
+    const { UserName } = data[0] || '';
+    console.log(UserName);
+
     return (
       <>
+        <h4>{UserName} Progress</h4>
         {this.getTableHeader()}
-        {data.map((row) => (
-          <TableProgress key={UserID} data={row} />
-        ))}
+        {data.map((row, index) => this.getTable(row, index))}
       </>
     );
   }

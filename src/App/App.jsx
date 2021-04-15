@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Members from '../pages/Members';
+import Members from '../pages/Members/Members';
 import MembersTasks from '../pages/Members/MembersTasks';
 import MembersProgress from '../pages/Members/MembersProgress';
 import { Tasks } from '../pages/Tasks/Tasks';

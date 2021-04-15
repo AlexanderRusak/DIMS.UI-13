@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TableTasks } from '../../components/Table/TableTasks/TableTasks';
 import { getDataFromLS, setDataToLS } from '../../localStorage/localStorageFunctions';
 import { TASKS } from '../../db/tableName';
-import classes from '../Headers.module.css';
+import classes from './TableStyle.module.css';
 import firebase from '../../firebase/firebase';
 
 class MemebersTasks extends Component {
@@ -19,7 +19,7 @@ class MemebersTasks extends Component {
   }
 
   getTableHeader = () => (
-    <div className={classes.Headers}>
+    <div className={classes.TableStyle}>
       <ul>
         <li>
           <p>#</p>

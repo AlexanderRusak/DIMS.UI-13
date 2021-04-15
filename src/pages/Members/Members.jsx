@@ -1,11 +1,11 @@
 import { Component } from 'react';
-import { Table } from '../components/Table/TableMembers/TableMembers';
+import { Table } from '../../components/Table/TableMembers/TableMembers';
 /* import { getDataFromLS, setDataToLS } from '../localStorage/localStorageFunctions'; */
-import { MEMBERS } from '../db/tableName';
-import { Button } from '../components/UI/Buttons/Button/Button';
-import { ModalRegisterNewUser } from '../components/Modal/ModalRegisterNewUser';
-import classes from './Headers.module.css';
-import { getRefFirebase } from '../firebase/helpers';
+import { MEMBERS } from '../../db/tableName';
+import { Button } from '../../components/UI/Buttons/Button/Button';
+import { ModalRegisterNewUser } from '../../components/Modal/ModalRegisterNewUser';
+import classes from './TableStyle.module.css';
+import { getRefFirebase } from '../../firebase/helpers';
 
 class Members extends Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class Members extends Component {
           <p>Register</p>
         </Button>
         {isOpen && <ModalRegisterNewUser isOpen={isOpen} onClose={this.onClose} />}
-        <div className={classes.Headers}>
+        <div className={classes.TableStyle}>
           <ul>
             <li>
               <p>#</p>
@@ -78,8 +78,8 @@ class Members extends Component {
     return (
       <>
         {this.getTableHeader()}
-        {Object.values(data).map((row) => (
-          <Table data={row} key={row.Email.toString()} />
+        {Object.values(data).map((row, index) => (
+          <Table data={row} key={row.Email.toString()} index={index} />
         ))}
       </>
     );
