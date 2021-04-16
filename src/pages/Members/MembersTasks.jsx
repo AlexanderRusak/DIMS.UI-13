@@ -1,7 +1,5 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TableTasks } from '../../components/Table/TableTasks/TableTasks';
-import { getDataFromLS, setDataToLS } from '../../localStorage/localStorageFunctions';
 import { TASKS } from '../../db/tableName';
 import classes from './TableStyle.module.css';
 import firebase from '../../firebase/firebase';
@@ -17,6 +15,30 @@ class MemebersTasks extends Component {
   componentDidMount() {
     this.getData();
   }
+
+  getTable = ({ TaskName, Description, DeadLine, State }, index) => {
+    return (
+      <div className={classes.TableStyle}>
+        <ul>
+          <li>
+            <p>{index + 1}</p>
+          </li>
+          <li>
+            <p>{TaskName}</p>
+          </li>
+          <li>
+            <p>{Description}</p>
+          </li>
+          <li>
+            <p>{DeadLine}</p>
+          </li>
+          <li>
+            <p>{State ? 'In prgress' : 'Done'}</p>
+          </li>
+        </ul>
+      </div>
+    );
+  };
 
   getTableHeader = () => (
     <div className={classes.TableStyle}>
@@ -41,20 +63,13 @@ class MemebersTasks extends Component {
   );
 
   getData = () => {
-    if (getDataFromLS(TASKS)) {
+    const ref = firebase.firestore().collection('data').doc(TASKS);
+    ref.onSnapshot((doc) => {
+      const { tasksMembers } = doc.data();
       this.setState({
-        data: getDataFromLS(TASKS),
+        data: tasksMembers,
       });
-    } else {
-      const ref = firebase.firestore().collection('data').doc(TASKS);
-      ref.onSnapshot((doc) => {
-        const { tasksMembers } = doc.data();
-        setDataToLS(TASKS, tasksMembers);
-        this.setState({
-          data: tasksMembers,
-        });
-      });
-    }
+    });
   };
 
   render() {
@@ -64,13 +79,11 @@ class MemebersTasks extends Component {
     const newData = data.filter((arr) => {
       return arr.UserId === location.id;
     });
-
+    /*     <TableTasks key={row.UserId} data={row} /> */
     return (
       <>
         {this.getTableHeader()}
-        {newData.map((row) => (
-          <TableTasks key={row.UserId} data={row} />
-        ))}
+        {newData.map((row, index) => this.getTable(row, index))}
       </>
     );
   }
