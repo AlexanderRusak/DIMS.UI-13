@@ -37,13 +37,13 @@ class MemebersTasks extends Component {
           <li>
             <p>{State ? 'In prgress' : 'Done'}</p>
           </li>
-          <li>
+          <li className={classes.actions}>
             <Link
               to={{
                 pathname: '/members-tracks',
               }}
             >
-              <Button>
+              <Button className={classes.default}>
                 <p>Create</p>
               </Button>
             </Link>

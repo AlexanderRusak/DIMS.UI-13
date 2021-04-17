@@ -1,0 +1,12 @@
+.TrackModal {
+  width: 300px;
+  height: 300px;
+
+  background-color: thistle;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  padding: 10px;
+}
