@@ -1,5 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Button } from '../../components/UI/Buttons/Button/Button';
 import { TASKS } from '../../db/tableName';
 import classes from './TableStyle.module.css';
 import firebase from '../../firebase/firebase';
@@ -19,7 +21,7 @@ class MemebersTasks extends Component {
   getTable = ({ TaskName, Description, DeadLine, State }, index) => {
     return (
       <div className={classes.TableStyle}>
-        <ul>
+        <ul className={classes.table}>
           <li>
             <p>{index + 1}</p>
           </li>
@@ -35,6 +37,17 @@ class MemebersTasks extends Component {
           <li>
             <p>{State ? 'In prgress' : 'Done'}</p>
           </li>
+          <li>
+            <Link
+              to={{
+                pathname: '/members-tracks',
+              }}
+            >
+              <Button>
+                <p>Create</p>
+              </Button>
+            </Link>
+          </li>
         </ul>
       </div>
     );
@@ -42,7 +55,7 @@ class MemebersTasks extends Component {
 
   getTableHeader = () => (
     <div className={classes.TableStyle}>
-      <ul>
+      <ul className={classes.header}>
         <li>
           <p>#</p>
         </li>
@@ -57,6 +70,9 @@ class MemebersTasks extends Component {
         </li>
         <li>
           <p>State</p>
+        </li>
+        <li>
+          <p>Track</p>
         </li>
       </ul>
     </div>
@@ -75,11 +91,9 @@ class MemebersTasks extends Component {
   render() {
     const { data } = this.state;
     const { location } = this.props;
-
     const newData = data.filter((arr) => {
-      return arr.UserId === location.id;
+      return arr.UserId === location.emailId;
     });
-    /*     <TableTasks key={row.UserId} data={row} /> */
     return (
       <>
         {this.getTableHeader()}

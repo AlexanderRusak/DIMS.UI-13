@@ -44,10 +44,10 @@ ul {
     background-color: green;
 }
 
+
 p {
     display: inline-block;
     word-break: break-all;
-    padding: 10px;
 }
 
 .table {
@@ -77,7 +77,9 @@ p {
 
 .button .fontButton {
     font-size: 14px;
+    
 }
+
 
 .delete {
     background-color: red;

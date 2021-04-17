@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { getRefFirebase } from '../../firebase/helpers';
 import { setDataToLS } from '../../localStorage/localStorageFunctions';
 import { PROGRESS } from '../../db/tableName';
@@ -68,21 +69,24 @@ class MemebersProgress extends Component {
 
   render() {
     const { data } = this.state;
+    const { location } = this.props;
+    const selectedProgress = data.filter((item) => item.UserID === location.emailId);
 
     const { UserName } = data[0] || '';
-    console.log(UserName);
 
     return (
       <>
         <h4>{UserName} Progress</h4>
         {this.getTableHeader()}
-        {data.map((row, index) => this.getTable(row, index))}
+        {selectedProgress.map((row, index) => this.getTable(row, index))}
       </>
     );
   }
 }
 
-MemebersProgress.propTypes = {};
+MemebersProgress.propTypes = {
+  location: PropTypes.shape({ emailId: PropTypes.string.isRequired }).isRequired,
+};
 MemebersProgress.defaultProps = {};
 
 export default MemebersProgress;

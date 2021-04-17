@@ -55,7 +55,7 @@ class Members extends Component {
               <Link
                 to={{
                   pathname: '/members-progress',
-                  aboutProps: Email,
+                  emailId: Email,
                 }}
               >
                 <Button className={classes.button}>
@@ -65,7 +65,7 @@ class Members extends Component {
               <Link
                 to={{
                   pathname: '/members-tasks',
-                  id: Email,
+                  emailId: Email,
                 }}
               >
                 <Button className={classes.button}>

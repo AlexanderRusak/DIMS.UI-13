@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Members from '../pages/Members/Members';
 import MembersTasks from '../pages/Members/MembersTasks';
+import MemberTracks from '../pages/Members/MemberTracks';
 import MembersProgress from '../pages/Members/MembersProgress';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { SignIn } from '../pages/SignIn/SignIn';
@@ -25,6 +26,7 @@ export const App = () => {
           <Route path='/members-tasks' component={MembersTasks} />
           <Route path='/members-progress' component={MembersProgress} />
           <Route path='/members' component={Members} />
+          <Route path='/members-tracks' component={MemberTracks} />
           <Route path='/tasks' component={Tasks} />
         </div>
         <Footer />
