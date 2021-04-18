@@ -20,17 +20,20 @@ class MemebersTracks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      /*     data: [], */
       isOpen: false,
+      mode: '',
+      selectedItem: null,
     };
   }
 
-  componentDidMount() {
-    /*     this.getData(); */
-  }
+  componentDidMount() {}
 
-  openCreate = () => {
-    this.setState({ isOpen: true });
+  openModal = (mode, index = null) => {
+    this.setState({ isOpen: true, mode, selectedItem: selectedProgress[index] });
+  };
+
+  closeModal = () => {
+    this.setState({ isOpen: false });
   };
 
   getTableHeader = () => (
@@ -61,7 +64,16 @@ class MemebersTracks extends Component {
             <p>{index + 1}</p>
           </li>
           <li>
-            <p>{item.TaskName}</p>
+            <i
+              aria-label='button'
+              type='button'
+              role='button'
+              tabIndex='0'
+              onClick={() => this.openModal('details', index)}
+              onKeyPress={() => {}}
+            >
+              {item.TaskName}
+            </i>
           </li>
           <li>
             <p>{item.Note}</p>
@@ -70,7 +82,7 @@ class MemebersTracks extends Component {
             <p>{item.Date}</p>
           </li>
           <li className={classes.actions}>
-            <Button className={classes.warning}>
+            <Button className={classes.warning} onClick={() => this.openModal('edit', index)}>
               <p>Edit</p>
             </Button>
             <Button className={classes.danger}>
@@ -83,22 +95,19 @@ class MemebersTracks extends Component {
   };
 
   render() {
-    const { isOpen } = this.state;
-    /* const { location } = this.props; */
-    /*     const selectedProgress = data.filter(item => item.UserID === location.emailId); */
-
+    const { isOpen, mode, selectedItem } = this.state;
     return (
       <>
         <h4>Task Track</h4>
         <div>
-          <Button className={classes.default} onClick={this.openCreate}>
+          <Button className={classes.default} onClick={() => this.openModal('create')}>
             <p>Create</p>
           </Button>
         </div>
 
         {this.getTableHeader()}
         {selectedProgress.map((row, index) => this.getTable(row, index))}
-        {isOpen && <TrackModal />}
+        {isOpen && <TrackModal mode={mode} selectedItem={selectedItem} closeModal={this.closeModal} />}
       </>
     );
   }

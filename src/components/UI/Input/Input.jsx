@@ -6,16 +6,18 @@ function isInvalid({ valid, touched, shouldValidate }) {
 }
 
 export const Input = (props) => {
-  const { type, title, onChange, errorMessage } = props;
+  const { type, title, onChange, errorMessage, value, isError } = props;
   const inputType = type || 'text';
   const htmlFor = `${inputType}-${Math.random()}`;
-
   return (
     <div className={`${classes.Input} ${isInvalid(props) ? classes.invalid : ''}`}>
       <label htmlFor={htmlFor}>{title}</label>
-      <input type={inputType} id={htmlFor} onChange={onChange} />
-
-      {isInvalid(props) ? <span>{errorMessage || 'Введите верное значение'}</span> : null}
+      {inputType !== 'textarea' ? (
+        <input value={value} type={inputType} id={htmlFor} onChange={onChange} />
+      ) : (
+        <textarea value={value} type={inputType} id={htmlFor} onChange={onChange} />
+      )}
+      {isInvalid(props) || !isError ? <span>{errorMessage || 'Requried'}</span> : null}
     </div>
   );
 };
@@ -24,9 +26,13 @@ Input.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string,
   errorMessage: PropTypes.string,
+  value: PropTypes.shape(),
+  isError: PropTypes.bool,
 };
 Input.defaultProps = {
   title: 'title',
   type: 'text',
   errorMessage: null,
+  value: null,
+  isError: null,
 };

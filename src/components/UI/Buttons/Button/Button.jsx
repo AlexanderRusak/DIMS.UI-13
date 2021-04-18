@@ -4,7 +4,13 @@ import noop from '../../../../shared/noop';
 
 export const Button = ({ children, onClick, disabled, ...restProps }) => {
   return (
-    <button className={classes.Button} type='button' onClick={onClick} {...restProps} disabled={disabled}>
+    <button
+      className={`${classes.Button} ${disabled && classes.disabled}`}
+      type='button'
+      onClick={onClick}
+      {...restProps}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

@@ -12,7 +12,8 @@ class Members extends Component {
     super(props);
     this.state = {
       data: [],
-      isOpen: false,
+      isOpenEdit: false,
+      isOpenRegister: false,
     };
   }
 
@@ -21,17 +22,23 @@ class Members extends Component {
   }
 
   closeModalHandler = () => {
-    this.setState({ isOpen: false });
+    this.setState({ isOpenEdit: false, isOpenRegister: false });
   };
 
-  openModalHandler = () => {
-    const { isOpen } = this.state;
+  openEditModalHandler = () => {
+    const { isOpenEdit } = this.state;
 
-    this.setState({ isOpen: !isOpen });
+    this.setState({ isOpenEdit: !isOpenEdit });
+  };
+
+  openRegisterModalHandler = () => {
+    const { isOpenRegister } = this.state;
+
+    this.setState({ isOpenRegister: !isOpenRegister });
   };
 
   getTable = ({ FullName, Direction, Education, Age, Email }, index) => {
-    const { isOpen } = this.state;
+    const { isOpenEdit } = this.state;
     return (
       <>
         <div className={classes.TableStyle}>
@@ -72,7 +79,7 @@ class Members extends Component {
                   <p className={classes.fontButton}>Tasks</p>
                 </Button>
               </Link>
-              <Button className={classes.button} onClick={this.openModalHandler}>
+              <Button className={classes.button} onClick={this.openEditModalHandler}>
                 <p className={classes.fontButton}>Edit</p>
               </Button>
               <Button className={`${classes.button} ${classes.delete}`}>
@@ -81,20 +88,20 @@ class Members extends Component {
             </li>
           </ul>
         </div>
-        <ModalEdit onClose={this.closeModalHandler} isOpen={isOpen} />
+        <ModalEdit onClose={this.closeModalHandler} isOpen={isOpenEdit} />
       </>
     );
   };
 
   getTableHeader = () => {
-    const { isOpen } = this.state;
+    const { isOpenRegister } = this.state;
 
     return (
       <>
-        <Button className={classes.registration} onClick={this.opneModal}>
+        <Button className={classes.registration} onClick={this.openRegisterModalHandler}>
           <p>Register</p>
         </Button>
-        {isOpen && <ModalRegisterNewUser isOpen={isOpen} onClose={this.onClose} />}
+        {isOpenRegister && <ModalRegisterNewUser isOpen={isOpenRegister} onClose={this.onClose} />}
         <div className={classes.TableStyle}>
           <ul className={classes.header}>
             <li>
@@ -131,11 +138,11 @@ class Members extends Component {
   };
 
   opneModal = () => {
-    this.setState({ isOpen: true });
+    this.setState({ isOpenEdit: true, isOpenRegister: true });
   };
 
   onClose = () => {
-    this.setState({ isOpen: false });
+    this.setState({ isOpenEdit: false, isOpenRegister: false });
   };
 
   render() {

@@ -96,6 +96,7 @@ export class ModalSignIn extends Component {
           title={control.title}
           shouldValidate={!!control.validation}
           errorMessage={control.errorMessage}
+          isError={!!controlName}
           onChange={(event) => this.onChangeHandler(event, controlName)}
         />
       );

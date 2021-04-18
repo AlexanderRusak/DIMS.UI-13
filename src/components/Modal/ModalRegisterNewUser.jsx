@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { MEMBERS } from '../../db/tableName';
+import { validateEmail } from '../Auth/Auth';
 import { createNewUser } from '../../firebase/auth';
 import { setData } from '../../firebase/firebase';
 import { Input } from '../UI/Input/Input';
@@ -44,21 +45,75 @@ export class ModalRegisterNewUser extends Component {
       Skype: '',
       StartDate: null,
       Role: '',
+      touched: {
+        FullName: false,
+        Email: false,
+        Direction: false,
+        Sex: false,
+        Education: false,
+        Age: false,
+        UniversityAverageScore: false,
+        MathScore: false,
+        Address: false,
+        MobilePhone: false,
+        Skype: false,
+        StartDate: false,
+        Role: false,
+      },
     };
   }
 
-  getValue = (value, element) => {
-    this.setState({ [element.replace(/\s/g, '')]: value.target.value });
+  getIsValid = () => {
+    const {
+      FullName,
+      Email,
+      Sex,
+      Direction,
+      Education,
+      Age,
+      UniversityAverageScore,
+      MathScore,
+      Address,
+      MobilePhone,
+      Skype,
+      StartDate,
+      Role,
+    } = this.state;
+    return !!(
+      FullName &&
+      Email &&
+      Sex &&
+      Direction &&
+      Education &&
+      Age &&
+      UniversityAverageScore &&
+      MathScore &&
+      Address &&
+      MobilePhone &&
+      Skype &&
+      StartDate &&
+      Role
+    );
   };
 
-  renderInputs = () => {
+  getValue = (value, element) => {
+    const el = element.replace(/\s/g, '');
+    this.setState({ [el]: value.target.value, touched: { [el]: true } });
+  };
+
+  renderInputs = (data) => {
+    const { touched } = this.state;
     return inputsData.map((inputItem) => {
+      const el = inputItem.title.replace(/\s/g, '');
+      console.log(el);
+      console.log(validateEmail(data.Email));
       return (
         <Input
           key={inputItem.title.toString()}
           onChange={(event) => this.getValue(event, inputItem.title.trim())}
           title={inputItem.title}
           type={inputItem.type || 'text'}
+          isError={!touched[el] || (!!data[el] && el === 'Email' && validateEmail(data.Email))}
         />
       );
     });
@@ -93,10 +148,10 @@ export class ModalRegisterNewUser extends Component {
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
         <h4>Create new user</h4>
-        <div className={classes.container}>{this.renderInputs()}</div>
+        <div className={classes.container}>{this.renderInputs(this.state)}</div>
         <div className={classes.container}> {this.renderSelects()}</div>
         <div className={classes.buttonGroup}>
-          <Button onClick={this.createUser} className={classes.SaveButton}>
+          <Button onClick={this.createUser} disabled={!this.getIsValid()}>
             Save
           </Button>
           <Button onClick={onClose} className={classes.CancelButton}>

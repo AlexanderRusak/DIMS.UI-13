@@ -114,3 +114,8 @@ a {
 .default{
     background-color: #0275D8;;
 }
+i{
+    font-style: normal;
+    outline: none;
+    text-decoration: underline;
+}

@@ -1,71 +1,95 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from '../../UI/Buttons/Button/Button';
 import { Input } from '../../UI/Input/Input';
 import classes from './TrackModal.module.css';
+import { Label } from '../../UI/Label/Label';
 
 export class TrackModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      /*        isValid: false, */
+      Task: false,
+      Note: false,
+      Date: false,
       value: {
-        Task: '',
-        Note: '',
-        Date: '',
+        Task: props.mode === 'edit' ? props.selectedItem.TaskName : '',
+        Note: props.mode === 'edit' ? props.selectedItem.Note : '',
+        Date: props.mode === 'edit' ? props.selectedItem.Date : '',
       },
     };
   }
 
-  onValueHandler = (event) => {
+  onValueHandler = (event, el) => {
     const { value } = this.state;
-    console.log(event.target.parentElement.innerText);
-    this.setState({ value: { ...value, [event.target.parentElement.innerText]: event.target.value } });
+
+    this.setState({ [el]: true, value: { ...value, [el]: event.target.value } });
   };
 
   saveHandler = () => {
     const { value } = this.state;
+    const { closeModal } = this.props;
     console.log(value);
+
+    this.setState({ value: '' });
+    closeModal();
   };
 
   cancelHandler = () => {
-    this.setState({ value: '' });
+    const { closeModal } = this.props;
+    this.setState({ value: {} });
+    closeModal();
   };
 
   render() {
-    const { value } = this.state;
+    const { value, isValid, Note, Task, Date } = this.state;
+    const { mode, selectedItem } = this.props;
+    console.log(value, isValid, mode);
 
     return (
       <div className={classes.TrackModal}>
         <h5>Task track</h5>
         <div>
-          <Input
-            value={value}
-            onChange={(event) => {
-              this.onValueHandler(event);
-            }}
-            title='Task'
-          />
-          <Input
-            value={value}
-            onChange={(event) => {
-              this.onValueHandler(event);
-            }}
-            title='Note'
-          />
-          <Input
-            value={value}
-            onChange={(event) => {
-              this.onValueHandler(event);
-            }}
-            title='Date'
-            type='date'
-          />
-          <div>
-            <Button onClick={this.saveHandler}>
-              <p>Save</p>
-            </Button>
-            <Button onClick={this.cancelHandler}>
-              <p>Cancel</p>
+          {mode === 'details' ? (
+            <Label value={selectedItem.TaskName} />
+          ) : (
+            <Input
+              value={value.Task}
+              onChange={(event) => this.onValueHandler(event, 'Task')}
+              title='Task'
+              isError={!Task || !!value.Task}
+            />
+          )}
+          {mode === 'details' ? (
+            <Label value={selectedItem.Note} />
+          ) : (
+            <Input
+              value={value.Note}
+              onChange={(event) => this.onValueHandler(event, 'Note')}
+              title='Note'
+              type='textarea'
+              isError={!Note || !!value.Note}
+            />
+          )}
+          {mode === 'details' ? (
+            <Label value={selectedItem.Date} />
+          ) : (
+            <Input
+              value={value.Date}
+              onChange={(event) => this.onValueHandler(event, 'Date')}
+              title='Date'
+              type='date'
+              isError={!Date || !!value.Date}
+            />
+          )}
+          <div className={classes.btnGroup}>
+            {mode !== 'details' && (
+              <Button disabled={!(value.Note && value.Task && value.Date)} onClick={this.saveHandler}>
+                <p>Create</p>
+              </Button>
+            )}
+            <Button className={classes.back} onClick={this.cancelHandler}>
+              <p>Back To List</p>
             </Button>
           </div>
         </div>
@@ -73,3 +97,16 @@ export class TrackModal extends Component {
     );
   }
 }
+
+TrackModal.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+  mode: PropTypes.string.isRequired,
+  selectedItem: PropTypes.shape({
+    TaskName: PropTypes.string.isRequired,
+    Note: PropTypes.string.isRequired,
+    Date: PropTypes.string.isRequired,
+  }),
+};
+TrackModal.defaultProps = {
+  selectedItem: null,
+};
