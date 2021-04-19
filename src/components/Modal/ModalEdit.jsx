@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import Backdrop from '../UI/Backdrop/Backdrop';
+import { Input } from '../UI/Input/Input';
 import { SaveButton } from '../UI/Buttons/SaveButton/SaveButton';
 import { Button } from '../UI/Buttons/Button/Button';
 import classes from './ModalEdit.module.css';
@@ -9,12 +9,7 @@ export const ModalEdit = ({ isOpen, onClose }) => {
     <>
       <div className={`${classes.ModalEdit} ${isOpen ? classes.open : classes.close}`}>
         <h1>Header</h1>
-        <span>Name</span>
-        <input type='text' />
-        <span>Name</span>
-        <input type='text' />
-        <span>Name</span>
-        <input type='text' />
+        <Input />
         <div>
           <SaveButton>
             <p>Save</p>
@@ -24,7 +19,6 @@ export const ModalEdit = ({ isOpen, onClose }) => {
           </Button>
         </div>
       </div>
-      {isOpen ? <Backdrop onPress={null} onClick={onClose} /> : null}
     </>
   );
 };

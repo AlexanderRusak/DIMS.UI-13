@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { MEMBERS } from '../../db/tableName';
 import { Button } from '../../components/UI/Buttons/Button/Button';
 import { ModalRegisterNewUser } from '../../components/Modal/ModalRegisterNewUser';
-import { ModalEdit } from '../../components/Modal/ModalEdit';
 import classes from './TableStyle.module.css';
 import { getRefFirebase } from '../../firebase/helpers';
 
@@ -12,7 +11,8 @@ class Members extends Component {
     super(props);
     this.state = {
       data: [],
-      isOpenEdit: false,
+      type: '',
+      selectedItem: null,
       isOpenRegister: false,
     };
   }
@@ -22,23 +22,15 @@ class Members extends Component {
   }
 
   closeModalHandler = () => {
-    this.setState({ isOpenEdit: false, isOpenRegister: false });
+    this.setState({ isOpenRegister: false });
   };
 
-  openEditModalHandler = () => {
-    const { isOpenEdit } = this.state;
-
-    this.setState({ isOpenEdit: !isOpenEdit });
-  };
-
-  openRegisterModalHandler = () => {
+  openRegisterModalHandler = (index, type) => {
     const { isOpenRegister } = this.state;
-
-    this.setState({ isOpenRegister: !isOpenRegister });
+    this.setState({ isOpenRegister: !isOpenRegister, type, selectedItem: index });
   };
 
   getTable = ({ FullName, Direction, Education, Age, Email }, index) => {
-    const { isOpenEdit } = this.state;
     return (
       <>
         <div className={classes.TableStyle}>
@@ -79,7 +71,7 @@ class Members extends Component {
                   <p className={classes.fontButton}>Tasks</p>
                 </Button>
               </Link>
-              <Button className={classes.button} onClick={this.openEditModalHandler}>
+              <Button className={classes.button} onClick={() => this.openRegisterModalHandler(index, 'edit')}>
                 <p className={classes.fontButton}>Edit</p>
               </Button>
               <Button className={`${classes.button} ${classes.delete}`}>
@@ -88,20 +80,26 @@ class Members extends Component {
             </li>
           </ul>
         </div>
-        <ModalEdit onClose={this.closeModalHandler} isOpen={isOpenEdit} />
       </>
     );
   };
 
   getTableHeader = () => {
-    const { isOpenRegister } = this.state;
+    const { isOpenRegister, data, type, selectedItem } = this.state;
+    /*     console.log(type, selectedItem, Object.values(data)[selectedItem]); */
 
     return (
       <>
         <Button className={classes.registration} onClick={this.openRegisterModalHandler}>
           <p>Register</p>
         </Button>
-        {isOpenRegister && <ModalRegisterNewUser isOpen={isOpenRegister} onClose={this.onClose} />}
+        {isOpenRegister && (
+          <ModalRegisterNewUser
+            editData={type === 'edit' ? Object.values(data)[selectedItem] : null}
+            isOpen={isOpenRegister}
+            onClose={this.onClose}
+          />
+        )}
         <div className={classes.TableStyle}>
           <ul className={classes.header}>
             <li>
@@ -138,11 +136,11 @@ class Members extends Component {
   };
 
   opneModal = () => {
-    this.setState({ isOpenEdit: true, isOpenRegister: true });
+    this.setState({ isOpenRegister: true });
   };
 
   onClose = () => {
-    this.setState({ isOpenEdit: false, isOpenRegister: false });
+    this.setState({ isOpenRegister: false });
   };
 
   render() {

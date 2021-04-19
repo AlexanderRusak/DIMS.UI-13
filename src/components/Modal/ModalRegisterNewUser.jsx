@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { MEMBERS } from '../../db/tableName';
-import { validateEmail } from '../Auth/Auth';
+/* import { validateEmail } from '../Auth/Auth'; */
 import { createNewUser } from '../../firebase/auth';
 import { setData } from '../../firebase/firebase';
 import { Input } from '../UI/Input/Input';
@@ -32,19 +32,19 @@ export class ModalRegisterNewUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      FullName: '',
-      Email: '',
-      Direction: '',
-      Sex: null,
-      Education: '',
-      Age: null,
-      UniversityAverageScore: null,
-      MathScore: null,
-      Address: '',
-      MobilePhone: null,
-      Skype: '',
-      StartDate: null,
-      Role: '',
+      FullName: props.editData.FullName || '',
+      Email: props.editData.Email || '',
+      Direction: props.editData.Direction || '',
+      Sex: props.editData.Sex || null,
+      Education: props.editData.Education || '',
+      Age: props.editData.Age || null,
+      UniversityAverageScore: props.editData.UniversityAverageScore || null,
+      MathScore: props.editData.MathScore || null,
+      Address: props.editData.Address || '',
+      MobilePhone: props.editData.MobilePhone || null,
+      Skype: props.editData.Skype || '',
+      StartDate: props.editData.StartDate || null,
+      Role: props.editData.Role || '',
       touched: {
         FullName: false,
         Email: false,
@@ -98,22 +98,23 @@ export class ModalRegisterNewUser extends Component {
 
   getValue = (value, element) => {
     const el = element.replace(/\s/g, '');
+    console.log(this.state);
     this.setState({ [el]: value.target.value, touched: { [el]: true } });
   };
 
   renderInputs = (data) => {
     const { touched } = this.state;
+    /*   console.log(editData || data); */
     return inputsData.map((inputItem) => {
       const el = inputItem.title.replace(/\s/g, '');
-      console.log(el);
-      console.log(validateEmail(data.Email));
       return (
         <Input
+          value={data[el]}
           key={inputItem.title.toString()}
           onChange={(event) => this.getValue(event, inputItem.title.trim())}
           title={inputItem.title}
           type={inputItem.type || 'text'}
-          isError={!touched[el] || (!!data[el] && el === 'Email' && validateEmail(data.Email))}
+          isError={!touched[el] || data[el] /* && el === 'Email' && validateEmail(data.Email) */}
         />
       );
     });
@@ -166,4 +167,9 @@ export class ModalRegisterNewUser extends Component {
 ModalRegisterNewUser.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  editData: PropTypes.shape(),
+};
+
+ModalRegisterNewUser.defaultProps = {
+  editData: null,
 };

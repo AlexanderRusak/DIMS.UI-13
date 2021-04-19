@@ -6,7 +6,7 @@ export const Select = ({ title, options, value, onChange, name }) => {
     <div className={classes.Select}>
       <label htmlFor={name}>{title}</label>
       <select name={name} value={value} onChange={onChange}>
-        <option value=''>Please select...</option>
+        {/*         <option value=''>Please select...</option> */}
         {options.map((el) => (
           <option value={el} key={el}>
             {el}
