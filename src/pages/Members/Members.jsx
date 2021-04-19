@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { MEMBERS } from '../../db/tableName';
 import { Button } from '../../components/UI/Buttons/Button/Button';
+import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
 import { ModalRegisterNewUser } from '../../components/Modal/ModalRegisterNewUser';
 import classes from './TableStyle.module.css';
 import { getRefFirebase } from '../../firebase/helpers';
@@ -14,6 +15,7 @@ class Members extends Component {
       type: '',
       selectedItem: null,
       isOpenRegister: false,
+      isOpenDelete: false,
     };
   }
 
@@ -21,13 +23,25 @@ class Members extends Component {
     this.getData();
   }
 
+  deleteMember = (index) => {
+    const { data } = this.state;
+    console.log(index, Object.values(data)[index]);
+    const newData = Object.values(data).splice(index, 1);
+    this.setState({ data: newData });
+    /* //to db */
+  };
+
   closeModalHandler = () => {
-    this.setState({ isOpenRegister: false });
+    this.setState({ isOpenRegister: false, isOpenDelete: false, selectedItem: '' });
   };
 
   openRegisterModalHandler = (index, type) => {
     const { isOpenRegister } = this.state;
     this.setState({ isOpenRegister: !isOpenRegister, type, selectedItem: index });
+  };
+
+  openDeleteModule = (index) => {
+    this.setState({ isOpenDelete: true, selectedItem: index });
   };
 
   getTable = ({ FullName, Direction, Education, Age, Email }, index) => {
@@ -74,7 +88,7 @@ class Members extends Component {
               <Button className={classes.button} onClick={() => this.openRegisterModalHandler(index, 'edit')}>
                 <p className={classes.fontButton}>Edit</p>
               </Button>
-              <Button className={`${classes.button} ${classes.delete}`}>
+              <Button className={`${classes.button} ${classes.delete}`} onClick={() => this.openDeleteModule(index)}>
                 <p className={classes.fontButton}>Delete</p>
               </Button>
             </li>
@@ -85,7 +99,7 @@ class Members extends Component {
   };
 
   getTableHeader = () => {
-    const { isOpenRegister, data, type, selectedItem } = this.state;
+    const { isOpenRegister, data, type, selectedItem, isOpenDelete } = this.state;
     /*     console.log(type, selectedItem, Object.values(data)[selectedItem]); */
 
     return (
@@ -95,9 +109,17 @@ class Members extends Component {
         </Button>
         {isOpenRegister && (
           <ModalRegisterNewUser
-            editData={type === 'edit' ? Object.values(data)[selectedItem] : null}
+            editData={type === 'edit' ? Object.values(data)[selectedItem] : {}}
             isOpen={isOpenRegister}
             onClose={this.onClose}
+          />
+        )}
+        {isOpenDelete && (
+          <DeleteModal
+            onDelete={this.deleteMember}
+            onClose={this.closeModalHandler}
+            item={selectedItem}
+            title='member'
           />
         )}
         <div className={classes.TableStyle}>

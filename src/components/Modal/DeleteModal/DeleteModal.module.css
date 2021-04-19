@@ -1,0 +1,51 @@
+.DeleteModal {
+  width: 350px;
+  height: 300px;
+  background-color: #fff;
+  border: 1px solid #000;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+h1 {
+  text-align: center;
+}
+.DeleteModal p {
+  display: inline-block;
+  width: 320px;
+  height: 114px;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.buttonGroup {
+    display: flex;
+}
+
+.buttonGroup  button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    border: 1px solid #000;
+}
+
+.buttonGroup  button:first-child {
+  background-color: red;
+}
+
+.buttonGroup  button:last-child {
+    background-color: #ccc;
+  }
+
+.buttonGroup  button i{
+    text-decoration: none;
+    font-weight: 500;
+}

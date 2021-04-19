@@ -104,7 +104,7 @@ export class ModalRegisterNewUser extends Component {
 
   renderInputs = (data) => {
     const { touched } = this.state;
-    /*   console.log(editData || data); */
+    console.log(data);
     return inputsData.map((inputItem) => {
       const el = inputItem.title.replace(/\s/g, '');
       return (
