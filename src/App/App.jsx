@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import Members from '../pages/Members';
+import MembersTasks from '../pages/Members/MembersTasks';
+import MembersProgress from '../pages/Members/MembersProgress';
+import Layout from '../hoc/Layout';
 import { appTitle } from '../config';
-import logo from '../icons/logo.svg';
 import classes from './App.module.css';
 
 export const App = () => {
@@ -9,11 +13,14 @@ export const App = () => {
   }, []);
 
   return (
-    <div className={classes.App}>
-      <header className={classes.Header}>
-        <img src={logo} className={classes.Logo} alt='logo' />
-        <h1 className={classes.Text}>Learn React with Dev Incubator</h1>
-      </header>
-    </div>
+    <Layout>
+      <div className={classes.App}>
+        <Switch>
+          <Route path='/members-tasks' component={MembersTasks} />
+          <Route path='/members-progress' component={MembersProgress} />
+          <Route path='/members' component={Members} />
+        </Switch>
+      </div>
+    </Layout>
   );
 };

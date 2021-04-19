@@ -1,0 +1,38 @@
+.Members {
+  display: flex;
+  justify-content: center;
+}
+.Members ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.Members ul li {
+  background-color: green;
+  border: 1px solid #000;
+  list-style: none;
+  width: 15%;
+}
+
+.Members ul li:first-child {
+  width: 4%;
+}
+.Members ul .age {
+  width: 5%;
+}
+
+.Members ul .actions {
+  width: 20%;
+}
+.Members ul li p {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  margin: 0;
+  padding: 5px;
+  word-break: break-word;
+}

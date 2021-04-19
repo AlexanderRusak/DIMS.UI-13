@@ -12,7 +12,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:watch": "yarn test --watchAll",
     "test:ci": "set CI=true && yarn run test",
     "test:coverage": "yarn test --coverage",
     "test:coverage:ci": "set CI=true && yarn test:coverage",
@@ -82,14 +81,17 @@
     ]
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@testing-library/jest-dom": "5.11.10",
-    "@testing-library/react": "11.2.6",
-    "@testing-library/user-event": "13.1.2",
-    "eslint": "7.24.0",
+    "@testing-library/react": "11.2.5",
+    "@testing-library/user-event": "13.0.16",
+    "eslint": "7.23.0",
+    "firebase": "^8.3.2",
     "node-sass": "5.0.0",
-    "prop-types": "15.7.2",
+    "prop-types": "^15.7.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-icons": "^4.2.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "1.1.1"
@@ -104,6 +106,7 @@
     "husky": "4.3.6",
     "lint-staged": "10.5.4",
     "prettier": "2.2.1",
+    "save": "^2.4.0",
     "semantic-release": "^17.3.9"
   },
   "repository": {
