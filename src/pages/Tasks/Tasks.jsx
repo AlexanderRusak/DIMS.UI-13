@@ -41,6 +41,7 @@ export class Tasks extends Component {
     this.state = {
       data: [],
       isOpen: false,
+      modalType: '',
     };
   }
 
@@ -48,8 +49,17 @@ export class Tasks extends Component {
     this.getData();
   }
 
-  openModalHandler = () => {
-    this.setState({ isOpen: true });
+  openModalHandler = (type) => {
+    this.setState({ isOpen: true, modalType: type });
+  };
+
+  onClose = () => {
+    this.setState({ isOpen: false });
+  };
+
+  onSubmitData = () => {
+    /*  to db */
+    this.onClose();
   };
 
   getData = () => {
@@ -97,7 +107,18 @@ export class Tasks extends Component {
             <p>{index + 1}</p>
           </li>
           <li>
-            <p>{data.TaskName}</p>
+            <i
+              aria-label='button'
+              type='button'
+              role='button'
+              tabIndex='0'
+              onClick={() => {
+                this.openModalHandler('details');
+              }}
+              onKeyPress={() => null}
+            >
+              {data.TaskName}
+            </i>
           </li>
           <li>
             <p>{data.Description}</p>
@@ -122,16 +143,16 @@ export class Tasks extends Component {
   };
 
   render() {
-    const { data, isOpen } = this.state;
+    const { data, isOpen, modalType } = this.state;
     console.log(data);
     return (
       <>
-        <Button onClick={this.openModalHandler} className={`${classes.default} ${classes.pushRight}`}>
+        <Button onClick={() => this.openModalHandler('create')} className={`${classes.default} ${classes.pushRight}`}>
           <p>Create</p>
         </Button>
         {this.getHeader()}
         {fakeData.map((item, index) => this.getTable(item, index))}
-        {isOpen && <TasksModal />}
+        {isOpen && <TasksModal type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}
       </>
     );
   }

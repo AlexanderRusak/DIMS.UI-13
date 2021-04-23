@@ -1,14 +1,23 @@
 .Label {
-  margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    height: 60px;
 }
 
-.Label label {
-  display: block;
-  box-sizing: border-box;
-  border: 1px solid #bebebe;
-  padding: 7px;
-  margin: 0 0 5px;
-  width: 100%;
-  outline: none;
-  transition: all 300ms ease-in-out;
+.Label .value {
+    display: block;
+    box-sizing: border-box;
+    border: 1px solid #bebebe;
+    padding: 7px;
+    margin: 0 0 5px;
+    width: 100%;
+    outline: none;
+    transition: all 300ms ease-in-out;
+}
+
+.Label .title {
+    font-weight: bold;
 }

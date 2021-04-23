@@ -9,10 +9,14 @@ export const Input = (props) => {
   const { type, title, onChange, errorMessage, value, isError, checked } = props;
   const inputType = type || 'text';
   const htmlFor = `${inputType}-${Math.random()}`;
+  console.log(inputType, 'dsdsdds');
   return (
-    <div className={`${classes.Input} ${isInvalid(props) ? classes.invalid : ''}`}>
+    <div
+      className={`${isInvalid(props) ? classes.invalid : ''} ${type === 'checkbox' ? classes.Checkbox : classes.Input}`}
+    >
       <label htmlFor={htmlFor}>{title}</label>
-      {inputType !== 'textarea' ? (
+
+      {inputType !== 'textarea ' ? (
         <input checked={checked} value={value} type={inputType} id={htmlFor} onChange={onChange} />
       ) : (
         <textarea value={value} type={inputType} id={htmlFor} onChange={onChange} />
