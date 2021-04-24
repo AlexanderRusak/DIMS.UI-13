@@ -12,9 +12,13 @@ export class Checkbox extends Component {
     };
   }
 
+
   render() {
+
     const { test, users } = this.state;
     const { checkHandler } = this.props;
+
+
 
     return (
       <div className={classes.Checkbox}>
@@ -36,6 +40,7 @@ export class Checkbox extends Component {
 Checkbox.propTypes = {
   users: PropTypes.arrayOf(PropTypes.string),
   checkHandler: PropTypes.func.isRequired,
+
 };
 
 Checkbox.defaultProps = {

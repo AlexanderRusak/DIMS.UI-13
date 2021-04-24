@@ -2,38 +2,54 @@ import { Component } from 'react';
 import { Button } from '../../components/UI/Buttons/Button/Button';
 import { getRefFirebase } from '../../firebase/helpers';
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
+import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
 import { TASKS } from '../../db/tableName';
 import classes from './TableStyle.module.css';
 
 const fakeData = [
   {
-    DeadLine: '04/20/2021',
+    DeadLine: '2021-04-28',
     Description: 'Do smth',
-    StartDate: '04/04/2021',
+    StartDate: '2021-04-25',
     State: true,
     TaskId: 1,
     TaskName: 'Fix bugs',
     UserId: 'rusak.alexander2017@yandex.ru',
   },
   {
-    DeadLine: '04/15/2021',
+    DeadLine: '2021-04-28',
     Description: 'Set new values',
-    StartDate: '04/04/2021',
+    StartDate: '2021-04-22',
     State: true,
     TaskId: 2,
     TaskName: 'Update your DB',
     UserId: 'rusak.alexander2017@yande.ru',
   },
   {
-    DeadLine: '04/10/2021',
+    DeadLine: '2021-04-28',
     Description: 'Do smt else',
-    StartDate: '04/09/2021',
+    StartDate: '2021-04-23',
     State: false,
     TaskId: 2,
     TaskName: 'Do smt',
     UserId: 'rusak.alexander2017@yandex.ru',
   },
 ];
+const fakeUsers = [
+  { name: 'John Travolt1a', isCheck: true },
+  { name: 'Harry Shproptter', isCheck: false },
+  { name: 'Vasya Kat2apulta', isCheck: false },
+  { name: 'John Trav3olta', isCheck: true },
+  { name: 'Harry Sh4proptter', isCheck: false },
+  { name: 'Vasya K3tapulta', isCheck: false },
+  { name: 'Harry Sh5proptter', isCheck: true },
+  { name: 'Harry Sh3proptter', isCheck: true },
+  { name: 'Haerry Sh3proptter', isCheck: true },
+  { name: 'Ha4rry Shproptter', isCheck: false },
+  { name: 'Ha4rry Shpr4optter', isCheck: true },
+  { name: 'H4arry Shpr4optter', isCheck: true },
+];
+
 
 export class Tasks extends Component {
   constructor(props) {
@@ -42,6 +58,10 @@ export class Tasks extends Component {
       data: [],
       isOpen: false,
       modalType: '',
+      index: null,
+      isModalOpen: false,
+      users: [...fakeUsers],
+      fdata: [...fakeData]
     };
   }
 
@@ -49,16 +69,34 @@ export class Tasks extends Component {
     this.getData();
   }
 
-  openModalHandler = (type) => {
-    this.setState({ isOpen: true, modalType: type });
+  openModalHandler = (type, data, index) => {
+    this.setState({ isOpen: true, modalType: type, data, index });
   };
 
   onClose = () => {
-    this.setState({ isOpen: false });
+    this.setState({ isOpen: false, isModalOpen: false });
   };
 
-  onSubmitData = () => {
-    /*  to db */
+  onDeleteModalOpen = (index) => {
+    this.setState({ isModalOpen: true, index })
+  }
+
+  onDelete = () => {
+    const { index } = this.state;
+
+    const newData = fakeData.splice(index, 1);
+    this.setState({ data: [...newData], isModalOpen: false })
+    console.log(newData, index);
+  }
+
+  onSubmitData = (currentData, users, index, type) => {
+    const { data } = this.state;
+    const newData = [...data];
+    if (type === 'edit') newData[index] = currentData;
+    if (type === 'create') newData.push(currentData)
+    this.setState({ data: newData })
+    console.log(newData);
+    /* console.log(currentData, index); */
     this.onClose();
   };
 
@@ -113,7 +151,7 @@ export class Tasks extends Component {
               role='button'
               tabIndex='0'
               onClick={() => {
-                this.openModalHandler('details');
+                this.openModalHandler('details', fakeData, index);
               }}
               onKeyPress={() => null}
             >
@@ -130,10 +168,12 @@ export class Tasks extends Component {
             <p>{data.DeadLine}</p>
           </li>
           <li className={classes.actions}>
-            <Button className={classes.warning}>
+            <Button className={classes.warning} onClick={() => {
+              this.openModalHandler('edit', fakeData, index);
+            }}>
               <p>Edit</p>
             </Button>
-            <Button className={classes.delete}>
+            <Button className={classes.delete} onClick={() => this.onDeleteModalOpen(index)}>
               <p>Delete</p>
             </Button>
           </li>
@@ -143,16 +183,19 @@ export class Tasks extends Component {
   };
 
   render() {
-    const { data, isOpen, modalType } = this.state;
-    console.log(data);
+    const { isOpen, modalType, index, isModalOpen, fdata, users } = this.state;
+
+
+
     return (
       <>
-        <Button onClick={() => this.openModalHandler('create')} className={`${classes.default} ${classes.pushRight}`}>
+        <Button onClick={() => this.openModalHandler('create', fdata, index)} className={`${classes.default} ${classes.pushRight}`}>
           <p>Create</p>
         </Button>
         {this.getHeader()}
         {fakeData.map((item, index) => this.getTable(item, index))}
-        {isOpen && <TasksModal type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}
+        {isOpen && <TasksModal users={users} data={fdata} index={index} type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}
+        {isModalOpen && < DeleteModal onClose={this.onClose} onDelete={() => this.onDelete(index)} />}
       </>
     );
   }
