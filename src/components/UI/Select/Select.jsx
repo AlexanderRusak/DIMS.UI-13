@@ -18,7 +18,7 @@ export const Select = ({ title, options, value, onChange, name }) => {
 };
 
 Select.propTypes = {
-  options: PropTypes.instanceOf(Array).isRequired,
+  options: PropTypes.shape().isRequired,
   title: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string,

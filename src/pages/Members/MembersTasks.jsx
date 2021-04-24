@@ -104,7 +104,7 @@ class MemebersTasks extends Component {
 }
 
 MemebersTasks.propTypes = {
-  location: PropTypes.instanceOf(Object).isRequired,
+  location: PropTypes.shape().isRequired,
 };
 MemebersTasks.defaultProps = {};
 
