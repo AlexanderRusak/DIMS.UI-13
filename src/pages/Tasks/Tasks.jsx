@@ -8,59 +8,31 @@ import classes from './TableStyle.module.css';
 
 const fakeData = [
   {
-<<<<<<< HEAD
-    DeadLine: '2021-04-28',
-    Description: 'Do smth',
-    StartDate: '2021-04-25',
-    State: true,
-    TaskId: 1,
-    TaskName: 'Fix bugs',
-    UserId: 'rusak.alexander2017@yandex.ru',
-  },
-  {
-    DeadLine: '2021-04-28',
-    Description: 'Set new values',
-    StartDate: '2021-04-22',
-    State: true,
-    TaskId: 2,
-    TaskName: 'Update your DB',
-    UserId: 'rusak.alexander2017@yande.ru',
-  },
-  {
-    DeadLine: '2021-04-28',
-    Description: 'Do smt else',
-    StartDate: '2021-04-23',
-    State: false,
-    TaskId: 2,
-    TaskName: 'Do smt',
-    UserId: 'rusak.alexander2017@yandex.ru',
-=======
-    deadLine: '04/20/2021',
+    deadLine: '2021-04-28',
     description: 'Do smth',
-    startDate: '04/04/2021',
+    startDate: '2021-04-25',
     state: true,
     taskId: 1,
     taskName: 'Fix bugs',
     userId: 'rusak.alexander2017@yandex.ru',
   },
   {
-    deadLine: '04/15/2021',
+    deadLine: '2021-04-28',
     description: 'Set new values',
-    startDate: '04/04/2021',
+    startDate: '2021-04-22',
     state: true,
     taskId: 2,
     taskName: 'Update your DB',
     userId: 'rusak.alexander2017@yande.ru',
   },
   {
-    deadLine: '04/10/2021',
+    deadLine: '2021-04-28',
     description: 'Do smt else',
-    startDate: '04/09/2021',
+    startDate: '2021-04-23',
     state: false,
     taskId: 2,
     taskName: 'Do smt',
     userId: 'rusak.alexander2017@yandex.ru',
->>>>>>> 3a5586dc162b6a9a63c57dcc517ab265617d0c18
   },
 ];
 const fakeUsers = [

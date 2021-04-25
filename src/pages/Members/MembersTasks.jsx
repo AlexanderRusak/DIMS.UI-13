@@ -82,6 +82,7 @@ class MemebersTasks extends Component {
     const ref = firebase.firestore().collection('data').doc(TASKS);
     ref.onSnapshot((doc) => {
       const { tasksMembers } = doc.data();
+      console.log(tasksMembers);
       this.setState({
         data: tasksMembers,
       });
@@ -90,6 +91,7 @@ class MemebersTasks extends Component {
 
   render() {
     const { data } = this.state;
+    console.log(data);
     const { location } = this.props;
     const newData = data.filter((arr) => {
       return arr.UserId === location.emailId;

@@ -13,10 +13,10 @@ export class TasksModal extends PureComponent {
       test: 'rerre',
       users: [...props.users],
       userList: props.users.map((user) => { return { name: user.name, isCheck: false } }),
-      TaskName: props.type === 'create' ? '' : props.data[props.index].TaskName,
-      Description: props.type === 'create' ? '' : props.data[props.index].Description,
-      StartDate: props.type === 'create' ? '' : props.data[props.index].StartDate,
-      DeadLine: props.type === 'create' ? '' : props.data[props.index].DeadLine,
+      taskName: props.type === 'create' ? '' : props.data[props.index].taskName,
+      description: props.type === 'create' ? '' : props.data[props.index].description,
+      startDate: props.type === 'create' ? '' : props.data[props.index].startDate,
+      deadLine: props.type === 'create' ? '' : props.data[props.index].deadLine,
     };
   }
 
@@ -54,18 +54,18 @@ export class TasksModal extends PureComponent {
   }
 
   getCreateModal = (test, index, type) => {
-    const { TaskName, DeadLine, Description, StartDate, userList, } = this.state;
+    const { taskName, deadLine, description, startDate, userList} = this.state;
     const users = [...userList];
 
     return (
       <div className={classes.container}>
-        <Input value={TaskName} title='Name' isError={!!test} onChange={(e) => this.getInputValue('TaskName', e.target.value)} />
-        <Input value={Description} title='Description' isError={!!test} onChange={(e) => this.getInputValue('Description', e.target.value)} />
-        <Input value={StartDate} title='Start Date' isError={!!test} type='date' onChange={(e) => this.getInputValue('StartDate', e.target.value)} />
-        <Input value={DeadLine} title='Deadline' isError={!!test} type='date' onChange={(e) => this.getInputValue('DeadLine', e.target.value)} />
+        <Input value={taskName} title='Name' isError={!!test} onChange={(e) => this.getInputValue('TaskName', e.target.value)} />
+        <Input value={description} title='Description' isError={!!test} onChange={(e) => this.getInputValue('Description', e.target.value)} />
+        <Input value={startDate} title='Start Date' isError={!!test} type='date' onChange={(e) => this.getInputValue('StartDate', e.target.value)} />
+        <Input value={deadLine} title='Deadline' isError={!!test} type='date' onChange={(e) => this.getInputValue('DeadLine', e.target.value)} />
         <Checkbox checkHandler={this.getCreateCheckedUser} users={userList} />
         <div className={classes.btnGroup}>
-          <Button typeButton='primary' onClick={() => this.onSubmitHandler({ TaskName, DeadLine, Description, StartDate }, users, index, type)}>
+          <Button typeButton='primary' onClick={() => this.onSubmitHandler({ taskName, deadLine, description, startDate }, users, index, type)}>
             Create
           </Button>
           <Button typeButton='default' onClick={this.onCloseHandler}>
@@ -77,18 +77,18 @@ export class TasksModal extends PureComponent {
   }
 
   getEditModal = (test, index, type) => {
-    const { TaskName, DeadLine, Description, StartDate, users } = this.state;
+    const { taskName, deadLine, description, startDate, users } = this.state;
 
 
     return (
       <div className={classes.container}>
-        <Input onChange={(e) => this.getInputValue('TaskName', e.target.value)} title='TaskName' isError={!!test} value={TaskName} />
-        <Input title='Description' isError={!!test} onChange={(e) => this.getInputValue('Description', e.target.value)} value={Description} />
+        <Input onChange={(e) => this.getInputValue('TaskName', e.target.value)} title='TaskName' isError={!!test} value={taskName} />
+        <Input title='Description' isError={!!test} onChange={(e) => this.getInputValue('Description', e.target.value)} value={description} />
         <Input title='Start Date' isError={!!test} type='date' onChange={(e) => this.getInputValue('StartDate', e.target.value)} value='2021-07-22' />
-        <Input title='Deadline' isError={!!test} type='date' onChange={(e) => this.getInputValue('DeadLine', e.target.value)} value={DeadLine} />
+        <Input title='Deadline' isError={!!test} type='date' onChange={(e) => this.getInputValue('DeadLine', e.target.value)} value={deadLine} />
         <Checkbox checkHandler={this.getCheckedUser} users={users} />
         <div className={classes.btnGroup}>
-          <Button typeButton='primary' onClick={() => this.onSubmitHandler({ TaskName, DeadLine, Description, StartDate }, users, index, type)}>
+          <Button typeButton='primary' onClick={() => this.onSubmitHandler({ taskName, deadLine, description, startDate }, users, index, type)}>
             Create
           </Button>
           <Button typeButton='default' onClick={this.onCloseHandler}>
@@ -100,16 +100,16 @@ export class TasksModal extends PureComponent {
   };
 
   getDetailsModal = () => {
-    const { TaskName, Description, DeadLine, StartDate } = this.state;
+    const { taskName, description, deadLine, startDate } = this.state;
     const { users } = this.props;
 
     const newUsers = users.filter((user) => user.isCheck);
     return (
       <div className={classes.container}>
-        <Label value={TaskName} title='Name' />
-        <Label value={Description} title='Description' />
-        <Label value={DeadLine} title='Start Date' />
-        <Label value={StartDate} title='Deadline' />
+        <Label value={taskName} title='Name' />
+        <Label value={description} title='Description' />
+        <Label value={deadLine} title='Start Date' />
+        <Label value={startDate} title='Deadline' />
         <div className={classes.selectedUsers}>
           {newUsers.map((user) => (
             <Label key={user.name} value={user.name} />
