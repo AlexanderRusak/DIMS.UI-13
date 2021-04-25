@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { MEMBERS } from '../../db/tableName';
-/* import { validateEmail } from '../Auth/Auth'; */
 import { createNewUser } from '../../firebase/auth';
 import { setData } from '../../firebase/firebase';
 import { Input } from '../UI/Input/Input';
 import { Select } from '../UI/Select/Select';
 import { Button } from '../UI/Buttons/Button/Button';
+import { toLowerCaseFirstLetter, toTrim } from './modalHelpers/helpers';
 import classes from './ModalRegisterNewUser.module.css';
 
 const inputsData = [
@@ -32,89 +32,89 @@ export class ModalRegisterNewUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      FullName: props.editData.FullName || '',
-      Email: props.editData.Email || '',
-      Direction: props.editData.Direction || '',
-      Sex: props.editData.Sex || null,
-      Education: props.editData.Education || '',
-      Age: props.editData.Age || null,
-      UniversityAverageScore: props.editData.UniversityAverageScore || null,
-      MathScore: props.editData.MathScore || null,
-      Address: props.editData.Address || '',
-      MobilePhone: props.editData.MobilePhone || null,
-      Skype: props.editData.Skype || '',
-      StartDate: props.editData.StartDate || null,
-      Role: props.editData.Role || '',
+      fullName: props.editData.fullName || '',
+      email: props.editData.email || '',
+      direction: props.editData.direction || '',
+      sex: props.editData.sex || null,
+      education: props.editData.education || '',
+      age: props.editData.age || null,
+      universityAverageScore: props.editData.universityAverageScore || null,
+      mathScore: props.editData.mathScore || null,
+      address: props.editData.address || '',
+      mobilePhone: props.editData.mobilePhone || null,
+      skype: props.editData.skype || '',
+      startDate: props.editData.startDate || null,
+      role: props.editData.role || '',
       touched: {
-        FullName: false,
-        Email: false,
-        Direction: false,
-        Sex: false,
-        Education: false,
-        Age: false,
-        UniversityAverageScore: false,
-        MathScore: false,
-        Address: false,
-        MobilePhone: false,
-        Skype: false,
-        StartDate: false,
-        Role: false,
+        fullName: false,
+        email: false,
+        direction: false,
+        sex: false,
+        education: false,
+        age: false,
+        universityAverageScore: false,
+        mathScore: false,
+        address: false,
+        mobilePhone: false,
+        skype: false,
+        startDate: false,
+        role: false,
       },
     };
   }
 
   getIsValid = () => {
     const {
-      FullName,
-      Email,
-      Sex,
-      Direction,
-      Education,
-      Age,
-      UniversityAverageScore,
-      MathScore,
-      Address,
-      MobilePhone,
-      Skype,
-      StartDate,
-      Role,
+      fullName,
+      email,
+      sex,
+      direction,
+      education,
+      age,
+      universityAverageScore,
+      mathScore,
+      address,
+      mobilePhone,
+      skype,
+      startDate,
+      role,
     } = this.state;
     return !!(
-      FullName &&
-      Email &&
-      Sex &&
-      Direction &&
-      Education &&
-      Age &&
-      UniversityAverageScore &&
-      MathScore &&
-      Address &&
-      MobilePhone &&
-      Skype &&
-      StartDate &&
-      Role
+      fullName &&
+      email &&
+      sex &&
+      direction &&
+      education &&
+      age &&
+      universityAverageScore &&
+      mathScore &&
+      address &&
+      mobilePhone &&
+      skype &&
+      startDate &&
+      role
     );
-  };
+  }; 
 
-  getValue = (value, element) => {
-    const el = element.replace(/\s/g, '');
-    console.log(this.state);
+  getValue = (value) => {
+    /* value.target.attributes[1].nodeValue */
+
+    const el = toLowerCaseFirstLetter(toTrim(value.target.attributes[1].nodeValue));
     this.setState({ [el]: value.target.value, touched: { [el]: true } });
   };
 
   renderInputs = (data) => {
     const { touched } = this.state;
-    console.log(data);
     return inputsData.map((inputItem) => {
-      const el = inputItem.title.replace(/\s/g, '');
+      const el = toLowerCaseFirstLetter(toTrim(inputItem.title));
       return (
         <Input
           value={data[el]}
-          key={inputItem.title.toString()}
-          onChange={(event) => this.getValue(event, inputItem.title.trim())}
+          key={inputItem.title}
+          onChange={this.getValue}
           title={inputItem.title}
           type={inputItem.type || 'text'}
-          isError={!touched[el] || data[el] /* && el === 'Email' && validateEmail(data.Email) */}
+          isValid={!touched[el] || data[el] /* && el === 'Email' && validateEmail(data.Email) */}
         />
       );
     });
@@ -125,8 +125,8 @@ export class ModalRegisterNewUser extends Component {
       return (
         <Select
           title={selectItem.title}
-          key={selectItem.title.toString()}
-          onChange={(event) => this.getValue(event, selectItem.title.trim())}
+          key={selectItem.title}
+          onChange={this.getValue}
           options={selectItem.options}
         />
       );
@@ -136,7 +136,7 @@ export class ModalRegisterNewUser extends Component {
   createUser = async () => {
     const { onClose } = this.props;
     const userDateObj = { ...this.state };
-    const { Email: email } = this.state;
+    const { email } = this.state;
     await setData(MEMBERS, userDateObj, email);
     await createNewUser(email, '          ');
 
@@ -145,7 +145,7 @@ export class ModalRegisterNewUser extends Component {
 
   render() {
     const { isOpen, onClose } = this.props;
-
+    console.log(this.state);
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
         <h4>Create new user</h4>
@@ -167,7 +167,21 @@ export class ModalRegisterNewUser extends Component {
 ModalRegisterNewUser.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  editData: PropTypes.shape(),
+  editData: PropTypes.shape({
+    fullName: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    sex: PropTypes.string.isRequired,
+    direction: PropTypes.string.isRequired,
+    education: PropTypes.string.isRequired,
+    age: PropTypes.string.isRequired,
+    universityAverageScore: PropTypes.string.isRequired,
+    mathScore: PropTypes.number.isRequired,
+    address: PropTypes.string.isRequired,
+    mobilePhone: PropTypes.number.isRequired,
+    skype: PropTypes.string.isRequired,
+    startDate: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+  }),
 };
 
 ModalRegisterNewUser.defaultProps = {

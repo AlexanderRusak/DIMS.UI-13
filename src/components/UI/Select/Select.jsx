@@ -5,8 +5,8 @@ export const Select = ({ title, options, value, onChange, name }) => {
   return (
     <div className={classes.Select}>
       <label htmlFor={name}>{title}</label>
-      <select name={name} value={value} onChange={onChange}>
-        {/*         <option value=''>Please select...</option> */}
+      <select id={title} name={name} value={value} onChange={onChange}>
+        <option value=''>Please select...</option>
         {options.map((el) => (
           <option value={el} key={el}>
             {el}
@@ -18,7 +18,7 @@ export const Select = ({ title, options, value, onChange, name }) => {
 };
 
 Select.propTypes = {
-  options: PropTypes.shape().isRequired,
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string,

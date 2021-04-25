@@ -7,31 +7,31 @@ import classes from './TableStyle.module.css';
 
 const fakeData = [
   {
-    DeadLine: '04/20/2021',
-    Description: 'Do smth',
-    StartDate: '04/04/2021',
-    State: true,
-    TaskId: 1,
-    TaskName: 'Fix bugs',
-    UserId: 'rusak.alexander2017@yandex.ru',
+    deadLine: '04/20/2021',
+    description: 'Do smth',
+    startDate: '04/04/2021',
+    state: true,
+    taskId: 1,
+    taskName: 'Fix bugs',
+    userId: 'rusak.alexander2017@yandex.ru',
   },
   {
-    DeadLine: '04/15/2021',
-    Description: 'Set new values',
-    StartDate: '04/04/2021',
-    State: true,
-    TaskId: 2,
-    TaskName: 'Update your DB',
-    UserId: 'rusak.alexander2017@yande.ru',
+    deadLine: '04/15/2021',
+    description: 'Set new values',
+    startDate: '04/04/2021',
+    state: true,
+    taskId: 2,
+    taskName: 'Update your DB',
+    userId: 'rusak.alexander2017@yande.ru',
   },
   {
-    DeadLine: '04/10/2021',
-    Description: 'Do smt else',
-    StartDate: '04/09/2021',
-    State: false,
-    TaskId: 2,
-    TaskName: 'Do smt',
-    UserId: 'rusak.alexander2017@yandex.ru',
+    deadLine: '04/10/2021',
+    description: 'Do smt else',
+    startDate: '04/09/2021',
+    state: false,
+    taskId: 2,
+    taskName: 'Do smt',
+    userId: 'rusak.alexander2017@yandex.ru',
   },
 ];
 
@@ -117,17 +117,17 @@ export class Tasks extends Component {
               }}
               onKeyPress={() => null}
             >
-              {data.TaskName}
+              {data.taskName}
             </i>
           </li>
           <li>
-            <p>{data.Description}</p>
+            <p>{data.description}</p>
           </li>
           <li>
-            <p>{data.StartDate}</p>
+            <p>{data.startDate}</p>
           </li>
           <li>
-            <p>{data.DeadLine}</p>
+            <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
             <Button className={classes.warning}>

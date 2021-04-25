@@ -24,7 +24,7 @@ export class Checkbox extends Component {
             title={user.name}
             key={user.name.toString()}
             checked={user.isCheck}
-            isError={!!test}
+            isValid={!!test}
             onChange={() => checkHandler(index)}
           />
         ))}

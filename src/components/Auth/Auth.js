@@ -10,7 +10,7 @@ export const validateControl = (value, validation) => {
   let isValid = true;
 
   if (validation.required) {
-    isValid = value.trim() !== '' && isValid;
+    isValid = value.trim()  && isValid;
   }
   if (validation.email) {
     isValid = validateEmail(value) && isValid;

@@ -1,4 +1,4 @@
-.Footer {
+.Main {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,7 +9,10 @@
   box-sizing: border-box;
 }
 
-.FotterList {
+.logo{
+  height: 100px;
+}
+.FooterList {
   display: flex;
   width: 50%;
   justify-content: space-between;
