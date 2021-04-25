@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../../UI/Buttons/Button/Button';
 import { Checkbox } from '../../UI/CheckBox/Checkbox';
@@ -6,7 +6,7 @@ import { Input } from '../../UI/Input/Input';
 import classes from './TasksModal.module.css';
 import { Label } from '../../UI/Label/Label';
 
-export class TasksModal extends Component {
+export class TasksModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,7 +74,7 @@ export class TasksModal extends Component {
         </div>
       </div>
     );
-  };
+  }
 
   getEditModal = (test, index, type) => {
     const { TaskName, DeadLine, Description, StartDate, users } = this.state;
@@ -122,8 +122,8 @@ export class TasksModal extends Component {
           </Button>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   render() {
     const { test, touched } = this.state;

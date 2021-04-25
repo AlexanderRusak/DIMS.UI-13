@@ -18,7 +18,7 @@ class MemebersTasks extends Component {
     this.getData();
   }
 
-  getTable = ({ TaskName, Description, DeadLine, State }, index) => {
+  getTable = ({ taskName, description, deadLine, state }, index) => {
     return (
       <div className={classes.TableStyle}>
         <ul className={classes.table}>
@@ -26,16 +26,16 @@ class MemebersTasks extends Component {
             <p>{index + 1}</p>
           </li>
           <li>
-            <p>{TaskName}</p>
+            <p>{taskName}</p>
           </li>
           <li>
-            <p>{Description}</p>
+            <p>{description}</p>
           </li>
           <li>
-            <p>{DeadLine}</p>
+            <p>{deadLine}</p>
           </li>
           <li>
-            <p>{State ? 'In prgress' : 'Done'}</p>
+            <p>{state ? 'In prgress' : 'Done'}</p>
           </li>
           <li className={classes.actions}>
             <Link
@@ -104,7 +104,9 @@ class MemebersTasks extends Component {
 }
 
 MemebersTasks.propTypes = {
-  location: PropTypes.shape().isRequired,
+  location: PropTypes.shape(
+    { emailId: PropTypes.string, }
+  ).isRequired,
 };
 MemebersTasks.defaultProps = {};
 

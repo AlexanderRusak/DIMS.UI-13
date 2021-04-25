@@ -8,11 +8,11 @@ import { PROGRESS } from '../../db/tableName'; */
 import classes from './TableStyle.module.css';
 
 const selectedProgress = [
-  { TaskName: 'create db', Note: 'create', Date: '12/05/2021' },
+  { taskName: 'create db', note: 'create', date: '2020-04-15', },
   {
-    TaskName: 'create db',
-    Note: 'create',
-    Date: '12/05/2021',
+    taskName: 'create db',
+    note: 'create',
+    date: '2020-04-25',
   },
 ];
 
@@ -26,7 +26,7 @@ class MemebersTracks extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   openModal = (mode, index = null) => {
     this.setState({ isOpen: true, mode, selectedItem: selectedProgress[index] });
@@ -70,16 +70,16 @@ class MemebersTracks extends Component {
               role='button'
               tabIndex='0'
               onClick={() => this.openModal('details', index)}
-              onKeyPress={() => {}}
+              onKeyPress={() => { }}
             >
-              {item.TaskName}
+              {item.taskName}
             </i>
           </li>
           <li>
             <p>{item.Note}</p>
           </li>
           <li className={classes.date}>
-            <p>{item.Date}</p>
+            <p>{item.date}</p>
           </li>
           <li className={classes.actions}>
             <Button className={classes.warning} onClick={() => this.openModal('edit', index)}>

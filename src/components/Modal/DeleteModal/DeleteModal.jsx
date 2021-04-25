@@ -3,8 +3,10 @@ import { Button } from '../../UI/Buttons/Button/Button';
 import classes from './DeleteModal.module.css';
 
 export const DeleteModal = ({ title, onClose, item, onDelete }) => {
-  return (
-    <div className={classes.DeleteModal}>
+
+  const getDeleteModalTemplate = (title, onClose, item, onDelete) =>
+  (
+    <>
       <h1>Delete {title}</h1>
       <p>Are you sure you want to delete the current {title} ?</p>
       <div className={classes.buttonGroup}>
@@ -15,7 +17,14 @@ export const DeleteModal = ({ title, onClose, item, onDelete }) => {
           <i>Back To List</i>
         </Button>
       </div>
-    </div>
+    </>
+  )
+
+
+  return (
+    <div className={classes.DeleteModal}>
+      {getDeleteModalTemplate(title, onClose, item, onDelete)}
+    </div >
   );
 };
 

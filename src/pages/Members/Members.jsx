@@ -44,7 +44,7 @@ class Members extends Component {
     this.setState({ isOpenDelete: true, selectedItem: index });
   };
 
-  getTable = ({ FullName, Direction, Education, Age, Email }, index) => {
+  getTable = ({ fullName, direction, education, age, email }, index) => {
     return (
       <>
         <div className={classes.TableStyle}>
@@ -53,22 +53,22 @@ class Members extends Component {
               <p>{index + 1}</p>
             </li>
             <li>
-              <p>{FullName}</p>
+              <p>{fullName}</p>
             </li>
             <li>
-              <p>{Direction}</p>
+              <p>{direction}</p>
             </li>
             <li className={classes.education}>
-              <p>{Education}</p>
+              <p>{education}</p>
             </li>
             <li className={classes.age}>
-              <p>{Age}</p>
+              <p>{age}</p>
             </li>
             <li className={classes.actions}>
               <Link
                 to={{
                   pathname: '/members-progress',
-                  emailId: Email,
+                  emailId: email,
                 }}
               >
                 <Button className={classes.button}>
@@ -78,7 +78,7 @@ class Members extends Component {
               <Link
                 to={{
                   pathname: '/members-tasks',
-                  emailId: Email,
+                  emailId: email,
                 }}
               >
                 <Button className={classes.button}>

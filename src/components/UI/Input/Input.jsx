@@ -6,10 +6,9 @@ function isInvalid({ valid, touched, shouldValidate }) {
 }
 
 export const Input = (props) => {
-  const { type, title, onChange, errorMessage, value, isError, checked } = props;
+  const { type, title, onChange, errorMessage, value, isValid, checked } = props;
   const inputType = type || 'text';
   const htmlFor = `${inputType}-${Math.random()}`;
-  console.log(inputType, 'dsdsdds');
   return (
     <div
       className={`${isInvalid(props) ? classes.invalid : ''} ${type === 'checkbox' ? classes.Checkbox : classes.Input}`}
@@ -17,11 +16,11 @@ export const Input = (props) => {
       <label htmlFor={htmlFor}>{title}</label>
 
       {inputType !== 'textarea ' ? (
-        <input checked={checked} value={value} type={inputType} id={htmlFor} onChange={onChange} />
+        <input checked={checked} value={value} type={inputType} id={title} onChange={onChange} />
       ) : (
-        <textarea value={value} type={inputType} id={htmlFor} onChange={onChange} />
+        <textarea value={value} type={inputType} id={title} onChange={onChange} />
       )}
-      {isInvalid(props) || !isError ? <span>{errorMessage || 'Requried'}</span> : null}
+      {isInvalid(props) || !isValid ? <span>{errorMessage || 'Requried'}</span> : null}
     </div>
   );
 };
@@ -30,8 +29,8 @@ Input.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string,
   errorMessage: PropTypes.string,
-  value: PropTypes.shape(),
-  isError: PropTypes.bool,
+  value: PropTypes.string,
+  isValid: PropTypes.bool,
   checked: PropTypes.bool,
 };
 Input.defaultProps = {
@@ -39,6 +38,6 @@ Input.defaultProps = {
   type: 'text',
   errorMessage: null,
   value: null,
-  isError: null,
+  isValid: null,
   checked: null,
 };

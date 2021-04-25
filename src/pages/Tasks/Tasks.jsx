@@ -8,6 +8,7 @@ import classes from './TableStyle.module.css';
 
 const fakeData = [
   {
+<<<<<<< HEAD
     DeadLine: '2021-04-28',
     Description: 'Do smth',
     StartDate: '2021-04-25',
@@ -33,6 +34,33 @@ const fakeData = [
     TaskId: 2,
     TaskName: 'Do smt',
     UserId: 'rusak.alexander2017@yandex.ru',
+=======
+    deadLine: '04/20/2021',
+    description: 'Do smth',
+    startDate: '04/04/2021',
+    state: true,
+    taskId: 1,
+    taskName: 'Fix bugs',
+    userId: 'rusak.alexander2017@yandex.ru',
+  },
+  {
+    deadLine: '04/15/2021',
+    description: 'Set new values',
+    startDate: '04/04/2021',
+    state: true,
+    taskId: 2,
+    taskName: 'Update your DB',
+    userId: 'rusak.alexander2017@yande.ru',
+  },
+  {
+    deadLine: '04/10/2021',
+    description: 'Do smt else',
+    startDate: '04/09/2021',
+    state: false,
+    taskId: 2,
+    taskName: 'Do smt',
+    userId: 'rusak.alexander2017@yandex.ru',
+>>>>>>> 3a5586dc162b6a9a63c57dcc517ab265617d0c18
   },
 ];
 const fakeUsers = [
@@ -155,17 +183,17 @@ export class Tasks extends Component {
               }}
               onKeyPress={() => null}
             >
-              {data.TaskName}
+              {data.taskName}
             </i>
           </li>
           <li>
-            <p>{data.Description}</p>
+            <p>{data.description}</p>
           </li>
           <li>
-            <p>{data.StartDate}</p>
+            <p>{data.startDate}</p>
           </li>
           <li>
-            <p>{data.DeadLine}</p>
+            <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
             <Button className={classes.warning} onClick={() => {

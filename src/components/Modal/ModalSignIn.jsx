@@ -38,30 +38,35 @@ export class ModalSignIn extends Component {
     },
   };
 
+  errorHandler = () => {
+    this.setState({
+      error: true,
+    });
+    setTimeout(() => {
+      this.setState({
+        error: false,
+      });
+    }, 5000);
+  }
+
   signIn = async () => {
     const { formControls } = this.state;
-    console.log(formControls.email.value, formControls.password.value);
-    const response = await signIn(formControls.email.value, formControls.password.value);
-
-    if (response) {
-      this.setState({
-        isValid: true,
-      });
-    } else {
-      this.setState({
-        error: true,
-      });
-      setTimeout(() => {
+    try {
+      const response = await signIn(formControls.email.value, formControls.password.value);
+      if (response) {
         this.setState({
-          error: false,
+          isValid: true,
         });
-      }, 5000);
+      } else this.errorHandler();
+    } catch (err) {
+      console.error(err);
+      this.errorHandler();
     }
   };
 
   onChangeHandler = (event, controlName) => {
+
     const { formControls } = this.state;
-    console.log(this.state);
     const form = { ...formControls };
     const control = { ...form[controlName] };
 
@@ -96,7 +101,7 @@ export class ModalSignIn extends Component {
           title={control.title}
           shouldValidate={!!control.validation}
           errorMessage={control.errorMessage}
-          isError={!!controlName}
+          isValid={!!controlName}
           onChange={(event) => this.onChangeHandler(event, controlName)}
         />
       );
@@ -107,11 +112,11 @@ export class ModalSignIn extends Component {
     const { isValid, error, isFormValid } = this.state;
     return (
       <>
-        {error && <Alert text='Something went wrong!' />}
+        {error && <Alert text='Incorrect mail or password!' />}
         <div className={classes.ModalSignIn}>
           <h4>Wellcome to DIMS</h4>
           {this.renderInputs()}
-          <Button onClick={this.signIn} disabled={!isFormValid}>
+          <Button typeButton='primary' onClick={this.signIn} disabled={!isFormValid}>
             <p>Sign in</p>
           </Button>
           {isValid && <Redirect to='/members' />}

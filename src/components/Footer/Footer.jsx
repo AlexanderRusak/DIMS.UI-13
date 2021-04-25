@@ -1,37 +1,31 @@
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
-import matrix from '../../images/matrix.png';
-import classes from './Footer.module.css';
+import { BsEgg } from 'react-icons/bs';
+import { LinkItem } from '../LinkItem/LinkItem';
+import { FeedbackLinks } from '../../feedbackLinks'
+import { COLORS, FONTS_SIZE } from '../StylesConstant/colors';
+import classes from '../StylesConstant/mainStyle.module.css';
+
 
 export const Footer = () => {
+
+  const { devIncubator, gitHub, linkedIn, instagram } = FeedbackLinks;
+  console.log(devIncubator, gitHub, linkedIn, instagram);
+
   return (
-    <div className={classes.Footer}>
-      <ul className={classes.FotterList}>
-        <li>
-          <a className={classes.link} href='http://devincubator.by/'>
-            <img className={classes.icon} src={matrix} alt='matrix' />
-          </a>
-        </li>
-        <li>
-          <a className={classes.link} href='https://github.com/AlexanderRusak'>
-            <i>
-              <FaGithub size={50} color='#fff' />
-            </i>
-          </a>
-        </li>
-        <li>
-          <a className={classes.link} href='https://www.linkedin.com/in/alexander-rusak-02646b206/'>
-            <i>
-              <FaLinkedin size={50} color='#fff' />
-            </i>
-          </a>
-        </li>
-        <li>
-          <a className={classes.link} href='https://www.instagram.com/rusak_alexander/'>
-            <i>
-              <FaInstagram size={50} color='#fff' />
-            </i>
-          </a>
-        </li>
+    <div className={classes.Main}>
+      <ul className={classes.FooterList}>
+        <LinkItem link={devIncubator}
+          iconComponent={<BsEgg size={FONTS_SIZE.ICON_FOOTER} color={COLORS.WHITE} />}
+        />
+        <LinkItem link={gitHub}
+          iconComponent={<FaGithub size={FONTS_SIZE.ICON_FOOTER} color={COLORS.WHITE} />}
+        />
+        <LinkItem link={linkedIn}
+          iconComponent={<FaLinkedin size={FONTS_SIZE.ICON_FOOTER} color={COLORS.WHITE} />}
+        />
+        <LinkItem link={instagram}
+          iconComponent={<FaInstagram size={FONTS_SIZE.ICON_FOOTER} color={COLORS.WHITE} />}
+        />
       </ul>
     </div>
   );

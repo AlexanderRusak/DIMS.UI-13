@@ -25,14 +25,7 @@ h4 {
   display: flex;
   flex-direction: column;
 }
-button {
-  width: 10rem;
-  height: 35px;
-  border: none;
-  border-radius: 10px;
-  font-size: 1.2rem;
-  color: #fff;
-}
+
 
 .SaveButton {
   background-color: green; 

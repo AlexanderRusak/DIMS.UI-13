@@ -2,6 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../../UI/Buttons/Button/Button';
 import { Input } from '../../UI/Input/Input';
+import { toTrim, toLowerCaseFirstLetter } from '../modalHelpers/helpers'
 import classes from './TrackModal.module.css';
 import { Label } from '../../UI/Label/Label';
 
@@ -9,27 +10,27 @@ export class TrackModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Task: false,
-      Note: false,
-      Date: false,
+      task: false,
+      note: false,
+      date: false,
       value: {
-        Task: props.mode === 'edit' ? props.selectedItem.TaskName : '',
-        Note: props.mode === 'edit' ? props.selectedItem.Note : '',
-        Date: props.mode === 'edit' ? props.selectedItem.Date : '',
+        task: props.mode === 'edit' ? props.selectedItem.taskName : '',
+        note: props.mode === 'edit' ? props.selectedItem.note : '',
+        date: props.mode === 'edit' ? props.selectedItem.date : '',
       },
     };
   }
 
-  onValueHandler = (event, el) => {
+  onValueHandler = (event) => {
     const { value } = this.state;
+    const elementName = toLowerCaseFirstLetter(toTrim(event.target.attributes[1].nodeValue));
 
-    this.setState({ [el]: true, value: { ...value, [el]: event.target.value } });
+    this.setState({ [elementName]: true, value: { ...value, [elementName]: event.target.value } });
   };
 
   saveHandler = () => {
-    const { value } = this.state;
+
     const { closeModal } = this.props;
-    console.log(value);
 
     this.setState({ value: '' });
     closeModal();
@@ -42,49 +43,48 @@ export class TrackModal extends Component {
   };
 
   render() {
-    const { value, isValid, Note, Task, Date } = this.state;
+    const { value, note, task, date } = this.state;
     const { mode, selectedItem } = this.props;
-    console.log(value, isValid, mode);
 
     return (
       <div className={classes.TrackModal}>
         <h5>Task track</h5>
         <div>
           {mode === 'details' ? (
-            <Label value={selectedItem.TaskName} />
+            <Label value={selectedItem.taskName} />
           ) : (
             <Input
               value={value.Task}
-              onChange={(event) => this.onValueHandler(event, 'Task')}
+              onChange={this.onValueHandler}
               title='Task'
-              isError={!Task || !!value.Task}
+              isValid={!task || !!value.task}
             />
           )}
           {mode === 'details' ? (
-            <Label value={selectedItem.Note} />
+            <Label value={selectedItem.note} />
           ) : (
             <Input
-              value={value.Note}
-              onChange={(event) => this.onValueHandler(event, 'Note')}
+              value={value.note}
+              onChange={this.onValueHandler}
               title='Note'
               type='textarea'
-              isError={!Note || !!value.Note}
+              isValid={!note || !!value.note}
             />
           )}
           {mode === 'details' ? (
-            <Label value={selectedItem.Date} />
+            <Label value={selectedItem.date} />
           ) : (
             <Input
-              value={value.Date}
-              onChange={(event) => this.onValueHandler(event, 'Date')}
+              value={value.date}
+              onChange={this.onValueHandler}
               title='Date'
               type='date'
-              isError={!Date || !!value.Date}
+              isValid={!date || !!value.date}
             />
           )}
           <div className={classes.btnGroup}>
             {mode !== 'details' && (
-              <Button disabled={!(value.Note && value.Task && value.Date)} onClick={this.saveHandler}>
+              <Button disabled={!(value.note && value.task && value.date)} onClick={this.saveHandler}>
                 <p>Create</p>
               </Button>
             )}
@@ -102,9 +102,9 @@ TrackModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   mode: PropTypes.string.isRequired,
   selectedItem: PropTypes.shape({
-    TaskName: PropTypes.string.isRequired,
-    Note: PropTypes.string.isRequired,
-    Date: PropTypes.string.isRequired,
+    taskName: PropTypes.string.isRequired,
+    note: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
   }),
 };
 TrackModal.defaultProps = {
