@@ -4,7 +4,9 @@ import { getRefFirebase } from '../../firebase/helpers';
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
 import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
 import { TASKS } from '../../db/tableName';
+import { defaultProps } from '../../defaultValues/default';
 import classes from './TableStyle.module.css';
+import noop from '../../shared/noop';
 
 const fakeData = [
   {
@@ -89,19 +91,42 @@ export class Tasks extends Component {
     console.log(newData, index);
   }
 
-  onSubmitData = (currentData, users, index, type) => {
+  onSubmitData = (currentData, index, type) => {
     const { data } = this.state;
     const newData = [...data];
     if (type === 'edit') newData[index] = currentData;
     if (type === 'create') newData.push(currentData)
     this.setState({ data: newData })
-    console.log(newData);
-    /* console.log(currentData, index); */
+
+  }
+  
+  getButton = (modalType, title, styles) => (
+    <Button onClick={() => this.openModalHandler(modalType)} className={styles}>
+      <p>{title}</p>
+    </Button>
+  );
+
+  getLink = (data, type) => (
+    <i
+      tabIndex={defaultProps.tabIndex}
+      aria-label={defaultProps.ariaLabel}
+      type={defaultProps.type}
+      role='button'
+      onClick={() => {
+        this.openModalHandler(type);
+      }}
+      onKeyPress={noop}
+    >
+      {data.taskName}
+    </i>
+  );
+
+  onSubmitData = () => {
+    /*  to db */
     this.onClose();
   };
 
   getData = () => {
-    console.log('inner');
     getRefFirebase(TASKS).onSnapshot((doc) => {
       const tasks = doc.data() || [];
       this.setState({
@@ -144,20 +169,7 @@ export class Tasks extends Component {
           <li>
             <p>{index + 1}</p>
           </li>
-          <li>
-            <i
-              aria-label='button'
-              type='button'
-              role='button'
-              tabIndex='0'
-              onClick={() => {
-                this.openModalHandler('details', fakeData, index);
-              }}
-              onKeyPress={() => null}
-            >
-              {data.taskName}
-            </i>
-          </li>
+          <li>{this.getLink(data, 'details')}</li>
           <li>
             <p>{data.description}</p>
           </li>
@@ -168,14 +180,8 @@ export class Tasks extends Component {
             <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
-            <Button className={classes.warning} onClick={() => {
-              this.openModalHandler('edit', fakeData, index);
-            }}>
-              <p>Edit</p>
-            </Button>
-            <Button className={classes.delete} onClick={() => this.onDeleteModalOpen(index)}>
-              <p>Delete</p>
-            </Button>
+            {this.getButton('edit', 'Edit', `${classes.warning}`)}
+            {this.getButton('delete', 'Delete', `${classes.delete}`)}
           </li>
         </ul>
       </div>
@@ -184,8 +190,6 @@ export class Tasks extends Component {
 
   render() {
     const { isOpen, modalType, index, isModalOpen, fdata, users } = this.state;
-
-
 
     return (
       <>
@@ -200,3 +204,4 @@ export class Tasks extends Component {
     );
   }
 }
+

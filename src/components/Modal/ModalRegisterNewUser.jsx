@@ -145,7 +145,7 @@ export class ModalRegisterNewUser extends Component {
 
   render() {
     const { isOpen, onClose } = this.props;
-    console.log(this.state);
+
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
         <h4>Create new user</h4>
