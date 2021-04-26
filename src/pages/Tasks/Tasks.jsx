@@ -4,6 +4,7 @@ import { getRefFirebase } from '../../firebase/helpers';
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
 import { TASKS } from '../../db/tableName';
 import classes from './TableStyle.module.css';
+import noop from '../../shared/noop';
 
 const fakeData = [
   {
@@ -57,6 +58,27 @@ export class Tasks extends Component {
     this.setState({ isOpen: false });
   };
 
+  getButton = (modalType, title, styles) => (
+    <Button onClick={() => this.openModalHandler(modalType)} className={styles}>
+      <p>{title}</p>
+    </Button>
+  );
+
+  getLink = (data, type) => (
+    <i
+      aria-label='button'
+      type='button'
+      role='button'
+      tabIndex='0'
+      onClick={() => {
+        this.openModalHandler(type);
+      }}
+      onKeyPress={noop}
+    >
+      {data.taskName}
+    </i>
+  );
+
   onSubmitData = () => {
     /*  to db */
     this.onClose();
@@ -106,20 +128,7 @@ export class Tasks extends Component {
           <li>
             <p>{index + 1}</p>
           </li>
-          <li>
-            <i
-              aria-label='button'
-              type='button'
-              role='button'
-              tabIndex='0'
-              onClick={() => {
-                this.openModalHandler('details');
-              }}
-              onKeyPress={() => null}
-            >
-              {data.taskName}
-            </i>
-          </li>
+          <li>{this.getLink(data, 'details')}</li>
           <li>
             <p>{data.description}</p>
           </li>
@@ -130,12 +139,8 @@ export class Tasks extends Component {
             <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
-            <Button className={classes.warning}>
-              <p>Edit</p>
-            </Button>
-            <Button className={classes.delete}>
-              <p>Delete</p>
-            </Button>
+            {this.getButton('edit', 'Edit', `${classes.warning}`)}
+            {this.getButton('delete', 'Delete', `${classes.delete}`)}
           </li>
         </ul>
       </div>
@@ -147,11 +152,11 @@ export class Tasks extends Component {
     console.log(data);
     return (
       <>
-        <Button onClick={() => this.openModalHandler('create')} className={`${classes.default} ${classes.pushRight}`}>
-          <p>Create</p>
-        </Button>
+        {this.getButton('create', 'Create', `${classes.default} ${classes.pushRight}`)}
         {this.getHeader()}
-        {fakeData.map((item, index) => this.getTable(item, index))}
+        {fakeData.map((item, index) => (
+          <div key={item.taskName}>{this.getTable(item, index)}</div>
+        ))}
         {isOpen && <TasksModal type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}
       </>
     );

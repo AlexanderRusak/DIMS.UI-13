@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import { FaRegTimesCircle, FaBars } from 'react-icons/fa';
+import noop from '../../../shared/noop';
 import classes from './MenuToggle.module.css';
 
-const MenuToggle = (props) => {
-  const { onToggle, isOpen, onKeyPress } = props;
-
+const MenuToggle = ({ onToggle, isOpen }) => {
   return (
     <i
       tabIndex={0}
@@ -13,7 +12,7 @@ const MenuToggle = (props) => {
       role='button'
       className={`${classes.MenuToggle} ${isOpen ? classes.open : ''}`}
       onClick={onToggle}
-      onKeyPress={onKeyPress}
+      onKeyPress={noop}
     >
       {isOpen ? <FaRegTimesCircle /> : <FaBars />}
     </i>
@@ -22,10 +21,6 @@ const MenuToggle = (props) => {
 MenuToggle.propTypes = {
   onToggle: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  onKeyPress: PropTypes.func,
-};
-MenuToggle.defaultProps = {
-  onKeyPress: PropTypes.func,
 };
 
 export default MenuToggle;

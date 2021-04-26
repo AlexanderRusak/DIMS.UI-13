@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
+import noop from '../../../shared/noop';
 import classes from './Backdrop.module.css';
 
-const Backdrop = ({ onClick, onKeyPress }) => {
+const Backdrop = ({ onClick }) => {
   return (
     <div
       tabIndex={0}
@@ -10,16 +11,13 @@ const Backdrop = ({ onClick, onKeyPress }) => {
       role='button'
       className={classes.Backdrop}
       onClick={onClick}
-      onKeyPress={onKeyPress}
+      onKeyPress={noop}
     />
   );
 };
 
 Backdrop.propTypes = {
   onClick: PropTypes.func.isRequired,
-  onKeyPress: PropTypes.func,
 };
-Backdrop.defaultProps = {
-  onKeyPress: PropTypes.func,
-};
+
 export default Backdrop;
