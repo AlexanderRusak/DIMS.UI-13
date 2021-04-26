@@ -25,7 +25,6 @@ class Members extends Component {
 
   deleteMember = (index) => {
     const { data } = this.state;
-    console.log(index, Object.values(data)[index]);
     const newData = Object.values(data).splice(index, 1);
     this.setState({ data: newData });
     /* //to db */
@@ -100,7 +99,6 @@ class Members extends Component {
 
   getTableHeader = () => {
     const { isOpenRegister, data, type, selectedItem, isOpenDelete } = this.state;
-    /*     console.log(type, selectedItem, Object.values(data)[selectedItem]); */
 
     return (
       <>

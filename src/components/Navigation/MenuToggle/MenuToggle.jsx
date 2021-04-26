@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types';
 import { FaRegTimesCircle, FaBars } from 'react-icons/fa';
+import { defaultProps } from '../../../defaultValues/default';
 import noop from '../../../shared/noop';
 import classes from './MenuToggle.module.css';
 
 const MenuToggle = ({ onToggle, isOpen }) => {
+
   return (
     <i
-      tabIndex={0}
-      aria-label='button'
-      type='button'
+      tabIndex={defaultProps.tabIndex}
+      aria-label={defaultProps.ariaLabel}
+      type={defaultProps.type}
       role='button'
       className={`${classes.MenuToggle} ${isOpen ? classes.open : ''}`}
       onClick={onToggle}

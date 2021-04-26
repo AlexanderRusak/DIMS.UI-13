@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { TrackModal } from '../../components/Modal/TrackModal/TrackModal';
 import { Button } from '../../components/UI/Buttons/Button/Button';
+import { defaultProps } from '../../defaultValues/default';
 import noop from '../../shared/noop';
 import classes from './TableStyle.module.css';
 
@@ -13,6 +14,7 @@ const selectedProgress = [
   },
 ];
 const buttons = [
+
   { style: classes.warning, title: 'Edit', type: 'edit' },
   { style: classes.danger, title: 'Delete', type: 'delete' },
 ];
@@ -27,7 +29,7 @@ class MemebersTracks extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   openModal = (mode, index = null) => {
     this.setState({ isOpen: true, mode, selectedItem: selectedProgress[index] });
@@ -73,10 +75,10 @@ class MemebersTracks extends Component {
         </li>
         <li>
           <i
-            aria-label='button'
-            type='button'
+            tabIndex={defaultProps.tabIndex}
+            aria-label={defaultProps.ariaLabel}
+            type={defaultProps.type}
             role='button'
-            tabIndex='0'
             onClick={() => this.openModal('details', index)}
             onKeyPress={noop}
           >
@@ -96,7 +98,6 @@ class MemebersTracks extends Component {
 
   render() {
     const { isOpen, mode, selectedItem } = this.state;
-    console.log(selectedItem);
     return (
       <>
         <h4>Task Track</h4>

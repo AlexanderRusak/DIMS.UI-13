@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export const LinkItem = ({ link, iconComponent }) => {
-    console.log(link);
+
     return (
         <li>
             <a href={link}>

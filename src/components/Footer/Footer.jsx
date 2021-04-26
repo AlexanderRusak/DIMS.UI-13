@@ -9,7 +9,7 @@ import classes from '../StylesConstant/mainStyle.module.css';
 export const Footer = () => {
 
   const { devIncubator, gitHub, linkedIn, instagram } = FeedbackLinks;
-  console.log(devIncubator, gitHub, linkedIn, instagram);
+
 
   return (
     <div className={classes.Main}>

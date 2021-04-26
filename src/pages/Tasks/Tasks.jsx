@@ -3,6 +3,7 @@ import { Button } from '../../components/UI/Buttons/Button/Button';
 import { getRefFirebase } from '../../firebase/helpers';
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
 import { TASKS } from '../../db/tableName';
+import { defaultProps } from '../../defaultValues/default';
 import classes from './TableStyle.module.css';
 import noop from '../../shared/noop';
 
@@ -66,10 +67,10 @@ export class Tasks extends Component {
 
   getLink = (data, type) => (
     <i
-      aria-label='button'
-      type='button'
+      tabIndex={defaultProps.tabIndex}
+      aria-label={defaultProps.ariaLabel}
+      type={defaultProps.type}
       role='button'
-      tabIndex='0'
       onClick={() => {
         this.openModalHandler(type);
       }}
@@ -85,7 +86,6 @@ export class Tasks extends Component {
   };
 
   getData = () => {
-    console.log('inner');
     getRefFirebase(TASKS).onSnapshot((doc) => {
       const tasks = doc.data() || [];
       this.setState({
@@ -149,7 +149,7 @@ export class Tasks extends Component {
 
   render() {
     const { data, isOpen, modalType } = this.state;
-    console.log(data);
+    console.log(data); // i need it later
     return (
       <>
         {this.getButton('create', 'Create', `${classes.default} ${classes.pushRight}`)}
