@@ -99,21 +99,22 @@ export class Tasks extends Component {
     this.setState({ data: newData })
 
   }
-  
-  getButton = (modalType, title, styles) => (
-    <Button onClick={() => this.openModalHandler(modalType)} className={styles}>
+
+  getButton = (modalType, title, styles, data, index) => (
+    <Button onClick={() => modalType === 'delete' ? this.onDeleteModalOpen(index) : this.openModalHandler(modalType, data, index)
+    } className={styles} >
       <p>{title}</p>
-    </Button>
+    </Button >
   );
 
-  getLink = (data, type) => (
+  getLink = (data, type, index) => (
     <i
       tabIndex={defaultProps.tabIndex}
       aria-label={defaultProps.ariaLabel}
       type={defaultProps.type}
       role='button'
       onClick={() => {
-        this.openModalHandler(type);
+        this.openModalHandler(type, data, index);
       }}
       onKeyPress={noop}
     >
@@ -169,7 +170,7 @@ export class Tasks extends Component {
           <li>
             <p>{index + 1}</p>
           </li>
-          <li>{this.getLink(data, 'details')}</li>
+          <li>{this.getLink(data, 'details', index)}</li>
           <li>
             <p>{data.description}</p>
           </li>
@@ -180,8 +181,8 @@ export class Tasks extends Component {
             <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
-            {this.getButton('edit', 'Edit', `${classes.warning}`)}
-            {this.getButton('delete', 'Delete', `${classes.delete}`)}
+            {this.getButton('edit', 'Edit', `${classes.warning}`, data, index)}
+            {this.getButton('delete', 'Delete', `${classes.delete}`, data, index)}
           </li>
         </ul>
       </div>
@@ -193,9 +194,7 @@ export class Tasks extends Component {
 
     return (
       <>
-        <Button onClick={() => this.openModalHandler('create', fdata, index)} className={`${classes.default} ${classes.pushRight}`}>
-          <p>Create</p>
-        </Button>
+        {this.getButton('create', 'Create', `${classes.default} ${classes.pushRight}`, fdata, index)}
         {this.getHeader()}
         {fakeData.map((item, index) => this.getTable(item, index))}
         {isOpen && <TasksModal users={users} data={fdata} index={index} type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}
