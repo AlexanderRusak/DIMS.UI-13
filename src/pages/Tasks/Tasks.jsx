@@ -150,6 +150,7 @@ export class Tasks extends Component {
   render() {
     const { data, isOpen, modalType } = this.state;
     console.log(data); // i need it later
+
     return (
       <>
         {this.getButton('create', 'Create', `${classes.default} ${classes.pushRight}`)}
