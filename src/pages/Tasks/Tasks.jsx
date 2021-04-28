@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import { Button } from '../../components/UI/Buttons/Button/Button';
-import { getRefFirebase } from '../../firebase/helpers';
+/* import { getRefFirebase } from '../../firebase/helpers'; */
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
 import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
-import { TASKS } from '../../db/tableName';
+/* import { TASKS } from '../../db/tableName'; */
 import { defaultProps } from '../../defaultValues/default';
 import classes from './TableStyle.module.css';
 import noop from '../../shared/noop';
@@ -57,22 +57,22 @@ export class Tasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
       isOpen: false,
       modalType: '',
       index: null,
       isModalOpen: false,
-      users: [...fakeUsers],
-      fdata: [...fakeData]
+      users: fakeUsers,
+      fdata: fakeData
     };
   }
 
-  componentDidMount() {
-    this.getData();
-  }
 
-  openModalHandler = (type, data, index) => {
-    this.setState({ isOpen: true, modalType: type, data, index });
+  /*   componentDidMount() {
+      this.getData();
+    } */
+
+  openModalHandler = (type, index) => {
+    this.setState({ isOpen: true, modalType: type, index });
   };
 
   onClose = () => {
@@ -84,24 +84,26 @@ export class Tasks extends Component {
   }
 
   onDelete = () => {
-    const { index } = this.state;
+    const { index, fdata } = this.state;
 
-    const newData = fakeData.splice(index, 1);
-    this.setState({ data: [...newData], isModalOpen: false })
-    console.log(newData, index);
+    fdata.splice(index, 1);
+    console.log(fdata);
+    this.setState({ fdata: [...fdata], isModalOpen: false })
   }
 
-  onSubmitData = (currentData, index, type) => {
-    const { data } = this.state;
-    const newData = [...data];
+  onSubmitData = (currentData, users, index, type) => {
+    const { fdata } = this.state;
+    const newData = [...fdata]
     if (type === 'edit') newData[index] = currentData;
-    if (type === 'create') newData.push(currentData)
-    this.setState({ data: newData })
+    if (type === 'create') newData.push(currentData);
+    console.log(newData);
+    this.setState({ fdata: newData });
+    this.onClose();
 
   }
 
-  getButton = (modalType, title, styles, data, index) => (
-    <Button onClick={() => modalType === 'delete' ? this.onDeleteModalOpen(index) : this.openModalHandler(modalType, data, index)
+  getButton = (modalType, title, styles, index) => (
+    <Button onClick={() => modalType === 'delete' ? this.onDeleteModalOpen(index) : this.openModalHandler(modalType, index)
     } className={styles} >
       <p>{title}</p>
     </Button >
@@ -114,7 +116,7 @@ export class Tasks extends Component {
       type={defaultProps.type}
       role='button'
       onClick={() => {
-        this.openModalHandler(type, data, index);
+        this.openModalHandler(type, index);
       }}
       onKeyPress={noop}
     >
@@ -122,19 +124,15 @@ export class Tasks extends Component {
     </i>
   );
 
-  onSubmitData = () => {
-    /*  to db */
-    this.onClose();
-  };
 
-  getData = () => {
-    getRefFirebase(TASKS).onSnapshot((doc) => {
-      const tasks = doc.data() || [];
-      this.setState({
-        data: tasks,
+  /*   getData = () => {
+      getRefFirebase(TASKS).onSnapshot((doc) => {
+        const tasks = doc.data() || [];
+        this.setState({
+          fdata: tasks,
+        });
       });
-    });
-  };
+    }; */
 
   getHeader = () => {
     return (
@@ -181,8 +179,8 @@ export class Tasks extends Component {
             <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
-            {this.getButton('edit', 'Edit', `${classes.warning}`, data, index)}
-            {this.getButton('delete', 'Delete', `${classes.delete}`, data, index)}
+            {this.getButton('edit', 'Edit', `${classes.warning}`, index)}
+            {this.getButton('delete', 'Delete', `${classes.delete}`, index)}
           </li>
         </ul>
       </div>
@@ -190,18 +188,17 @@ export class Tasks extends Component {
   };
 
   render() {
-    const { data, isOpen, modalType } = this.state;
-    console.log(data); // i need it later
+    const { isOpen, modalType, index, isModalOpen, fdata, users } = this.state;
 
+    console.log(index);
     return (
       <>
         {this.getButton('create', 'Create', `${classes.default} ${classes.pushRight}`, fdata, index)}
         {this.getHeader()}
-        {fakeData.map((item, index) => this.getTable(item, index))}
+        {fdata.map((item, index) => this.getTable(item, index))}
         {isOpen && <TasksModal users={users} data={fdata} index={index} type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}
         {isModalOpen && < DeleteModal onClose={this.onClose} onDelete={() => this.onDelete(index)} />}
       </>
     );
   }
 }
-

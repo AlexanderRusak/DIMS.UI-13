@@ -6,7 +6,7 @@ import { Input } from '../../UI/Input/Input';
 import { toLowerCaseFirstLetter, toTrim } from '../modalHelpers/helpers';
 import classes from './TasksModal.module.css';
 import { Label } from '../../UI/Label/Label';
-import { setMinLengthRequired, isCheckBoxValueRequired } from '../../Validation/validationHelpers';
+import { setMinLengthRequired, isCheckBoxValueRequired, isValidForm, errorTitle } from '../../Validation/validationHelpers';
 
 export class TasksModal extends PureComponent {
   constructor(props) {
@@ -27,6 +27,13 @@ export class TasksModal extends PureComponent {
         deadLine: false,
         checkbox: false,
       },
+      isValid: {
+        taskName: props.type === 'edit' ? !!props.data[props.index].taskName : false,
+        description: props.type === 'edit' ? !!props.data[props.index].description : false,
+        startDate: props.type === 'edit' ? !!props.data[props.index].startDate : false,
+        deadLine: props.type === 'edit' ? !!props.data[props.index].deadLine : false,
+        checkbox: props.type === 'edit' ? !!props.users : false,
+      }
     };
   }
 
@@ -36,10 +43,28 @@ export class TasksModal extends PureComponent {
     this.setState({ touched: newTouched });
   };
 
+  setValid = (elementName, validFunc) => {
+    const { isValid } = this.state;
+
+    const newValid = { ...isValid, [elementName]: validFunc };
+    this.setState({ isValid: newValid })
+  }
+
+  getInputValue = (event) => {
+    const elementName = toLowerCaseFirstLetter(toTrim(event.target.attributes[1].nodeValue));
+    this.setTouched(elementName);
+    this.setValid(elementName, setMinLengthRequired(event.target.value, 5))
+    this.setState({
+      [elementName]: event.target.value,
+    });
+  };
+
   setCheckedUser = (index) => {
     const { users } = this.state;
     const newUsers = [...users];
     newUsers[index].isCheck = !users[index].isCheck;
+    this.setValid('checkbox', isCheckBoxValueRequired(newUsers))
+    this.setTouched('checkbox');
     this.setState({ users: newUsers });
   };
 
@@ -47,32 +72,26 @@ export class TasksModal extends PureComponent {
     const { userList } = this.state;
     const newUsers = [...userList];
     newUsers[index].isCheck = !userList[index].isCheck;
-    console.log(isCheckBoxValueRequired(newUsers));
-    this.setTouched();
+    this.setValid('checkbox', isCheckBoxValueRequired(newUsers))
+    this.setTouched('checkbox');
     this.setState({ userList: newUsers });
   };
 
   getUserDataArray = () => {
     const { taskName, deadLine, description, startDate, touched } = this.state;
     return [
-      { value: taskName, title: 'Task Name', isValid: !!setMinLengthRequired(taskName, 5) || !touched.taskName },
+      { value: taskName, title: 'Task Name', isValid: !!setMinLengthRequired(taskName, 5) || !touched.taskName, errorMessage: errorTitle(5).minLength },
       {
         value: description,
         title: 'Description',
-        isValid: !!setMinLengthRequired(taskName, 5) || !touched.description,
+        isValid: !!setMinLengthRequired(description, 10) || !touched.description, errorMessage: errorTitle(10).minLength
       },
       { value: startDate, title: 'Start Date', inputType: 'date', isValid: startDate || !touched.startDate },
-      { value: deadLine, title: 'Dead Line', inputType: 'date', isValid: startDate || !touched.startDate },
+      { value: deadLine, title: 'Dead Line', inputType: 'date', isValid: deadLine || !touched.deadLine },
     ];
   };
 
-  getInputValue = (event) => {
-    const elementName = toLowerCaseFirstLetter(toTrim(event.target.attributes[1].nodeValue));
-    this.setTouched(elementName);
-    this.setState({
-      [elementName]: event.target.value,
-    });
-  };
+
 
   onSubmitHandler = (data, users, index, type) => {
     const { onSubmit } = this.props;
@@ -87,18 +106,19 @@ export class TasksModal extends PureComponent {
   renderItems = () => {
     const { type } = this.props;
     const currentUsers = this.getUserDataArray();
-    return currentUsers.map(({ value, title, isValid, inputType }) =>
+    return currentUsers.map(({ value, title, isValid, inputType, errorMessage }) =>
       type === 'details' ? (
         <Label value={value} title={title} />
       ) : (
-        <Input value={value} title={title} isValid={!!isValid} type={inputType} onChange={this.getInputValue} />
+        <Input errorMessage={errorMessage} value={value} title={title} isValid={!!isValid} type={inputType} onChange={this.getInputValue} />
       ),
     );
   };
 
   getModal = (index, type) => {
-    const { taskName, deadLine, description, startDate, userList, users } = this.state;
+    const { taskName, deadLine, description, startDate, userList, users, touched, isValid } = this.state;
     const currentUsers = type === 'create' ? userList : users;
+
     const detailsUsers = users.filter((user) => user.isCheck);
 
     return (
@@ -112,12 +132,14 @@ export class TasksModal extends PureComponent {
           </div>
         ) : (
           <Checkbox
+            isValid={isCheckBoxValueRequired(currentUsers) || !touched.checkbox}
             checkHandler={type === 'create' ? this.setCreateCheckedUser : this.setCheckedUser}
             users={currentUsers}
           />
         )}
         <div className={classes.btnGroup}>
           <Button
+            disabled={!isValidForm(isValid)}
             typeButton='primary'
             onClick={() =>
               this.onSubmitHandler({ taskName, deadLine, description, startDate }, currentUsers, index, type)

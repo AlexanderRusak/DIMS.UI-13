@@ -10,3 +10,14 @@ export const setMinLengthRequired = (fieldString, reqLength) => {
 export const isCheckBoxValueRequired = (lists) => {
   return !!Object.values(lists).find((list) => list.isCheck);
 };
+
+export const isValidForm = (validData) => {
+  return !!Object.values(validData).every((item) => item === true)
+}
+
+export const errorTitle = (value) => {
+  return {
+    minLength: `The value should be more than ${value} letters`,
+
+  }
+}
