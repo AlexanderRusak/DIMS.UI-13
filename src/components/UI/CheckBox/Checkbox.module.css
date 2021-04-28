@@ -3,3 +3,12 @@
     height: 180px;
     overflow-y: scroll;
 }
+
+.error {
+    color: #f01f30;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    z-index: 99;
+    display: block;
+}

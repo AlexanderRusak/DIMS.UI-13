@@ -1,21 +1,31 @@
 .Select {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
 }
 
 select {
-  height: 35px;
-  width: 180px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  outline: none;
-  border: 2px solid green;
-  border-radius: 10px;
-  background-color: #fff;
+    height: 35px;
+    width: 180px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    outline: none;
+    border: 2px solid green;
+    border-radius: 10px;
+    background-color: #fff;
 }
+
 .Select label {
-  align-self: flex-start;
-  font-size: 1.2rem;
+    align-self: flex-start;
+    font-size: 1.2rem;
+}
+
+.Select span {
+    color: #f01f30;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    z-index: 99;
+    display: block;
 }
