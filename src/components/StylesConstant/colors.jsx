@@ -5,4 +5,4 @@ export const COLORS = {
 
 export const FONTS_SIZE = {
     ICON_FOOTER: 50
-}
+} 
