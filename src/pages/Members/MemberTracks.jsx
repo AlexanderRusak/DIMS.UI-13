@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { TrackModal } from '../../components/Modal/TrackModal/TrackModal';
 import { Button } from '../../components/UI/Buttons/Button/Button';
+import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import { defaultProps } from '../../defaultValues/default';
 import noop from '../../shared/noop';
 import classes from './TableStyle.module.css';
@@ -41,9 +42,9 @@ class MemebersTracks extends Component {
 
   getButtonActions = (elementIndex) => {
     return buttons.map((button) => (
-      <Button key={button.type} className={button.style} onClick={() => this.openModal(button.type, elementIndex)}>
+      <ButtonGroup key={button.type} className={button.style} onClick={() => this.openModal(button.type, elementIndex)}>
         <p>{button.title}</p>
-      </Button>
+      </ButtonGroup>
     ));
   };
 
@@ -91,7 +92,9 @@ class MemebersTracks extends Component {
         <li className={classes.date}>
           <p>{item.date}</p>
         </li>
-        <li className={classes.actions}>{this.getButtonActions(index)}</li>
+        <li className={classes.actions}>
+          {this.getButtonActions(index)}
+        </li>
       </ul>
     </div>
   );

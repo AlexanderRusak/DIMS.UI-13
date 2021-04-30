@@ -16,11 +16,11 @@ export class TasksModal extends PureComponent {
     };
   }
 
-  getCheckedUser = (index) => {
+  getCheckedUser = (index) => { /* mokk */
     const newUsers = [...fakeUsers];
     newUsers[index].isCheck = !newUsers[index].isCheck;
     this.setState({
-      fakeUsers: [...newUsers],
+      fakeUsers
     });
   };
 

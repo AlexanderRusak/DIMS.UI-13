@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import { Button } from '../../components/UI/Buttons/Button/Button';
+
+import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import { getRefFirebase } from '../../firebase/helpers';
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
 import { TASKS } from '../../db/tableName';
@@ -59,11 +60,7 @@ export class Tasks extends Component {
     this.setState({ isOpen: false });
   };
 
-  getButton = (modalType, title, styles) => (
-    <Button onClick={() => this.openModalHandler(modalType)} className={styles}>
-      <p>{title}</p>
-    </Button>
-  );
+
 
   getLink = (data, type) => (
     <i
@@ -139,8 +136,8 @@ export class Tasks extends Component {
             <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
-            {this.getButton('edit', 'Edit', `${classes.warning}`)}
-            {this.getButton('delete', 'Delete', `${classes.delete}`)}
+            {<ButtonGroup modalType='edit' title='Edit' styles={`${classes.warning}`} onClick={this.openModalHandler} />}
+            {<ButtonGroup modalType='delete' title='Delete' styles={`${classes.delete}`} onClick={this.openModalHandler} />}
           </li>
         </ul>
       </div>
@@ -153,7 +150,7 @@ export class Tasks extends Component {
 
     return (
       <>
-        {this.getButton('create', 'Create', `${classes.default} ${classes.pushRight}`)}
+        {<ButtonGroup modalType='create' title='Create' styles={`${classes.default} ${classes.pushRight}`} onClick={this.openModalHandler} />}
         {this.getHeader()}
         {fakeData.map((item, index) => (
           <div key={item.taskName}>{this.getTable(item, index)}</div>
