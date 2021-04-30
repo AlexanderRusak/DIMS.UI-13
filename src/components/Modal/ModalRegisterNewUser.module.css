@@ -1,9 +1,17 @@
+:root {
+  --black: #000;
+  --white: #fff;
+  --red: red;
+  --light-grey: #ccc;
+  --green: green;
+}
+
 .ModalRegisterNewUser {
   display: flex;
   width: 500px;
-  height:auto;
-  background-color: #fff;
-  border: 2px solid gray;
+  height: auto;
+  background-color: var(--white);
+  border: 2px solid var(--light-grey);
   margin: auto;
   left: 0;
   right: 0;
@@ -26,20 +34,18 @@ h4 {
   flex-direction: column;
 }
 
-
 .SaveButton {
-  background-color: green; 
+  background-color: var(--green);
 }
 .CancelButton {
-  background-color: red;
+  background-color: var(--red);
 }
-.container{
+.container {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
-  
 }
-.buttonGroup{
+.buttonGroup {
   margin-top: 20px;
   display: flex;
   justify-content: space-around;

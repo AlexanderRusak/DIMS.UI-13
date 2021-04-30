@@ -97,8 +97,6 @@ export class ModalRegisterNewUser extends Component {
   }; 
 
   getValue = (value) => {
-    /* value.target.attributes[1].nodeValue */
-
     const el = toLowerCaseFirstLetter(toTrim(value.target.attributes[1].nodeValue));
     this.setState({ [el]: value.target.value, touched: { [el]: true } });
   };

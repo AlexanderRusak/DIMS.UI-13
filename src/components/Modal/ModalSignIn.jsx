@@ -9,7 +9,7 @@ import Alert from '../UI/Alert/Alert';
 
 export class ModalSignIn extends Component {
   state = {
-    isFormValid: false,
+    isValid: false,
     formControls: {
       email: {
         value: '',
@@ -83,7 +83,7 @@ export class ModalSignIn extends Component {
 
     this.setState({
       formControls: form,
-      isFormValid: isValid,
+      isValid
     });
   };
 
@@ -109,14 +109,14 @@ export class ModalSignIn extends Component {
   }
 
   render() {
-    const { isValid, error, isFormValid } = this.state;
+    const { isValid, error } = this.state;
     return (
       <>
         {error && <Alert text='Incorrect mail or password!' />}
         <div className={classes.ModalSignIn}>
           <h4>Wellcome to DIMS</h4>
           {this.renderInputs()}
-          <Button typeButton='primary' onClick={this.signIn} disabled={!isFormValid}>
+          <Button typeButton='primary' onClick={this.signIn} disabled={!isValid}>
             <p>Sign in</p>
           </Button>
           {isValid && <Redirect to='/members' />}

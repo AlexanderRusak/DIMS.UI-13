@@ -21,4 +21,5 @@ Backdrop.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
+
 export default Backdrop;
