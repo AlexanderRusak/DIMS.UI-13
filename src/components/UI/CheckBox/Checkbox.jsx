@@ -8,8 +8,15 @@ export class Checkbox extends Component {
     super(props);
     this.state = {
       test: 'dsds',
-      users: [...props.users],
+      users: [],
     };
+  }
+
+  componentDidMount() {
+    const { users } = this.props;
+    this.setState({
+      users
+    })
   }
 
   render() {

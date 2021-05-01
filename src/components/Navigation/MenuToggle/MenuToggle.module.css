@@ -1,3 +1,7 @@
+:root {
+  --white: #fff;
+}
+
 .MenuToggle {
   position: fixed;
   top: 40px;
@@ -14,5 +18,5 @@
 }
 .open {
   left: 320px;
-  color: white;
+  color: var(--white);
 }

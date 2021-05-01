@@ -4,7 +4,7 @@ import classes from './DeleteModal.module.css';
 
 export const DeleteModal = ({ title, onClose, item, onDelete }) => {
 
-  const getDeleteModalTemplate = (title, onClose, item, onDelete) =>
+  const getDeleteModal = (title, onClose, item, onDelete) =>
   (
     <>
       <h1>Delete {title}</h1>
@@ -23,7 +23,7 @@ export const DeleteModal = ({ title, onClose, item, onDelete }) => {
 
   return (
     <div className={classes.DeleteModal}>
-      {getDeleteModalTemplate(title, onClose, item, onDelete)}
+      {getDeleteModal(title, onClose, item, onDelete)}
     </div >
   );
 };

@@ -6,7 +6,6 @@ export const LinkItem = ({ link, iconComponent }) => {
         <li>
             <a href={link}>
                 {iconComponent}
-                {/*  <img className={classes.icon} src={matrix} alt='matrix' /> */}
             </a>
         </li>
     )
@@ -14,10 +13,9 @@ export const LinkItem = ({ link, iconComponent }) => {
 
 LinkItem.propTypes = {
     link: PropTypes.string,
-    iconComponent: PropTypes.element
+    iconComponent: PropTypes.instanceOf(PropTypes.elementType).isRequired
 };
 
 LinkItem.defaultProps = {
     link: '',
-    iconComponent: null
 };

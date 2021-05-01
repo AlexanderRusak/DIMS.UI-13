@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Button } from '../../components/UI/Buttons/Button/Button';
+import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 /* import { getRefFirebase } from '../../firebase/helpers'; */
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
 import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
@@ -79,35 +79,6 @@ export class Tasks extends Component {
     this.setState({ isOpen: false, isModalOpen: false });
   };
 
-  onDeleteModalOpen = (index) => {
-    this.setState({ isModalOpen: true, index })
-  }
-
-  onDelete = () => {
-    const { index, fdata } = this.state;
-
-    fdata.splice(index, 1);
-    console.log(fdata);
-    this.setState({ fdata: [...fdata], isModalOpen: false })
-  }
-
-  onSubmitData = (currentData, users, index, type) => {
-    const { fdata } = this.state;
-    const newData = [...fdata]
-    if (type === 'edit') newData[index] = currentData;
-    if (type === 'create') newData.push(currentData);
-    console.log(newData);
-    this.setState({ fdata: newData });
-    this.onClose();
-
-  }
-
-  getButton = (modalType, title, styles, index) => (
-    <Button onClick={() => modalType === 'delete' ? this.onDeleteModalOpen(index) : this.openModalHandler(modalType, index)
-    } className={styles} >
-      <p>{title}</p>
-    </Button >
-  );
 
   getLink = (data, type, index) => (
     <i
@@ -179,8 +150,8 @@ export class Tasks extends Component {
             <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
-            {this.getButton('edit', 'Edit', `${classes.warning}`, index)}
-            {this.getButton('delete', 'Delete', `${classes.delete}`, index)}
+            {<ButtonGroup modalType='edit' title='Edit' styles={`${classes.warning}`} onClick={this.openModalHandler} />}
+            {<ButtonGroup modalType='delete' title='Delete' styles={`${classes.delete}`} onClick={this.openModalHandler} />}
           </li>
         </ul>
       </div>
@@ -193,7 +164,7 @@ export class Tasks extends Component {
     console.log(index);
     return (
       <>
-        {this.getButton('create', 'Create', `${classes.default} ${classes.pushRight}`, fdata, index)}
+        {<ButtonGroup modalType='create' title='Create' styles={`${classes.default} ${classes.pushRight}`} onClick={this.openModalHandler} />}
         {this.getHeader()}
         {fdata.map((item, index) => this.getTable(item, index))}
         {isOpen && <TasksModal users={users} data={fdata} index={index} type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}

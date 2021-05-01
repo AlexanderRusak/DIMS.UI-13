@@ -94,11 +94,9 @@ export class ModalRegisterNewUser extends Component {
       startDate &&
       role
     );
-  }; 
+  };
 
   getValue = (value) => {
-    /* value.target.attributes[1].nodeValue */
-
     const el = toLowerCaseFirstLetter(toTrim(value.target.attributes[1].nodeValue));
     this.setState({ [el]: value.target.value, touched: { [el]: true } });
   };
@@ -138,7 +136,7 @@ export class ModalRegisterNewUser extends Component {
     const userDateObj = { ...this.state };
     const { email } = this.state;
     await setData(MEMBERS, userDateObj, email);
-    await createNewUser(email, '          ');
+    await createNewUser(email, email);
 
     onClose();
   };

@@ -1,22 +1,23 @@
-export const validateEmail = (email) => {
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
-};
+
+import { isValidMinLength, isValidEmail, validateRequired } from './helpers'
+
+
 
 export const validateControl = (value, validation) => {
   if (!validation) {
-    return true;
+    return false;
   }
   let isValid = true;
 
   if (validation.required) {
-    isValid = value.trim()  && isValid;
+    isValid = validateRequired(value) && isValid;
   }
   if (validation.email) {
-    isValid = validateEmail(value) && isValid;
+    isValid = isValidEmail(value) && isValid;
   }
   if (validation.minLength) {
-    isValid = value.length >= validation.minLength && isValid;
+    const { minLength } = validation;
+    isValid = isValidMinLength(value, minLength) && isValid;
   }
   return isValid;
 };
