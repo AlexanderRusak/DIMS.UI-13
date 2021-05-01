@@ -12,7 +12,7 @@ export class TasksModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      users: [...props.users],
+      users: [...props.users], 
       userList: props.users.map((user) => {
         return { name: user.name, isCheck: false };
       }),

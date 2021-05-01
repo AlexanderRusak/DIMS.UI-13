@@ -72,13 +72,38 @@ export class Tasks extends Component {
     } */
 
   openModalHandler = (type, index) => {
-    this.setState({ isOpen: true, modalType: type, index });
+    if (type === 'delete') {
+      this.onDeleteModalOpen(index)
+    }
+    this.setState({ isOpen: type !== 'delete', modalType: type, index });
   };
 
   onClose = () => {
     this.setState({ isOpen: false, isModalOpen: false });
   };
 
+  onDeleteModalOpen = (index) => {
+    this.setState({ isModalOpen: true, index })
+  }
+
+  onDelete = () => {
+    const { index, fdata } = this.state;
+
+    fdata.splice(index, 1);
+    console.log(fdata);
+    this.setState({ fdata: [...fdata], isModalOpen: false })
+  }
+
+  onSubmitData = (currentData, users, index, type) => {
+    const { fdata } = this.state;
+    const newData = [...fdata]
+    if (type === 'edit') newData[index] = currentData;
+    if (type === 'create') newData.push(currentData);
+    console.log(newData);
+    this.setState({ fdata: newData });
+    this.onClose();
+
+  }
 
   getLink = (data, type, index) => (
     <i
@@ -150,8 +175,8 @@ export class Tasks extends Component {
             <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
-            {<ButtonGroup modalType='edit' title='Edit' styles={`${classes.warning}`} onClick={this.openModalHandler} />}
-            {<ButtonGroup modalType='delete' title='Delete' styles={`${classes.delete}`} onClick={this.openModalHandler} />}
+            {<ButtonGroup index={index} modalType='edit' title='Edit' styles={`${classes.warning}`} onClick={this.openModalHandler} />}
+            {<ButtonGroup index={index} modalType='delete' title='Delete' styles={`${classes.delete}`} onClick={this.openModalHandler} />}
           </li>
         </ul>
       </div>
@@ -161,10 +186,10 @@ export class Tasks extends Component {
   render() {
     const { isOpen, modalType, index, isModalOpen, fdata, users } = this.state;
 
-    console.log(index);
+    console.log(isModalOpen);
     return (
       <>
-        {<ButtonGroup modalType='create' title='Create' styles={`${classes.default} ${classes.pushRight}`} onClick={this.openModalHandler} />}
+        {<ButtonGroup index={index} modalType='create' title='Create' styles={`${classes.default} ${classes.pushRight}`} onClick={this.openModalHandler} />}
         {this.getHeader()}
         {fdata.map((item, index) => this.getTable(item, index))}
         {isOpen && <TasksModal users={users} data={fdata} index={index} type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}

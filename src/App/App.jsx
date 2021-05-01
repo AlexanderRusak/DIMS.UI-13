@@ -23,7 +23,6 @@ export const App = () => {
         <Route path='/signin' component={SignIn} />
         <Layout>
           <Header />
-       
           <div className={classes.App}>
             <Route path='/members-tasks' component={MembersTasks} />
             <Route path='/members-progress' component={MembersProgress} />
