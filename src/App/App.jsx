@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Members from '../pages/Members/Members';
 import MembersTasks from '../pages/Members/MembersTasks';
 import MemberTracks from '../pages/Members/MemberTracks';
@@ -18,19 +18,22 @@ export const App = () => {
   }, []);
 
   return (
-    <Switch>
-      <Route path='/signin' component={SignIn} />
-      <Layout>
-        <Header />
-        <div className={classes.App}>
-          <Route path='/members-tasks' component={MembersTasks} />
-          <Route path='/members-progress' component={MembersProgress} />
-          <Route path='/members' component={Members} />
-          <Route path='/members-tracks' component={MemberTracks} />
-          <Route path='/tasks' component={Tasks} />
-        </div>
-        <Footer />
-      </Layout>
-    </Switch>
+    <BrowserRouter>
+      <Switch>
+        <Route path='/signin' component={SignIn} />
+        <Layout>
+          <Header />
+       
+          <div className={classes.App}>
+            <Route path='/members-tasks' component={MembersTasks} />
+            <Route path='/members-progress' component={MembersProgress} />
+            <Route path='/members' component={Members} />
+            <Route path='/members-tracks' component={MemberTracks} />
+            <Route path='/tasks' component={Tasks} />
+          </div>
+          <Footer />
+        </Layout>
+      </Switch>
+    </BrowserRouter>
   );
 };
