@@ -25,7 +25,7 @@ export class Checkbox extends Component {
 
     return (
       <>
-        <div className={classes.Checkbox}>
+        <div className={classes.Checkbox}> 
           {users.map((user, index) => (
             <Input
               type='checkbox'

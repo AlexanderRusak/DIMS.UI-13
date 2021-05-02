@@ -1,4 +1,5 @@
-import { toLowerCaseFirstLetter, toTrim } from './helpers';
+import { toLowerCaseFirstLetter, toTrim, isFormValid, isValidFormCreateNewUsers } from './helpers';
+import { helpersConst, helpersNewUsersField } from './helpersConst';
 
 
 describe(toLowerCaseFirstLetter, () => {
@@ -17,5 +18,21 @@ describe(toLowerCaseFirstLetter, () => {
 describe(toTrim, () => {
     test('Should return string without spaces', () => {
         expect(toTrim('Word   ').length).toBe(4);
+    })
+})
+
+describe(isFormValid, () => {
+    test('Sholud return valid form', () => {
+        expect(isFormValid(helpersConst)).toBe(true)
+    })
+})
+
+describe(isValidFormCreateNewUsers, () => {
+    test('Should return valid newUsersform', () => {
+        expect(isValidFormCreateNewUsers(helpersNewUsersField)).toBe(true);
+    });
+
+    test('Should return invalid newUsersform', () => {
+        expect(isValidFormCreateNewUsers({ ...helpersNewUsersField, something: '' })).toBe(false);
     })
 })

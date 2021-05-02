@@ -5,22 +5,13 @@ import { createNewUser } from '../../firebase/auth';
 import { setData } from '../../firebase/firebase';
 import { Input } from '../UI/Input/Input';
 import { Select } from '../UI/Select/Select';
+import { setMinLengthRequired, isValidEmail, errorTitle, isValidAge, setScoreValue } from '../Validation/validationHelpers';
 import { Button } from '../UI/Buttons/Button/Button';
-import { toLowerCaseFirstLetter, toTrim } from './modalHelpers/helpers';
+import { toLowerCaseFirstLetter, toTrim, isValidFormCreateNewUsers } from './modalHelpers/helpers';
 import classes from './ModalRegisterNewUser.module.css';
 
-const inputsData = [
-  { title: 'Full Name' },
-  { title: 'Email', type: 'email' },
-  { title: 'Education' },
-  { title: 'Age', type: 'number' },
-  { title: 'University Average Score', type: 'number' },
-  { title: 'Math Score', type: 'number' },
-  { title: 'Address' },
-  { title: 'Mobile Phone', type: 'number' },
-  { title: 'Skype' },
-  { title: 'Start Date', type: 'date' },
-];
+
+
 
 const selectData = [
   { title: 'Direction', options: ['Frontend', 'Java', '.Net'] },
@@ -32,19 +23,19 @@ export class ModalRegisterNewUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullName: props.editData.fullName || '',
-      email: props.editData.email || '',
-      direction: props.editData.direction || '',
-      sex: props.editData.sex || null,
-      education: props.editData.education || '',
-      age: props.editData.age || null,
-      universityAverageScore: props.editData.universityAverageScore || null,
-      mathScore: props.editData.mathScore || null,
-      address: props.editData.address || '',
-      mobilePhone: props.editData.mobilePhone || null,
-      skype: props.editData.skype || '',
-      startDate: props.editData.startDate || null,
-      role: props.editData.role || '',
+      fullName: '',
+      email: '',
+      direction: '',
+      sex: null,
+      education: '',
+      age: null,
+      universityAverageScore: null,
+      mathScore: null,
+      address: '',
+      mobilePhone: null,
+      skype: '',
+      startDate: null,
+      role: '',
       touched: {
         fullName: false,
         email: false,
@@ -63,47 +54,55 @@ export class ModalRegisterNewUser extends Component {
     };
   }
 
-  getIsValid = () => {
-    const {
-      fullName,
-      email,
-      sex,
-      direction,
-      education,
-      age,
-      universityAverageScore,
-      mathScore,
-      address,
-      mobilePhone,
-      skype,
-      startDate,
-      role,
-    } = this.state;
-    return !!(
-      fullName &&
-      email &&
-      sex &&
-      direction &&
-      education &&
-      age &&
-      universityAverageScore &&
-      mathScore &&
-      address &&
-      mobilePhone &&
-      skype &&
-      startDate &&
-      role
-    );
-  };
+  componentDidMount() {
+    const { editData } = this.props;
+
+    this.setState({
+      fullName: editData.fullName || '',
+      email: editData.email || '',
+      direction: editData.direction || '',
+      sex: editData.sex || null,
+      education: editData.education || '',
+      age: editData.age || null,
+      universityAverageScore: editData.universityAverageScore || null,
+      mathScore: editData.mathScore || null,
+      address: editData.address || '',
+      mobilePhone: editData.mobilePhone || null,
+      skype: editData.skype || '',
+      startDate: editData.startDate || null,
+      role: editData.role || '',
+    })
+  }
+
+  getInputsData = () => {
+
+    const data = this.state
+
+
+    return ([{ title: 'Full Name', type: 'text', isValid: setMinLengthRequired(data.fullName, 2), errorMessage: errorTitle(2).minLength },
+    { title: 'Email', type: 'email', isValid: isValidEmail(data.email), errorMessage: 'Invalid email' },
+    { title: 'Education', type: 'text', isValid: setMinLengthRequired(data.education, 3), errorMessage: errorTitle(3).minLength },
+    { title: 'Age', type: 'number', isValid: isValidAge(data.age), errorMessage: 'Age should be between 1 to 100' },
+    { title: 'University Average Score', type: 'number', isValid: setScoreValue(+data.universityAverageScore, 0, 100), errorMessage: 'Score should be between 0 to 100' },
+    { title: 'Math Score', type: 'number', isValid: setScoreValue(+data.mathScore, 0, 100), errorMessage: 'Score should be between 0 to 100' },
+    { title: 'Address', type: 'text', isValid: setMinLengthRequired(data.address, 3) },
+    { title: 'Mobile Phone', type: 'number', isValid: setMinLengthRequired(data.mobilePhone, 12), errorMessage: 'Number should has 12 numbers' },
+    { title: 'Skype', type: 'text', isValid: setMinLengthRequired(data.skype, 3) },
+    { title: 'Start Date', type: 'date' },
+    ])
+  }
 
   getValue = (value) => {
+    console.log(value);
+    const { touched } = this.state;
     const el = toLowerCaseFirstLetter(toTrim(value.target.attributes[1].nodeValue));
-    this.setState({ [el]: value.target.value, touched: { [el]: true } });
+    this.setState({ [el]: value.target.value, touched: { ...touched, [el]: true } });
   };
 
-  renderInputs = (data) => {
+  renderInputs = () => {
     const { touched } = this.state;
-    return inputsData.map((inputItem) => {
+    const data = this.state;
+    return this.getInputsData().map((inputItem) => {
       const el = toLowerCaseFirstLetter(toTrim(inputItem.title));
       return (
         <Input
@@ -112,7 +111,8 @@ export class ModalRegisterNewUser extends Component {
           onChange={this.getValue}
           title={inputItem.title}
           type={inputItem.type || 'text'}
-          isValid={!touched[el] || data[el] /* && el === 'Email' && validateEmail(data.Email) */}
+          isValid={!touched[el] || inputItem.isValid}
+          errorMessage={inputItem.errorMessage}
         />
       );
     });
@@ -141,16 +141,22 @@ export class ModalRegisterNewUser extends Component {
     onClose();
   };
 
+
+
   render() {
     const { isOpen, onClose } = this.props;
+    const { touched } = this.state;
+
+
+    console.log(!isValidFormCreateNewUsers(touched), touched);
 
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
         <h4>Create new user</h4>
-        <div className={classes.container}>{this.renderInputs(this.state)}</div>
+        <div className={classes.container}>{this.renderInputs()}</div>
         <div className={classes.container}> {this.renderSelects()}</div>
         <div className={classes.buttonGroup}>
-          <Button onClick={this.createUser} disabled={!this.getIsValid()}>
+          <Button onClick={this.createUser} disabled={!isValidFormCreateNewUsers(touched)}>
             Save
           </Button>
           <Button onClick={onClose} className={classes.CancelButton}>

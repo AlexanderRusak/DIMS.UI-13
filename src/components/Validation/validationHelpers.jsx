@@ -4,8 +4,22 @@ export const isValidEmail = (email) => {
 };
 
 export const setMinLengthRequired = (fieldString, reqLength) => {
-  return fieldString.length >= reqLength;
+
+  const length = fieldString ? fieldString.length : 0;
+  return length >= reqLength;
 };
+
+export const setScoreValue = (score, max, min) => {
+  console.log(score, max, min);
+  if (min <= score && score <= max) {
+    return !!score;
+  }
+  return score;
+};
+
+export const isValidAge = (age) => {
+  return age > 0 && age <= 100;
+}
 
 export const isCheckBoxValueRequired = (lists) => {
   return !!Object.values(lists).find((list) => list.isCheck);

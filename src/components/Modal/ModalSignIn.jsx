@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Input } from '../UI/Input/Input';
 import { Button } from '../UI/Buttons/Button/Button';
+import { isFormValid } from './modalHelpers/helpers';
 import classes from './ModalSignIn.module.css';
 import { signIn } from '../../firebase/auth';
 import { validateControl } from '../Auth/Auth';
@@ -10,6 +11,7 @@ import Alert from '../UI/Alert/Alert';
 export class ModalSignIn extends Component {
   state = {
     isValid: false,
+    response: null,
     formControls: {
       email: {
         value: '',
@@ -49,13 +51,16 @@ export class ModalSignIn extends Component {
     }, 5000);
   }
 
+
+
   signIn = async () => {
     const { formControls } = this.state;
     try {
       const response = await signIn(formControls.email.value, formControls.password.value);
+      console.log(response);
       if (response) {
         this.setState({
-          isValid: true,
+          response
         });
       } else this.errorHandler();
     } catch (err) {
@@ -76,14 +81,9 @@ export class ModalSignIn extends Component {
 
     form[controlName] = control;
 
-    let isValid = true;
-    Object.keys(form).forEach((name) => {
-      isValid = form[name].valid && isValid;
-    });
-
     this.setState({
       formControls: form,
-      isValid
+      isValid: isFormValid(form)
     });
   };
 
@@ -109,7 +109,7 @@ export class ModalSignIn extends Component {
   }
 
   render() {
-    const { isValid, error } = this.state;
+    const { isValid, error, response } = this.state;
     return (
       <>
         {error && <Alert text='Incorrect mail or password!' />}
@@ -119,7 +119,7 @@ export class ModalSignIn extends Component {
           <Button typeButton='primary' onClick={this.signIn} disabled={!isValid}>
             <p>Sign in</p>
           </Button>
-          {isValid && <Redirect to='/members' />}
+          {response && <Redirect to='/members' />}
         </div>
       </>
     );
