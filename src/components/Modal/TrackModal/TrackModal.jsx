@@ -11,9 +11,9 @@ export class TrackModal extends Component {
     super(props);
     this.state = {
       value: {
-        task: props.mode === 'edit' ? props.selectedItem.task : '',
-        note: props.mode === 'edit' ? props.selectedItem.note : '',
-        date: props.mode === 'edit' ? props.selectedItem.date : '',
+        task: '',
+        note: '',
+        date: '',
       },
       touched: {
         task: false,
@@ -21,6 +21,17 @@ export class TrackModal extends Component {
         date: false,
       },
     };
+  }
+
+  componentDidMount() {
+    const { selectedItem, mode } = this.props;
+    this.setState({
+      value: {
+        task: mode === 'edit' ? selectedItem.task : '',
+        note: mode === 'edit' ? selectedItem.note : '',
+        date: mode === 'edit' ? selectedItem.date : '',
+      }
+    })
   }
 
   renderField = () => {
@@ -31,14 +42,14 @@ export class TrackModal extends Component {
       mode === 'details'
         ? fields.map((field, index) => <Label title={fields[index][0]} value={fields[index][1]} />)
         : fields.map((field, index) => (
-            <Input
-              field={field}
-              title={fields[index][0]}
-              onChange={this.onValueHandler}
-              value={value[fields[index][0]]}
-              isValid={value[fields[index][0]] || !touched[fields[index][0]]}
-            />
-          ));
+          <Input
+            field={field}
+            title={fields[index][0]}
+            onChange={this.onValueHandler}
+            value={value[fields[index][0]]}
+            isValid={value[fields[index][0]] || !touched[fields[index][0]]}
+          />
+        ));
     return currentFields;
   };
 

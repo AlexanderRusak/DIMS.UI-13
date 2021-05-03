@@ -62,19 +62,17 @@ export class Tasks extends Component {
 
 
 
-  getLink = (data, type) => (
+  getLink = (data) => (
     <i
       tabIndex={defaultProps.tabIndex}
       aria-label={defaultProps.ariaLabel}
       type={defaultProps.type}
       role='button'
-      onClick={() => {
-        this.openModalHandler(type);
-      }}
+      onClick={this.openModalHandler}
       onKeyPress={noop}
     >
-      {data.taskName}
-    </i>
+      { data.taskName}
+    </i >
   );
 
   onSubmitData = () => {
@@ -125,7 +123,7 @@ export class Tasks extends Component {
           <li>
             <p>{index + 1}</p>
           </li>
-          <li>{this.getLink(data, 'details')}</li>
+          <li>{this.getLink(data)}</li>
           <li>
             <p>{data.description}</p>
           </li>

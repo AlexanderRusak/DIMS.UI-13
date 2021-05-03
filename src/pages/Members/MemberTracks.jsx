@@ -36,13 +36,17 @@ class MemebersTracks extends Component {
     this.setState({ isOpen: true, mode, selectedItem: selectedProgress[index] });
   };
 
+  onClick = () => {
+    this.openModal()
+  }
+
   closeModal = () => {
     this.setState({ isOpen: false });
   };
 
   getButtonActions = (elementIndex) => {
     return buttons.map((button) => (
-      <ButtonGroup key={button.type} className={button.style} onClick={() => this.openModal(button.type, elementIndex)}>
+      <ButtonGroup key={button.type} className={button.style} index={elementIndex} onClick={this.onClick}>
         <p>{button.title}</p>
       </ButtonGroup>
     ));

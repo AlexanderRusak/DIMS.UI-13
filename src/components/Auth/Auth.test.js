@@ -14,6 +14,9 @@ describe(validateControl, () => {
     test('Should has value and validation arguments', () => {
         expect(validateControl.length).toBe(2);
     })
+    test('Should has value and validation arguments', () => {
+        expect(validateControl.length).not.toBe(3);
+    })
     test('Should has undefined for non validation', () => {
         expect(validateControl('fake@mail', undefined)).toBe(false);
     })
@@ -23,8 +26,12 @@ describe(validateControl, () => {
 describe(isValidMinLength, () => {
     test('Should return true', () => {
         expect(isValidMinLength('123456', 6)).toBe(true);
+        
+    })
+    test('Should return false', () => {
         expect(isValidMinLength('12345', 6)).toBe(false);
     })
+    
 })
 
 describe(isValidEmail, () => {
@@ -39,5 +46,8 @@ describe(isValidEmail, () => {
 describe(validateRequired, () => {
     test('Should return string without spaces', () => {
         expect(validateRequired('Word   ').length).toBe(4);
+    })
+    test('Should return string without spaces', () => {
+        expect(validateRequired('Word   ').length).not.toBe(5);
     })
 })
