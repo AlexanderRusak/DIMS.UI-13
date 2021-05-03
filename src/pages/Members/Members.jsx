@@ -4,7 +4,7 @@ import { MEMBERS } from '../../db/tableName';
 import { Button } from '../../components/UI/Buttons/Button/Button';
 import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
 import { ModalRegisterNewUser } from '../../components/Modal/ModalRegisterNewUser';
-import classes from './TableStyle.module.css';
+import classes from '../TableStyle.module.css';
 import { getRefFirebase } from '../../firebase/helpers';
 
 class Members extends Component {

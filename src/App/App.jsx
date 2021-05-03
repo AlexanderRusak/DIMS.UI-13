@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Members from '../pages/Members/Members';
 import MembersTasks from '../pages/Members/MembersTasks';
 import MemberTracks from '../pages/Members/MemberTracks';
-import MembersProgress from '../pages/Members/MembersProgress';
+import MembersProgress from '../pages/Progress/MembersProgress';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { SignIn } from '../pages/SignIn/SignIn';
 import Layout from '../hoc/Layout';

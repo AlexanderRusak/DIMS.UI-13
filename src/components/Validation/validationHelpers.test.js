@@ -1,4 +1,4 @@
-import { isValidEmail, setMinLengthRequired, isValidAge, getCurrentDateUTC } from './validationHelpers';
+import { isValidEmail, setMinLengthRequired, isValidAge, getCurrentDateUTC, setScoreValue } from './validationHelpers';
 
 describe(isValidEmail, () => {
 
@@ -38,6 +38,15 @@ describe(getCurrentDateUTC, () => {
     })
     test('Should return not todays date ', () => {
         expect(getCurrentDateUTC('2021-05-02')).toBe(false)
+    })
+})
+
+describe(setScoreValue, () => {
+    test('Should return true if the score is within between min and max', () => {
+        expect(setScoreValue(1,100,1)).toBe(true)
+    })
+    test('Should return not todays date ', () => {
+        expect(setScoreValue()).toBe(false)
     })
 })
 

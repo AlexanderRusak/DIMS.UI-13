@@ -43,9 +43,9 @@ export class TasksModal extends PureComponent {
     console.log(index, type, data.data);
 
     this.setState({
-      taskName: type === 'create' ? '' :data.data[index].taskName,
+      taskName: type === 'create' ? '' : data.data[index].taskName,
       description: type === 'create' ? '' : data.data[index].description,
-      startDate: type === 'create' ? '' :data. data[index].startDate,
+      startDate: type === 'create' ? '' : data.data[index].startDate,
       deadLine: type === 'create' ? '' : data.data[index].deadLine,
       isValid: {
         taskName: type === 'edit' ? !!data.data[index].taskName : false,
@@ -101,14 +101,32 @@ export class TasksModal extends PureComponent {
   getUserDataArray = () => {
     const { taskName, deadLine, description, startDate, touched } = this.state;
     return [
-      { value: taskName, title: 'Task Name', isValid: !!setMinLengthRequired(taskName, 5) || !touched.taskName, errorMessage: errorTitle(5).minLength },
+      {
+        value: taskName,
+        title: 'Task Name',
+        isValid: !!setMinLengthRequired(taskName, 5) || !touched.taskName,
+        errorMessage: errorTitle(5).minLength
+      },
       {
         value: description,
         title: 'Description',
-        isValid: !!setMinLengthRequired(description, 10) || !touched.description, errorMessage: errorTitle(10).minLength
+        isValid: !!setMinLengthRequired(description, 10) || !touched.description,
+        errorMessage: errorTitle(10).minLength,
       },
-      { value: startDate, title: 'Start Date', inputType: 'date', isValid: startDate || !touched.startDate },
-      { value: deadLine, title: 'Dead Line', inputType: 'date', isValid: deadLine || !touched.deadLine },
+      {
+        value: startDate,
+        title: 'Start Date',
+        inputType: 'date',
+        isValid: (startDate <= deadLine) || !touched.startDate,
+        errorMessage: 'Start Date should be less or equal "Dead Line"',
+      },
+      {
+        value: deadLine,
+        title: 'Dead Line',
+        inputType: 'date',
+        isValid: (deadLine >= startDate) || !touched.deadLine,
+        errorMessage: 'Dead Line should be more or equal "Start Date"',
+      },
     ];
   };
 
@@ -188,11 +206,24 @@ TasksModal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   index: PropTypes.number,
-  users: PropTypes.shape().isRequired,
-  data: PropTypes.shape()
+  users: PropTypes.shape([
+    {
+      name: PropTypes.string.isRequired,
+      isCheck: PropTypes.bool.isRequired
+    }
+  ]),
+  data: PropTypes.shape([{
+    deadLine: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    startDate: PropTypes.string.isRequired,
+    state: PropTypes.bool.isRequired,
+    taskId: PropTypes.number.isRequired,
+    taskName: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
+  }]),
 };
 TasksModal.defaultProps = {
   index: null,
-  data: null
-
+  users: [],
+  data: []
 };

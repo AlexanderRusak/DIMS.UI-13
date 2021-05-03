@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button } from '../../components/UI/Buttons/Button/Button';
 import { TASKS } from '../../db/tableName';
-import classes from './TableStyle.module.css';
+import classes from '../TableStyle.module.css';
 import firebase from '../../firebase/firebase';
 
 class MemebersTasks extends Component {

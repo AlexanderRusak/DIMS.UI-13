@@ -10,10 +10,7 @@ export const setMinLengthRequired = (fieldString, reqLength) => {
 };
 
 export const setScoreValue = (score, max, min) => {
-  if (min <= score && score <= max) {
-    return !!score;
-  }
-  return score;
+  return min <= score <= max;
 };
 
 export const isValidAge = (age) => {

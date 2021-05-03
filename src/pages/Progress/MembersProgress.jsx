@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { getRefFirebase } from '../../firebase/helpers';
 import { setDataToLS } from '../../localStorage/localStorageFunctions';
 import { PROGRESS } from '../../db/tableName';
-import classes from './TableStyle.module.css';
+import classes from '../TableStyle.module.css';
 
 class MemebersProgress extends Component {
   constructor(props) {

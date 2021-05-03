@@ -88,7 +88,7 @@ export class ModalRegisterNewUser extends Component {
     { title: 'Address', type: 'text', isValid: setMinLengthRequired(data.address, 3) },
     { title: 'Mobile Phone', type: 'number', isValid: setMinLengthRequired(data.mobilePhone, 12), errorMessage: 'Number should has 12 numbers' },
     { title: 'Skype', type: 'text', isValid: setMinLengthRequired(data.skype, 3) },
-    { title: 'Start Date', type: 'date', isValid: getCurrentDateUTC(data.startDate), errorMessage: 'Date should not be in past' },
+    { title: 'Start Date', type: 'date', isValid: getCurrentDateUTC(data.startDate), errorMessage: 'Date should not be in past    ' },
     ])
   }
 
