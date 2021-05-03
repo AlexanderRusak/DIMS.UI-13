@@ -10,7 +10,6 @@ export const setMinLengthRequired = (fieldString, reqLength) => {
 };
 
 export const setScoreValue = (score, max, min) => {
-  console.log(score, max, min);
   if (min <= score && score <= max) {
     return !!score;
   }
@@ -34,4 +33,8 @@ export const errorTitle = (value) => {
     minLength: `The value should be more than ${value} letters`,
 
   }
+}
+
+export const getCurrentDateUTC = (date) => {
+  return new Date().toJSON().slice(0, 10).replace(/-/g, '-') <= date;
 }

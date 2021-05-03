@@ -12,14 +12,14 @@ export class TasksModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      users: [...props.users], 
+      users: [...props.users],
       userList: props.users.map((user) => {
         return { name: user.name, isCheck: false };
       }),
-      taskName: props.type === 'create' ? '' : props.data[props.index].taskName,
-      description: props.type === 'create' ? '' : props.data[props.index].description,
-      startDate: props.type === 'create' ? '' : props.data[props.index].startDate,
-      deadLine: props.type === 'create' ? '' : props.data[props.index].deadLine,
+      taskName: '',
+      description: '',
+      startDate: '',
+      deadLine: '',
       touched: {
         taskName: false,
         description: false,
@@ -28,13 +28,34 @@ export class TasksModal extends PureComponent {
         checkbox: false,
       },
       isValid: {
-        taskName: props.type === 'edit' ? !!props.data[props.index].taskName : false,
-        description: props.type === 'edit' ? !!props.data[props.index].description : false,
-        startDate: props.type === 'edit' ? !!props.data[props.index].startDate : false,
-        deadLine: props.type === 'edit' ? !!props.data[props.index].deadLine : false,
-        checkbox: props.type === 'edit' ? !!props.users : false,
+        taskName: false,
+        description: false,
+        startDate: false,
+        deadLine: false,
+        checkbox: false,
       }
     };
+  }
+
+  componentDidMount() {
+    const { index, type, users } = this.props;
+    const data = this.props;
+    console.log(index, type, data.data);
+
+    this.setState({
+      taskName: type === 'create' ? '' :data.data[index].taskName,
+      description: type === 'create' ? '' : data.data[index].description,
+      startDate: type === 'create' ? '' :data. data[index].startDate,
+      deadLine: type === 'create' ? '' : data.data[index].deadLine,
+      isValid: {
+        taskName: type === 'edit' ? !!data.data[index].taskName : false,
+        description: type === 'edit' ? !!data.data[index].description : false,
+        startDate: type === 'edit' ? !!data.data[index].startDate : false,
+        deadLine: type === 'edit' ? !!data.data[index].deadLine : false,
+        checkbox: type === 'edit' ? !!users : false,
+      }
+    })
+
   }
 
   setTouched = (elementName) => {
@@ -166,11 +187,12 @@ TasksModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
-  data: PropTypes.shape(),
   index: PropTypes.number,
   users: PropTypes.shape().isRequired,
+  data: PropTypes.shape()
 };
 TasksModal.defaultProps = {
   index: null,
-  data: null,
+  data: null
+
 };

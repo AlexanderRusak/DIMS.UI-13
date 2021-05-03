@@ -13,7 +13,7 @@ describe(toLowerCaseFirstLetter, () => {
 
     test('Should use string value', () => {
         const value = 'TestValue';
-        const failedValue='TEST';
+        const failedValue = 'TEST';
         expect(typeof value === 'string').toBe(true);
         expect(toLowerCaseFirstLetter(value)).toBe('testValue');
         expect(toLowerCaseFirstLetter(failedValue)).not.toBe('testValue');
@@ -39,6 +39,8 @@ describe(isValidFormCreateNewUsers, () => {
 
     test('Should return invalid newUsersform', () => {
         expect(isValidFormCreateNewUsers({ ...helpersNewUsersField, something: '' })).toBe(false);
+
+    })
     test('Should return string without spaces', () => {
         expect(toTrim('Word   ').length).not.toBe(5);
     })

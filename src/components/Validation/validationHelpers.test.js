@@ -1,4 +1,4 @@
-import { isValidEmail, setMinLengthRequired, isValidAge, setScoreValue } from './validationHelpers';
+import { isValidEmail, setMinLengthRequired, isValidAge, getCurrentDateUTC } from './validationHelpers';
 
 describe(isValidEmail, () => {
 
@@ -31,4 +31,13 @@ describe(isValidAge, () => {
         expect(isValidAge(101)).toBe(false)
     })
 });
+
+describe(getCurrentDateUTC, () => {
+    test('Should return true if input doesnt have past date  ', () => {
+        expect(getCurrentDateUTC(new Date().toJSON().slice(0, 10).replace(/-/g, '-'))).toBe(true)
+    })
+    test('Should return not todays date ', () => {
+        expect(getCurrentDateUTC('2021-05-02')).toBe(false)
+    })
+})
 

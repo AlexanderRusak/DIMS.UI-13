@@ -72,10 +72,10 @@ export class Tasks extends Component {
     } */
 
   openModalHandler = (type, index) => {
+    this.setState({ isOpen: type !== 'delete', modalType: type, index });
     if (type === 'delete') {
       this.onDeleteModalOpen(index)
     }
-    this.setState({ isOpen: type !== 'delete', modalType: type, index });
   };
 
   onClose = () => {
@@ -94,13 +94,13 @@ export class Tasks extends Component {
     this.setState({ fdata: [...fdata], isModalOpen: false })
   }
 
-  getLink = (data) => (
+  getLink = (type, index, data) => (
     <i
       tabIndex={defaultProps.tabIndex}
       aria-label={defaultProps.ariaLabel}
       type={defaultProps.type}
       role='button'
-      onClick={this.openModalHandler}
+      onClick={() => this.openModalHandler(type, index)}
       onKeyPress={noop}
     >
       { data.taskName}
@@ -144,14 +144,14 @@ export class Tasks extends Component {
     );
   };
 
-  getTable = (data, index) => {
+  getTable = (index, data) => {
     return (
       <div className={classes.TableStyle}>
         <ul className={classes.table}>
           <li>
             <p>{index + 1}</p>
           </li>
-          <li>{this.getLink(data)}</li>
+          <li>{this.getLink('details', index, data)}</li>
           <li>
             <p>{data.description}</p>
           </li>
@@ -178,7 +178,7 @@ export class Tasks extends Component {
       <>
         {<ButtonGroup index={index} modalType='create' title='Create' styles={`${classes.default} ${classes.pushRight}`} onClick={this.openModalHandler} />}
         {this.getHeader()}
-        {fdata.map((item, index) => this.getTable(item, index))}
+        {fdata.map((item, index) => this.getTable(index, item))}
         {isOpen && <TasksModal users={users} data={fdata} index={index} type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}
         {isModalOpen && < DeleteModal onClose={this.onClose} onDelete={() => this.onDelete(index)} />}
       </>

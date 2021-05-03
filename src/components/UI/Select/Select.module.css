@@ -8,10 +8,10 @@
 select {
     height: 35px;
     width: 180px;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1rem;
+
     outline: none;
-    border: 2px solid green;
+    border: 2px solid #ccc;
     border-radius: 10px;
     background-color: #fff;
 }
@@ -19,12 +19,12 @@ select {
 .Select label {
     align-self: flex-start;
     font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .Select span {
     color: #f01f30;
     font-size: 12px;
-    font-weight: bold;
     position: absolute;
     z-index: 99;
     display: block;

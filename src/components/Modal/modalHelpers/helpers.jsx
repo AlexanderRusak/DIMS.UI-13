@@ -11,7 +11,7 @@ export const isFormValid = (formControls) => {
     Object.keys(formControls).forEach((name) => {
         isValid = formControls[name].valid && isValid;
     });
-    return isValid;
+    return isValid; 
 }
 
 export const isValidFormCreateNewUsers = (fields) => {

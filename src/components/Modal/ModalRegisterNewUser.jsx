@@ -5,7 +5,7 @@ import { createNewUser } from '../../firebase/auth';
 import { setData } from '../../firebase/firebase';
 import { Input } from '../UI/Input/Input';
 import { Select } from '../UI/Select/Select';
-import { setMinLengthRequired, isValidEmail, errorTitle, isValidAge, setScoreValue } from '../Validation/validationHelpers';
+import { setMinLengthRequired, isValidEmail, errorTitle, isValidAge, setScoreValue, getCurrentDateUTC } from '../Validation/validationHelpers';
 import { Button } from '../UI/Buttons/Button/Button';
 import { toLowerCaseFirstLetter, toTrim, isValidFormCreateNewUsers } from './modalHelpers/helpers';
 import classes from './ModalRegisterNewUser.module.css';
@@ -23,19 +23,19 @@ export class ModalRegisterNewUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullName: '',
-      email: '',
-      direction: '',
-      sex: null,
-      education: '',
-      age: null,
-      universityAverageScore: null,
-      mathScore: null,
-      address: '',
-      mobilePhone: null,
-      skype: '',
-      startDate: null,
-      role: '',
+      /*       fullName: '',
+            email: '',
+            direction: '',
+            sex: null,
+            education: '',
+            age: null,
+            universityAverageScore: null,
+            mathScore: null,
+            address: '',
+            mobilePhone: null,
+            skype: '',
+            startDate: null,
+            role: '', */    /* not tested this case */
       touched: {
         fullName: false,
         email: false,
@@ -56,7 +56,7 @@ export class ModalRegisterNewUser extends Component {
 
   componentDidMount() {
     const { editData } = this.props;
-
+    console.log(editData);
     this.setState({
       fullName: editData.fullName || '',
       email: editData.email || '',
@@ -88,12 +88,11 @@ export class ModalRegisterNewUser extends Component {
     { title: 'Address', type: 'text', isValid: setMinLengthRequired(data.address, 3) },
     { title: 'Mobile Phone', type: 'number', isValid: setMinLengthRequired(data.mobilePhone, 12), errorMessage: 'Number should has 12 numbers' },
     { title: 'Skype', type: 'text', isValid: setMinLengthRequired(data.skype, 3) },
-    { title: 'Start Date', type: 'date' },
+    { title: 'Start Date', type: 'date', isValid: getCurrentDateUTC(data.startDate), errorMessage: 'Date should not be in past' },
     ])
   }
 
   getValue = (value) => {
-    console.log(value);
     const { touched } = this.state;
     const el = toLowerCaseFirstLetter(toTrim(value.target.attributes[1].nodeValue));
     this.setState({ [el]: value.target.value, touched: { ...touched, [el]: true } });
@@ -119,9 +118,12 @@ export class ModalRegisterNewUser extends Component {
   };
 
   renderSelects = () => {
+    const data = this.state;
     return selectData.map((selectItem) => {
+      const el = toLowerCaseFirstLetter(toTrim(selectItem.title));
       return (
         <Select
+          value={data[el]}
           title={selectItem.title}
           key={selectItem.title}
           onChange={this.getValue}
@@ -145,10 +147,10 @@ export class ModalRegisterNewUser extends Component {
 
   render() {
     const { isOpen, onClose } = this.props;
-    const { touched } = this.state;
+    const usersDataFields = { ...this.state };
+    delete usersDataFields.touched;
 
-
-    console.log(!isValidFormCreateNewUsers(touched), touched);
+    console.log(!isValidFormCreateNewUsers(usersDataFields));
 
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
@@ -156,7 +158,7 @@ export class ModalRegisterNewUser extends Component {
         <div className={classes.container}>{this.renderInputs()}</div>
         <div className={classes.container}> {this.renderSelects()}</div>
         <div className={classes.buttonGroup}>
-          <Button onClick={this.createUser} disabled={!isValidFormCreateNewUsers(touched)}>
+          <Button onClick={this.createUser} disabled={!isValidFormCreateNewUsers(usersDataFields)}>
             Save
           </Button>
           <Button onClick={onClose} className={classes.CancelButton}>
