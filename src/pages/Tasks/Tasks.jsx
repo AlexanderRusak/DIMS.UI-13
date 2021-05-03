@@ -94,30 +94,17 @@ export class Tasks extends Component {
     this.setState({ fdata: [...fdata], isModalOpen: false })
   }
 
-  onSubmitData = (currentData, users, index, type) => {
-    const { fdata } = this.state;
-    const newData = [...fdata]
-    if (type === 'edit') newData[index] = currentData;
-    if (type === 'create') newData.push(currentData);
-    console.log(newData);
-    this.setState({ fdata: newData });
-    this.onClose();
-
-  }
-
-  getLink = (data, type, index) => (
+  getLink = (data) => (
     <i
       tabIndex={defaultProps.tabIndex}
       aria-label={defaultProps.ariaLabel}
       type={defaultProps.type}
       role='button'
-      onClick={() => {
-        this.openModalHandler(type, index);
-      }}
+      onClick={this.openModalHandler}
       onKeyPress={noop}
     >
-      {data.taskName}
-    </i>
+      { data.taskName}
+    </i >
   );
 
 
@@ -164,7 +151,7 @@ export class Tasks extends Component {
           <li>
             <p>{index + 1}</p>
           </li>
-          <li>{this.getLink(data, 'details', index)}</li>
+          <li>{this.getLink(data)}</li>
           <li>
             <p>{data.description}</p>
           </li>
