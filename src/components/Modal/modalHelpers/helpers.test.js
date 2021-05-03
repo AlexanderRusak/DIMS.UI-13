@@ -3,26 +3,30 @@ import { helpersConst, helpersNewUsersField } from './helpersConst';
 
 
 describe(toLowerCaseFirstLetter, () => {
+    const actual='String';
+    const expected='string'
 
     test('Should return string with first lowercase letter', () => {
-        expect(toLowerCaseFirstLetter('Test')).toBe('test');
+        expect(toLowerCaseFirstLetter(actual)).toBe(expected);
     });
     test('Should return string with first lowercase letter', () => {
-        expect(toLowerCaseFirstLetter('Test')).not.toBe('Test');
+        expect(toLowerCaseFirstLetter(actual)).not.toBe(actual);
     });
 
     test('Should use string value', () => {
-        const value = 'TestValue';
-        const failedValue = 'TEST';
-        expect(typeof value === 'string').toBe(true);
-        expect(toLowerCaseFirstLetter(value)).toBe('testValue');
-        expect(toLowerCaseFirstLetter(failedValue)).not.toBe('testValue');
+       
+        expect(typeof actual === 'string').toBe(true);
+        expect(typeof !!actual === 'string').toBe(false);
     })
 });
 
 describe(toTrim, () => {
+    const actual='String     ';
+    const expected='string'
+
+
     test('Should return string without spaces', () => {
-        expect(toTrim('Word   ').length).toBe(4);
+        expect(toTrim(actual).length).toBe(6);
     })
 })
 
@@ -42,6 +46,6 @@ describe(isValidFormCreateNewUsers, () => {
 
     })
     test('Should return string without spaces', () => {
-        expect(toTrim('Word   ').length).not.toBe(5);
+        expect(toTrim(expected).length).not.toBe(7);
     })
 })
