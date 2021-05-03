@@ -1,9 +1,12 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { getRefFirebase } from '../../firebase/helpers';
 import { setDataToLS } from '../../localStorage/localStorageFunctions';
 import { PROGRESS } from '../../db/tableName';
+import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import classes from '../TableStyle.module.css';
+import noop from '../../shared/noop';
 
 class MemebersProgress extends Component {
   constructor(props) {
@@ -77,6 +80,9 @@ class MemebersProgress extends Component {
     return (
       <>
         <h4>{UserName} Progress</h4>
+        <Link to='/members'>
+          <ButtonGroup styles={`${classes.button} ${classes.back}`} title='Back to List' onClick={noop} />
+        </Link>
         {this.getTableHeader()}
         {selectedProgress.map((row, index) => this.getTable(row, index))}
       </>

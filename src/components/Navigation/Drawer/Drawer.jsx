@@ -5,6 +5,7 @@ import classes from './Drawer.module.css';
 
 const links = [
   { to: '/members', label: 'Members', exact: true },
+  { to: '/tasks', label: 'Create Task', exact: true },
   { to: '/signIn', label: 'Sign Out', exact: true },
 ];
 

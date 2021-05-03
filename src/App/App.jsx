@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Members from '../pages/Members/Members';
-import MembersTasks from '../pages/Members/MembersTasks';
+import MembersTasks from '../pages/MembersTasks/MembersTasks';
 import MemberTracks from '../pages/Members/MemberTracks';
 import MembersProgress from '../pages/Progress/MembersProgress';
 import { Tasks } from '../pages/Tasks/Tasks';

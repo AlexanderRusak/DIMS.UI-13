@@ -13,9 +13,10 @@ export const LinkItem = ({ link, iconComponent }) => {
 
 LinkItem.propTypes = {
     link: PropTypes.string,
-    iconComponent: PropTypes.instanceOf(PropTypes.elementType).isRequired
+    iconComponent: PropTypes.instanceOf(PropTypes.elementType)
 };
 
 LinkItem.defaultProps = {
     link: '',
+    iconComponent:''
 };
