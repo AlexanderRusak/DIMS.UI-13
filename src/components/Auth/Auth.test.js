@@ -17,7 +17,7 @@ describe('validateControl', () => {
     test('Should return value isValid===false', () => {
         expect(validateControl(fake, { required: true, email: true })).toBeFalsy()
     })
-
+  
     //Assert
     test('Should has undefined for non validation', () => {
         expect(validateControl(fake, undefined)).toBeFalsy();
