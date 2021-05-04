@@ -17,6 +17,7 @@ export const App = () => {
     document.title = appTitle;
   }, []);
 
+
   return (
     <BrowserRouter>
       <Switch>

@@ -80,7 +80,7 @@ export class ModalSignIn extends Component {
 
     this.setState({
       formControls: form,
-      isValid,
+      isValid: isFormValid(form),
     });
   };
 

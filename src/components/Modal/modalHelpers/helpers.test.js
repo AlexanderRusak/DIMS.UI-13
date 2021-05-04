@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import { toLowerCaseFirstLetter, toTrim, isFormValid, isValidFormCreateNewUsers } from './helpers';
-import { helpersConst, helpersNewUsersField } from './helpersConst';
-=======
 import { toLowerCaseFirstLetter, toTrim } from './helpers';
->>>>>>> fe3e434b47a74e74a744198bc3bfc3bfd04dc4fe
 
 describe(toLowerCaseFirstLetter, () => {
   const actual = 'String';
@@ -21,7 +16,7 @@ describe(toLowerCaseFirstLetter, () => {
     expect(typeof !!actual === 'string').toBe(false);
   });
 });
-
+ 
 describe(toTrim, () => {
   const actual = 'String     ';
   const expected = 'string';
