@@ -220,7 +220,7 @@ TasksModal.propTypes = {
       name: PropTypes.string.isRequired,
       isCheck: PropTypes.bool.isRequired,
     },
-  ]),   
+  ]),
   data: PropTypes.shape([
     {
       deadLine: PropTypes.string.isRequired,

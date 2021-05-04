@@ -69,7 +69,8 @@ export class Tasks extends Component {
       this.getData();
     } */
 
-  openModalHandler = (type, index) => {
+  openModalHandler = (type, index) => () => {
+    console.log(type, index);
     this.setState({ isOpen: type !== 'delete', modalType: type, index });
     if (type === 'delete') {
       this.onDeleteModalOpen(index);
@@ -98,7 +99,7 @@ export class Tasks extends Component {
       aria-label={defaultProps.ariaLabel}
       type={defaultProps.type}
       role='button'
-      onClick={() => this.openModalHandler(type, index)}
+      onClick={this.openModalHandler(type, index)}
       onKeyPress={noop}
     >
       {data.taskName}
@@ -165,7 +166,7 @@ export class Tasks extends Component {
                 modalType='edit'
                 title='Edit'
                 styles={`${classes.warning}`}
-                onClick={this.openModalHandler}
+                onClick={this.openModalHandler('edit', index)}
               />
             }
             {
@@ -174,7 +175,7 @@ export class Tasks extends Component {
                 modalType='delete'
                 title='Delete'
                 styles={`${classes.delete}`}
-                onClick={this.openModalHandler}
+                onClick={this.openModalHandler('delete', index)}
               />
             }
           </li>
@@ -195,7 +196,7 @@ export class Tasks extends Component {
             modalType='create'
             title='Create'
             styles={`${classes.default} ${classes.pushRight}`}
-            onClick={this.openModalHandler}
+            onClick={this.openModalHandler('create')}
           />
         }
         {this.getHeader()}
