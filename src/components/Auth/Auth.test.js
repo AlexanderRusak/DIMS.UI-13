@@ -3,7 +3,7 @@ import { isValidEmail, isValidMinLength, validateRequired } from './helpers';
 
 describe('validateControl', () => {
 
-
+ 
     //Act
     const actual = 'fake@mail.com';
 
