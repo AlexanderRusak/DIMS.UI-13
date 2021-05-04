@@ -39,4 +39,3 @@ Layout.propTypes = {
     children: PropTypes.elementType,
   }).isRequired,
 };
-  

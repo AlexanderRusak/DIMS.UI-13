@@ -5,7 +5,6 @@ import noop from '../../../shared/noop';
 import classes from './MenuToggle.module.css';
 
 const MenuToggle = ({ onToggle, isOpen }) => {
-
   return (
     <i
       tabIndex={defaultProps.tabIndex}

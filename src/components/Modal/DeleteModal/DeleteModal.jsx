@@ -3,9 +3,7 @@ import { Button } from '../../UI/Buttons/Button/Button';
 import classes from './DeleteModal.module.css';
 
 export const DeleteModal = ({ title, onClose, item, onDelete }) => {
-
-  const getDeleteModal = (title, onClose, item, onDelete) =>
-  (
+  const getDeleteModal = (title, onClose, item, onDelete) => (
     <>
       <h1>Delete {title}</h1>
       <p>Are you sure you want to delete the current {title} ?</p>
@@ -18,14 +16,9 @@ export const DeleteModal = ({ title, onClose, item, onDelete }) => {
         </Button>
       </div>
     </>
-  )
-
-
-  return (
-    <div className={classes.DeleteModal}>
-      {getDeleteModal(title, onClose, item, onDelete)}
-    </div >
   );
+
+  return <div className={classes.DeleteModal}>{getDeleteModal(title, onClose, item, onDelete)}</div>;
 };
 
 DeleteModal.propTypes = {

@@ -52,7 +52,6 @@ const fakeUsers = [
   { name: 'H4arry Shpr4optter', isCheck: true },
 ];
 
-
 export class Tasks extends Component {
   constructor(props) {
     super(props);
@@ -62,10 +61,9 @@ export class Tasks extends Component {
       index: null,
       isModalOpen: false,
       users: fakeUsers,
-      fdata: fakeData
+      fdata: fakeData,
     };
   }
-
 
   /*   componentDidMount() {
       this.getData();
@@ -74,7 +72,7 @@ export class Tasks extends Component {
   openModalHandler = (type, index) => {
     this.setState({ isOpen: type !== 'delete', modalType: type, index });
     if (type === 'delete') {
-      this.onDeleteModalOpen(index)
+      this.onDeleteModalOpen(index);
     }
   };
 
@@ -83,16 +81,16 @@ export class Tasks extends Component {
   };
 
   onDeleteModalOpen = (index) => {
-    this.setState({ isModalOpen: true, index })
-  }
+    this.setState({ isModalOpen: true, index });
+  };
 
   onDelete = () => {
     const { index, fdata } = this.state;
 
     fdata.splice(index, 1);
     console.log(fdata);
-    this.setState({ fdata: [...fdata], isModalOpen: false })
-  }
+    this.setState({ fdata: [...fdata], isModalOpen: false });
+  };
 
   getLink = (type, index, data) => (
     <i
@@ -103,10 +101,9 @@ export class Tasks extends Component {
       onClick={() => this.openModalHandler(type, index)}
       onKeyPress={noop}
     >
-      { data.taskName}
-    </i >
+      {data.taskName}
+    </i>
   );
-
 
   /*   getData = () => {
       getRefFirebase(TASKS).onSnapshot((doc) => {
@@ -162,8 +159,24 @@ export class Tasks extends Component {
             <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
-            {<ButtonGroup index={index} modalType='edit' title='Edit' styles={`${classes.warning}`} onClick={this.openModalHandler} />}
-            {<ButtonGroup index={index} modalType='delete' title='Delete' styles={`${classes.delete}`} onClick={this.openModalHandler} />}
+            {
+              <ButtonGroup
+                index={index}
+                modalType='edit'
+                title='Edit'
+                styles={`${classes.warning}`}
+                onClick={this.openModalHandler}
+              />
+            }
+            {
+              <ButtonGroup
+                index={index}
+                modalType='delete'
+                title='Delete'
+                styles={`${classes.delete}`}
+                onClick={this.openModalHandler}
+              />
+            }
           </li>
         </ul>
       </div>
@@ -176,11 +189,28 @@ export class Tasks extends Component {
     console.log(isModalOpen);
     return (
       <>
-        {<ButtonGroup index={index} modalType='create' title='Create' styles={`${classes.default} ${classes.pushRight}`} onClick={this.openModalHandler} />}
+        {
+          <ButtonGroup
+            index={index}
+            modalType='create'
+            title='Create'
+            styles={`${classes.default} ${classes.pushRight}`}
+            onClick={this.openModalHandler}
+          />
+        }
         {this.getHeader()}
         {fdata.map((item, index) => this.getTable(index, item))}
-        {isOpen && <TasksModal users={users} data={fdata} index={index} type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}
-        {isModalOpen && < DeleteModal onClose={this.onClose} onDelete={() => this.onDelete(index)} />}
+        {isOpen && (
+          <TasksModal
+            users={users}
+            data={fdata}
+            index={index}
+            type={modalType}
+            onClose={this.onClose}
+            onSubmit={this.onSubmitData}
+          />
+        )}
+        {isModalOpen && <DeleteModal onClose={this.onClose} onDelete={() => this.onDelete(index)} />}
       </>
     );
   }

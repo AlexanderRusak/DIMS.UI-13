@@ -1,12 +1,9 @@
-
-import { isValidMinLength, isValidEmail, validateRequired } from './helpers'
-
-
+import { isValidMinLength, isValidEmail, validateRequired } from './helpers';
 
 export const validateControl = (value, validation) => {
   if (!validation) {
     return false;
-  }  
+  }
   let isValid = true;
 
   if (validation.required) {

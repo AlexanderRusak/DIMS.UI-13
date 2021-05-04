@@ -6,7 +6,12 @@ import { Input } from '../../UI/Input/Input';
 import { toLowerCaseFirstLetter, toTrim } from '../modalHelpers/helpers';
 import classes from './TasksModal.module.css';
 import { Label } from '../../UI/Label/Label';
-import { setMinLengthRequired, isCheckBoxValueRequired, isValidForm, errorTitle } from '../../Validation/validationHelpers';
+import {
+  setMinLengthRequired,
+  isCheckBoxValueRequired,
+  isValidForm,
+  errorTitle,
+} from '../../Validation/validationHelpers';
 
 export class TasksModal extends PureComponent {
   constructor(props) {
@@ -33,7 +38,7 @@ export class TasksModal extends PureComponent {
         startDate: false,
         deadLine: false,
         checkbox: false,
-      }
+      },
     };
   }
 
@@ -53,9 +58,8 @@ export class TasksModal extends PureComponent {
         startDate: type === 'edit' ? !!data.data[index].startDate : false,
         deadLine: type === 'edit' ? !!data.data[index].deadLine : false,
         checkbox: type === 'edit' ? !!users : false,
-      }
-    })
-
+      },
+    });
   }
 
   setTouched = (elementName) => {
@@ -68,13 +72,13 @@ export class TasksModal extends PureComponent {
     const { isValid } = this.state;
 
     const newValid = { ...isValid, [elementName]: validFunc };
-    this.setState({ isValid: newValid })
-  }
+    this.setState({ isValid: newValid });
+  };
 
   getInputValue = (event) => {
     const elementName = toLowerCaseFirstLetter(toTrim(event.target.attributes[1].nodeValue));
     this.setTouched(elementName);
-    this.setValid(elementName, setMinLengthRequired(event.target.value, 5))
+    this.setValid(elementName, setMinLengthRequired(event.target.value, 5));
     this.setState({
       [elementName]: event.target.value,
     });
@@ -84,7 +88,7 @@ export class TasksModal extends PureComponent {
     const { users } = this.state;
     const newUsers = [...users];
     newUsers[index].isCheck = !users[index].isCheck;
-    this.setValid('checkbox', isCheckBoxValueRequired(newUsers))
+    this.setValid('checkbox', isCheckBoxValueRequired(newUsers));
     this.setTouched('checkbox');
     this.setState({ users: newUsers });
   };
@@ -93,7 +97,7 @@ export class TasksModal extends PureComponent {
     const { userList } = this.state;
     const newUsers = [...userList];
     newUsers[index].isCheck = !userList[index].isCheck;
-    this.setValid('checkbox', isCheckBoxValueRequired(newUsers))
+    this.setValid('checkbox', isCheckBoxValueRequired(newUsers));
     this.setTouched('checkbox');
     this.setState({ userList: newUsers });
   };
@@ -105,7 +109,7 @@ export class TasksModal extends PureComponent {
         value: taskName,
         title: 'Task Name',
         isValid: !!setMinLengthRequired(taskName, 5) || !touched.taskName,
-        errorMessage: errorTitle(5).minLength
+        errorMessage: errorTitle(5).minLength,
       },
       {
         value: description,
@@ -117,20 +121,18 @@ export class TasksModal extends PureComponent {
         value: startDate,
         title: 'Start Date',
         inputType: 'date',
-        isValid: (startDate <= deadLine) || !touched.startDate,
+        isValid: startDate <= deadLine || !touched.startDate,
         errorMessage: 'Start Date should be less or equal "Dead Line"',
       },
       {
         value: deadLine,
         title: 'Dead Line',
         inputType: 'date',
-        isValid: (deadLine >= startDate) || !touched.deadLine,
+        isValid: deadLine >= startDate || !touched.deadLine,
         errorMessage: 'Dead Line should be more or equal "Start Date"',
       },
     ];
   };
-
-
 
   onSubmitHandler = (data, users, index, type) => {
     const { onSubmit } = this.props;
@@ -149,7 +151,14 @@ export class TasksModal extends PureComponent {
       type === 'details' ? (
         <Label value={value} title={title} />
       ) : (
-        <Input errorMessage={errorMessage} value={value} title={title} isValid={!!isValid} type={inputType} onChange={this.getInputValue} />
+        <Input
+          errorMessage={errorMessage}
+          value={value}
+          title={title}
+          isValid={!!isValid}
+          type={inputType}
+          onChange={this.getInputValue}
+        />
       ),
     );
   };
@@ -209,21 +218,23 @@ TasksModal.propTypes = {
   users: PropTypes.shape([
     {
       name: PropTypes.string.isRequired,
-      isCheck: PropTypes.bool.isRequired
-    }
+      isCheck: PropTypes.bool.isRequired,
+    },
   ]),
-  data: PropTypes.shape([{
-    deadLine: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    startDate: PropTypes.string.isRequired,
-    state: PropTypes.bool.isRequired,
-    taskId: PropTypes.number.isRequired,
-    taskName: PropTypes.string.isRequired,
-    userId: PropTypes.string.isRequired,
-  }]),
+  data: PropTypes.shape([
+    {
+      deadLine: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      startDate: PropTypes.string.isRequired,
+      state: PropTypes.bool.isRequired,
+      taskId: PropTypes.number.isRequired,
+      taskName: PropTypes.string.isRequired,
+      userId: PropTypes.string.isRequired,
+    },
+  ]),
 };
 TasksModal.defaultProps = {
   index: null,
   users: [],
-  data: []
+  data: [],
 };

@@ -15,7 +15,6 @@ const selectedProgress = [
   },
 ];
 const buttons = [
-
   { style: classes.warning, title: 'Edit', type: 'edit' },
   { style: classes.danger, title: 'Delete', type: 'delete' },
 ];
@@ -30,15 +29,15 @@ class MemebersTracks extends Component {
     };
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   openModal = (mode, index = null) => {
     this.setState({ isOpen: true, mode, selectedItem: selectedProgress[index] });
   };
 
   onClick = () => {
-    this.openModal()
-  }
+    this.openModal();
+  };
 
   closeModal = () => {
     this.setState({ isOpen: false });
@@ -96,9 +95,7 @@ class MemebersTracks extends Component {
         <li className={classes.date}>
           <p>{item.date}</p>
         </li>
-        <li className={classes.actions}>
-          {this.getButtonActions(index)}
-        </li>
+        <li className={classes.actions}>{this.getButtonActions(index)}</li>
       </ul>
     </div>
   );

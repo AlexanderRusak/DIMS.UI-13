@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import noop from '../../../shared/noop';
-import { defaultProps } from '../../../defaultValues/default'
+import { defaultProps } from '../../../defaultValues/default';
 import classes from './Backdrop.module.css';
 
 const Backdrop = ({ onClick }) => {
@@ -20,6 +20,5 @@ const Backdrop = ({ onClick }) => {
 Backdrop.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
-
 
 export default Backdrop;

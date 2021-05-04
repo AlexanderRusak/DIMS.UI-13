@@ -15,8 +15,8 @@ export class Checkbox extends Component {
   componentDidMount() {
     const { users } = this.props;
     this.setState({
-      users
-    })
+      users,
+    });
   }
 
   render() {
@@ -25,7 +25,7 @@ export class Checkbox extends Component {
 
     return (
       <>
-        <div className={classes.Checkbox}> 
+        <div className={classes.Checkbox}>
           {users.map((user, index) => (
             <Input
               type='checkbox'

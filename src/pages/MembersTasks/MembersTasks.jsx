@@ -14,7 +14,7 @@ class MemebersTasks extends Component {
       data: [],
       role: 'mentor',
       index: '',
-/*       status: '' */
+      /*       status: '' */
     };
   }
 
@@ -22,18 +22,16 @@ class MemebersTasks extends Component {
     this.getData();
   }
 
-
   updateStatus = (i) => {
     const { data, index } = this.state;
     const newData = [...data];
     newData[i].State = !newData[i].State;
-    data[i] = newData[i]
+    data[i] = newData[i];
     this.setState({ index: i, data });
     console.log(data[i], index);
-  }
+  };
 
   getTable = ({ TaskName: taskName, Description: description, DeadLine: deadLine, State: state }, index) => {
-
     const { role } = this.state;
 
     return (
@@ -55,11 +53,16 @@ class MemebersTasks extends Component {
             <p>{!state ? 'In prgress' : 'Done'}</p>
           </li>
           <li className={classes.actions}>
-            {role === 'mentor' ?
+            {role === 'mentor' ? (
               <>
-                <ButtonGroup title='Active' styles={`${classes.button} ${classes.default}`} onClick={() => this.updateStatus(index)} />
+                <ButtonGroup
+                  title='Active'
+                  styles={`${classes.button} ${classes.default}`}
+                  onClick={() => this.updateStatus(index)}
+                />
                 <ButtonGroup title='Fail' styles={`${classes.button} ${classes.danger}`} />
-              </> :
+              </>
+            ) : (
               <Link
                 to={{
                   pathname: '/members-tracks',
@@ -69,7 +72,7 @@ class MemebersTasks extends Component {
                   <p>Create</p>
                 </Button>
               </Link>
-            }
+            )}
           </li>
         </ul>
       </div>
@@ -77,7 +80,6 @@ class MemebersTasks extends Component {
   };
 
   getTableHeader = () => {
-
     const { role } = this.state;
 
     return (
@@ -104,7 +106,7 @@ class MemebersTasks extends Component {
         </ul>
       </div>
     );
-  }
+  };
 
   getData = () => {
     const ref = firebase.firestore().collection('data').doc(TASKS);
@@ -134,9 +136,7 @@ class MemebersTasks extends Component {
 }
 
 MemebersTasks.propTypes = {
-  location: PropTypes.shape(
-    { emailId: PropTypes.string, }
-  ).isRequired,
+  location: PropTypes.shape({ emailId: PropTypes.string }).isRequired,
 };
 MemebersTasks.defaultProps = {};
 

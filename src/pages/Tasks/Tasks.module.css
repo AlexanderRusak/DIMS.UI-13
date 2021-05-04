@@ -1,39 +1,38 @@
 .Tasks {
-    display: flex;
-    justify-content: center;
-  }
-  .Tasks ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-  }
-  
-  .Tasks ul li {
-    background-color: green;
-    border: 1px solid #000;
-    list-style: none;
-    width: 15%;
-  }
-  
-  .Tasks ul li:first-child {
-    width: 4%;
-  }
-  .Tasks ul .age {
-    width: 5%;
-  }
-  
-  .Tasks ul .actions {
-    width: 20%;
-  }
-  .Tasks ul li p {
-    text-align: center;
-    font-size: 2rem;
-    color: #fff;
-    margin: 0;
-    padding: 5px;
-    word-break: break-word;
-  }
-  
+  display: flex;
+  justify-content: center;
+}
+.Tasks ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.Tasks ul li {
+  background-color: green;
+  border: 1px solid #000;
+  list-style: none;
+  width: 15%;
+}
+
+.Tasks ul li:first-child {
+  width: 4%;
+}
+.Tasks ul .age {
+  width: 5%;
+}
+
+.Tasks ul .actions {
+  width: 20%;
+}
+.Tasks ul li p {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  margin: 0;
+  padding: 5px;
+  word-break: break-word;
+}

@@ -49,9 +49,7 @@ export class ModalSignIn extends Component {
         error: false,
       });
     }, 5000);
-  }
-
-
+  };
 
   signIn = async () => {
     const { formControls } = this.state;
@@ -60,7 +58,7 @@ export class ModalSignIn extends Component {
       console.log(response);
       if (response) {
         this.setState({
-          response
+          response,
         });
       } else this.errorHandler();
     } catch (err) {
@@ -70,7 +68,6 @@ export class ModalSignIn extends Component {
   };
 
   onChangeHandler = (event, controlName) => {
-
     const { formControls } = this.state;
     const form = { ...formControls };
     const control = { ...form[controlName] };
@@ -83,7 +80,7 @@ export class ModalSignIn extends Component {
 
     this.setState({
       formControls: form,
-      isValid: isFormValid(form)
+      isValid: isFormValid(form),
     });
   };
 
