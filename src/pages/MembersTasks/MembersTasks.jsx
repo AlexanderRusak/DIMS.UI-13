@@ -22,6 +22,8 @@ class MemebersTasks extends Component {
     this.getData();
   }
 
+  
+
   updateStatus = (i) => {
     const { data, index } = this.state;
     const newData = [...data];
