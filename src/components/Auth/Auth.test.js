@@ -1,37 +1,58 @@
 import { validateControl } from './Auth'
 import { isValidEmail, isValidMinLength, validateRequired } from './helpers';
 
-describe(validateControl, () => {
+describe('validateControl', () => {
 
+
+    //Act
     const actual = 'fake@mail.com';
+
+    //Arrange
     const data = { required: true, email: true }
     const fake = 'fake@mail';
 
     test('Should return value isValid===true', () => {
-        expect(validateControl(actual, data)).toBe(true);
         expect(validateControl(actual, data)).toBeTruthy()
     })
     test('Should return value isValid===false', () => {
-        expect(validateControl(fake, { required: true, email: true })).toBe(false);
         expect(validateControl(fake, { required: true, email: true })).toBeFalsy()
     })
-    test('Should has value and validation arguments', () => {
-        expect(validateControl.length).toBe(2);
-    })
-    test('Should has value and validation arguments', () => {
-        expect(validateControl.length).not.toBe(3);
-    })
-    test('Should has undefined for non validation', () => {
-        expect(validateControl(fake, undefined)).toBe(false);
-    })
 
+    //Assert
+    test('Should has undefined for non validation', () => {
+        expect(validateControl(fake, undefined)).toBeFalsy();
+    })
 })
 
-describe(isValidMinLength, () => {
+describe('validateControl', () => {
 
+    //Act
+    const actual = validateControl.length;
+
+    //Arrange
+    const expected = actual;
+
+
+    //Assert
+    test('Should has value and validation arguments', () => {
+        expect(actual).toBe(expected);
+    })
+    test('Should has value and validation arguments', () => {
+        expect(actual).not.toBe(3);
+    })
+})
+
+
+describe('isValidMinLength', () => {
+
+    //Act
     const actual = 'string';
+
+    //Arrange
     const fake = 'string   ';
 
+
+    //Assert
     test('Should return true', () => {
         expect(isValidMinLength(actual, 6)).toBe(true);
 
@@ -42,11 +63,17 @@ describe(isValidMinLength, () => {
 
 })
 
-describe(isValidEmail, () => {
+describe('isValidEmail', () => {
 
+
+    //Act
     const actual = 'test@mail.ru';
+
+    //Arrange
     const fake = 'test@mail';
 
+
+    //Assert
     test('Should return true if valid email', () => {
         expect(isValidEmail(actual)).toBe(true);
     })
@@ -54,12 +81,18 @@ describe(isValidEmail, () => {
         expect(isValidEmail(fake)).toBe(false);
     })
 })
-describe(validateRequired, () => {
-    const actual = 'string     ';
-    const exceded = actual.trim().length;
 
+describe('validateRequired', () => {
+
+    //Act
+    const actual = 'string     ';
+
+    //Arrange
+    const expected = actual.trim().length;
+
+    //Assert
     test('Should return string without spaces', () => {
-        expect(validateRequired(actual).length).toBe(exceded);
+        expect(validateRequired(actual).length).toBe(expected);
     })
     test('Should return string without spaces', () => {
         expect(validateRequired(actual).length).not.toBe(actual);
