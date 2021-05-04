@@ -121,12 +121,7 @@ export class ModalRegisterNewUser extends Component {
   renderSelects = () => {
     return selectData.map((selectItem) => {
       return (
-        <Select
-          title={selectItem.title}
-          key={selectItem.title}
-          onChange={this.getValue}
-          options={selectItem.options}
-        />
+        <Select title={selectItem.title} key={selectItem.title} onChange={this.getValue} options={selectItem.options} />
       );
     });
   };

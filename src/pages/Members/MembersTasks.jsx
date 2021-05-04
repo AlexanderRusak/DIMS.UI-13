@@ -104,9 +104,7 @@ class MemebersTasks extends Component {
 }
 
 MemebersTasks.propTypes = {
-  location: PropTypes.shape(
-    { emailId: PropTypes.string, }
-  ).isRequired,
+  location: PropTypes.shape({ emailId: PropTypes.string }).isRequired,
 };
 MemebersTasks.defaultProps = {};
 

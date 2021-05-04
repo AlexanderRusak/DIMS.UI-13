@@ -15,8 +15,8 @@ export class Checkbox extends Component {
   componentDidMount() {
     const { users } = this.props;
     this.setState({
-      users
-    })
+      users,
+    });
   }
 
   render() {

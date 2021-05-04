@@ -1,8 +1,8 @@
 export const COLORS = {
-    WHITE: '#fff',
-    BLACK: '#000',
-}
+  WHITE: '#fff',
+  BLACK: '#000',
+};
 
 export const FONTS_SIZE = {
-    ICON_FOOTER: 50
-} 
+  ICON_FOOTER: 50,
+};

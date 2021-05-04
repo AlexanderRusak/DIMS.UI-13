@@ -60,8 +60,6 @@ export class Tasks extends Component {
     this.setState({ isOpen: false });
   };
 
-
-
   getLink = (data) => (
     <i
       tabIndex={defaultProps.tabIndex}
@@ -71,8 +69,8 @@ export class Tasks extends Component {
       onClick={this.openModalHandler}
       onKeyPress={noop}
     >
-      { data.taskName}
-    </i >
+      {data.taskName}
+    </i>
   );
 
   onSubmitData = () => {
@@ -134,8 +132,22 @@ export class Tasks extends Component {
             <p>{data.deadLine}</p>
           </li>
           <li className={classes.actions}>
-            {<ButtonGroup modalType='edit' title='Edit' styles={`${classes.warning}`} onClick={this.openModalHandler} />}
-            {<ButtonGroup modalType='delete' title='Delete' styles={`${classes.delete}`} onClick={this.openModalHandler} />}
+            {
+              <ButtonGroup
+                modalType='edit'
+                title='Edit'
+                styles={`${classes.warning}`}
+                onClick={this.openModalHandler}
+              />
+            }
+            {
+              <ButtonGroup
+                modalType='delete'
+                title='Delete'
+                styles={`${classes.delete}`}
+                onClick={this.openModalHandler}
+              />
+            }
           </li>
         </ul>
       </div>
@@ -148,7 +160,14 @@ export class Tasks extends Component {
 
     return (
       <>
-        {<ButtonGroup modalType='create' title='Create' styles={`${classes.default} ${classes.pushRight}`} onClick={this.openModalHandler} />}
+        {
+          <ButtonGroup
+            modalType='create'
+            title='Create'
+            styles={`${classes.default} ${classes.pushRight}`}
+            onClick={this.openModalHandler}
+          />
+        }
         {this.getHeader()}
         {fakeData.map((item, index) => (
           <div key={item.taskName}>{this.getTable(item, index)}</div>

@@ -30,8 +30,8 @@ export class TrackModal extends Component {
         task: mode === 'edit' ? selectedItem.task : '',
         note: mode === 'edit' ? selectedItem.note : '',
         date: mode === 'edit' ? selectedItem.date : '',
-      }
-    })
+      },
+    });
   }
 
   renderField = () => {
@@ -42,14 +42,14 @@ export class TrackModal extends Component {
       mode === 'details'
         ? fields.map((field, index) => <Label title={fields[index][0]} value={fields[index][1]} />)
         : fields.map((field, index) => (
-          <Input
-            field={field}
-            title={fields[index][0]}
-            onChange={this.onValueHandler}
-            value={value[fields[index][0]]}
-            isValid={value[fields[index][0]] || !touched[fields[index][0]]}
-          />
-        ));
+            <Input
+              field={field}
+              title={fields[index][0]}
+              onChange={this.onValueHandler}
+              value={value[fields[index][0]]}
+              isValid={value[fields[index][0]] || !touched[fields[index][0]]}
+            />
+          ));
     return currentFields;
   };
 

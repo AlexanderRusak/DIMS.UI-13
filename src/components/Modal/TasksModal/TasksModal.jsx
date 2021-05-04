@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from '../../UI/Buttons/Button/Button';
 import { Checkbox } from '../../UI/CheckBox/Checkbox';
 import { Input } from '../../UI/Input/Input';
-import { fakeUsers } from '../../../fakeUsers'
+import { fakeUsers } from '../../../fakeUsers';
 import classes from './TasksModal.module.css';
 import { Label } from '../../UI/Label/Label';
 
@@ -16,16 +16,16 @@ export class TasksModal extends PureComponent {
     };
   }
 
-  getCheckedUser = (index) => { /* mokk */
+  getCheckedUser = (index) => {
+    /* mokk */
     const newUsers = [...fakeUsers];
     newUsers[index].isCheck = !newUsers[index].isCheck;
     this.setState({
-      fakeUsers
+      fakeUsers,
     });
   };
 
-  getCreateModal = (fakeUsers, test, onClose, onSubmit) =>
-  (
+  getCreateModal = (fakeUsers, test, onClose, onSubmit) => (
     <div className={classes.container}>
       <Input title='Name' isValid={!!test} />
       <Input title='Description' isValid={!!test} />
@@ -35,34 +35,35 @@ export class TasksModal extends PureComponent {
       <div className={classes.btnGroup}>
         <Button typeButton='primary' onClick={onSubmit}>
           Create
-          </Button>
+        </Button>
         <Button typeButton='default' onClick={onClose}>
           Back To List
-          </Button>
+        </Button>
       </div>
     </div>
   );
 
-  getDetailsModal = (fakeUsers, onClose, onSubmit) =>
-  (
+  getDetailsModal = (fakeUsers, onClose, onSubmit) => (
     <div className={classes.container}>
       <Label title='Name' />
       <Label title='Description' />
       <Label title='Start Date' />
       <Label title='Deadline' />
-      {fakeUsers.filter((user) => user.isCheck).map((user) => (
-        <Label key={user.name} value={user.name} />
-      ))}
+      {fakeUsers
+        .filter((user) => user.isCheck)
+        .map((user) => (
+          <Label key={user.name} value={user.name} />
+        ))}
       <div className={classes.btnGroup}>
         <Button typeButton='primary' onClick={onSubmit}>
           Create
-          </Button>
+        </Button>
         <Button typeButton='default' onClick={onClose}>
           Back To List
-          </Button>
+        </Button>
       </div>
     </div>
-  )
+  );
 
   render() {
     const { fakeUsers, test } = this.state;
