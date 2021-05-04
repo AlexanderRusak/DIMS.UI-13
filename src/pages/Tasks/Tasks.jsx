@@ -80,6 +80,7 @@ export class Tasks extends Component {
     this.setState({ isOpen: false, isModalOpen: false });
   };
 
+<<<<<<< HEAD
   onDeleteModalOpen = (index) => {
     this.setState({ isModalOpen: true, index });
   };
@@ -93,6 +94,9 @@ export class Tasks extends Component {
   };
 
   getLink = (type, index, data) => (
+=======
+  getLink = (data) => (
+>>>>>>> fe3e434b47a74e74a744198bc3bfc3bfd04dc4fe
     <i
       tabIndex={defaultProps.tabIndex}
       aria-label={defaultProps.ariaLabel}
@@ -161,7 +165,10 @@ export class Tasks extends Component {
           <li className={classes.actions}>
             {
               <ButtonGroup
+<<<<<<< HEAD
                 index={index}
+=======
+>>>>>>> fe3e434b47a74e74a744198bc3bfc3bfd04dc4fe
                 modalType='edit'
                 title='Edit'
                 styles={`${classes.warning}`}
@@ -170,7 +177,10 @@ export class Tasks extends Component {
             }
             {
               <ButtonGroup
+<<<<<<< HEAD
                 index={index}
+=======
+>>>>>>> fe3e434b47a74e74a744198bc3bfc3bfd04dc4fe
                 modalType='delete'
                 title='Delete'
                 styles={`${classes.delete}`}
@@ -191,7 +201,10 @@ export class Tasks extends Component {
       <>
         {
           <ButtonGroup
+<<<<<<< HEAD
             index={index}
+=======
+>>>>>>> fe3e434b47a74e74a744198bc3bfc3bfd04dc4fe
             modalType='create'
             title='Create'
             styles={`${classes.default} ${classes.pushRight}`}
