@@ -187,7 +187,6 @@ export class Tasks extends Component {
   render() {
     const { isOpen, modalType, index, isModalOpen, fdata, users } = this.state;
 
-    console.log(isModalOpen);
     return (
       <>
         {

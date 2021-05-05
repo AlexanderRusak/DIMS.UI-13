@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getRefFirebase } from '../../firebase/helpers';
 import { TableHeader } from '../../components/Table/TableHeader';
-import { setDataToLS } from '../../localStorage/localStorageFunctions';
+/* import { setDataToLS } from '../../localStorage/localStorageFunctions'; */
 import { PROGRESS } from '../../db/tableName';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import classes from '../TableStyle.module.css';
 import noop from '../../shared/noop';
 import { TableBody } from '../../components/Table/TableBody';
+import { Table } from '../../hoc/Table/Table';
 
 class MemebersProgress extends Component {
   constructor(props) {
@@ -24,10 +25,10 @@ class MemebersProgress extends Component {
 
   getData = () => {
     getRefFirebase(PROGRESS).onSnapshot((doc) => {
-      const { memberProgress } = doc.data();
-      setDataToLS(PROGRESS, memberProgress);
+      const { memberProgress: data } = doc.data();
+     /*  setDataToLS(PROGRESS, memberProgress); */
       this.setState({
-        data: memberProgress,
+        data
       });
     });
   };
@@ -35,7 +36,7 @@ class MemebersProgress extends Component {
   render() {
     const { data } = this.state;
     const { location } = this.props;
-    const selectedProgress = data.filter((item) => item.UserID === location.emailId);
+    const selectedProgress = data.filter((item) => item.userID === location.emailId);
     /* const { TaskName, TrackNote, TrackDate } = selectedProgress; */
     const { UserName } = data[0] || '';
     console.log(selectedProgress);
@@ -46,8 +47,10 @@ class MemebersProgress extends Component {
         <Link to='/members'>
           <ButtonGroup styles={`${classes.button} ${classes.back}`} title='Back to List' onClick={noop} />
         </Link>
-        <TableHeader items={['#', 'Task Name', 'Track Note', 'Date']} />
-        <TableBody header={['#', 'Task Name', 'Track Note', 'Track Date']} items={selectedProgress} />
+        <Table>
+          <TableHeader items={['#', 'Task Name', 'Track Note', 'Date']} />
+          <TableBody header={['#', 'Task Name', 'Track Note', 'Track Date']} items={selectedProgress}   />
+        </Table>
       </>
     );
   }
@@ -59,3 +62,5 @@ MemebersProgress.propTypes = {
 MemebersProgress.defaultProps = {};
 
 export default MemebersProgress;
+
+

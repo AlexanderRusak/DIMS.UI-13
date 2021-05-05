@@ -3,7 +3,6 @@ import { Button } from '../UI/Buttons/Button/Button';
 
 export const ButtonGroup = ({ modalType, title, styles, onClick }) => (
   <Button onClick={() => onClick(modalType)} className={styles}>
-    {' '}
     <p>{title}</p>
   </Button>
 );

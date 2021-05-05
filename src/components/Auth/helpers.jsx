@@ -10,4 +10,3 @@ export const isValidEmail = (email) => {
 export const validateRequired = (value) => {
   return value.trim();
 };
-  

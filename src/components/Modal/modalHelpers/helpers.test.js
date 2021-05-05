@@ -1,13 +1,11 @@
 import { toLowerCaseFirstLetter, toTrim } from './helpers';
 
 describe(toLowerCaseFirstLetter, () => {
-
   //Act
   const actual = 'String';
 
   //Arrange
   const expected = 'string';
-
 
   //Arrange
   test('Should return string with first lowercase letter', () => {
@@ -18,22 +16,20 @@ describe(toLowerCaseFirstLetter, () => {
   });
 
   test('Should use string value', () => {
-    expect(typeof actual === 'string').toBeTruthy()
+    expect(typeof actual === 'string').toBeTruthy();
   });
 
   test('Should return false if used not string', () => {
-    expect(typeof !!actual === 'string').toBeFalsy()
+    expect(typeof !!actual === 'string').toBeFalsy();
   });
 });
- 
-describe(toTrim, () => {
 
+describe(toTrim, () => {
   //Act
   const actual = 'String     ';
 
   //Arrange
   const expected = 'string';
-
 
   //Accept
   test('Should return string without spaces', () => {

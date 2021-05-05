@@ -1,12 +1,10 @@
 import { isValidEmail, setMinLengthRequired, isValidAge, getCurrentDateUTC, setScoreValue } from './validationHelpers';
 
 describe('isValidEmail', () => {
-
   //Act
   const actual = 'test@mail.ru';
 
   const expected = 'testmail.ru';
-
 
   test('Should return valid email', () => {
     expect(isValidEmail(actual)).toBe(true);

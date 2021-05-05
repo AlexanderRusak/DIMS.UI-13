@@ -2,21 +2,23 @@ import PropTypes from 'prop-types';
 import classes from './TableStyle.module.css';
 
 export const TableHeader = ({ items }) => {
-    return (<div className={classes.TableStyle}>
-        <ul className={classes.header}>
-            {items.map(item =>
-                <li>
-                    <p>{item}</p>
-                </li>
-            )}
+  return (
+    <thead className={classes.TableStyle}>
+      <tr className={classes.header}>
+        {items.map((item) => (
+          <td>
+            <p>{item}</p>
+          </td>
+        ))}
 
-            {/*             <li className={classes.date}>
+        {/*             <li className={classes.date}>
                 <p>Date</p>
             </li> */}
-        </ul>
-    </div>)
-}
+      </tr>
+    </thead>
+  );
+};
 
 TableHeader.propTypes = {
-    items: PropTypes.shape([]).isRequired,
+  items: PropTypes.shape([]).isRequired,
 };
