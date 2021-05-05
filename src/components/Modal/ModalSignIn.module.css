@@ -1,0 +1,40 @@
+:root {
+  --black: #000;
+  --white: #fff;
+  --red: red;
+  --light-grey: #ccc;
+  --grenn: green;
+}
+
+.ModalSignIn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 400px;
+  height: 200px;
+  background-color: var(--white);
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 10px;
+  border: 2px solid var(--black);
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+button {
+  display: flex;
+  background-color: var(--green);
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  align-self: center;
+  cursor: pointer;
+}
+p {
+  margin: 0;
+  padding: 0;
+}

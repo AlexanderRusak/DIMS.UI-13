@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import { TableProgress } from '../../components/Table/TableProgress/TableProgress';
-import { getDataFromLS, setDataToLS } from '../../localStorage/localStorageFunctions';
+import PropTypes from 'prop-types';
+import { getRefFirebase } from '../../firebase/helpers';
+import { setDataToLS } from '../../localStorage/localStorageFunctions';
 import { PROGRESS } from '../../db/tableName';
-import classes from '../Members.module.css';
-import firebase from '../../firebase';
+import classes from './TableStyle.module.css';
 
 class MemebersProgress extends Component {
   constructor(props) {
@@ -18,19 +18,16 @@ class MemebersProgress extends Component {
   }
 
   getTableHeader = () => (
-    <div className={classes.Members}>
-      <ul>
+    <div className={classes.TableStyle}>
+      <ul className={classes.header}>
         <li>
           <p>#</p>
         </li>
         <li>
-          <p>Full Name</p>
+          <p>Task Name</p>
         </li>
         <li>
-          <p>Direction</p>
-        </li>
-        <li>
-          <p>Education</p>
+          <p>Track Note</p>
         </li>
         <li className={classes.date}>
           <p>Date</p>
@@ -39,40 +36,57 @@ class MemebersProgress extends Component {
     </div>
   );
 
+  getTable = ({ TaskName, TrackNote, TrackDate }, index) => {
+    return (
+      <div className={classes.TableStyle}>
+        <ul className={classes.table}>
+          <li>
+            <p>{index + 1}</p>
+          </li>
+          <li>
+            <p>{TaskName}</p>
+          </li>
+          <li>
+            <p>{TrackNote}</p>
+          </li>
+          <li>
+            <p>{TrackDate}</p>
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
   getData = () => {
-    if (getDataFromLS(PROGRESS)) {
+    getRefFirebase(PROGRESS).onSnapshot((doc) => {
+      const { memberProgress } = doc.data();
+      setDataToLS(PROGRESS, memberProgress);
       this.setState({
-        data: getDataFromLS(PROGRESS),
+        data: memberProgress,
       });
-    } else {
-      const ref = firebase.firestore().collection('data').doc(PROGRESS);
-      ref.onSnapshot((doc) => {
-        const { memberProgress } = doc.data();
-        setDataToLS(PROGRESS, memberProgress);
-        this.setState(() => {
-          return {
-            data: memberProgress,
-          };
-        });
-      });
-    }
+    });
   };
 
   render() {
     const { data } = this.state;
-    const [UserID] = data;
+    const { location } = this.props;
+    const selectedProgress = data.filter((item) => item.UserID === location.emailId);
+
+    const { UserName } = data[0] || '';
+
     return (
       <>
+        <h4>{UserName} Progress</h4>
         {this.getTableHeader()}
-        {data.map((row) => (
-          <TableProgress key={UserID} data={row} />
-        ))}
+        {selectedProgress.map((row, index) => this.getTable(row, index))}
       </>
     );
   }
 }
 
-MemebersProgress.propTypes = {};
+MemebersProgress.propTypes = {
+  location: PropTypes.shape({ emailId: PropTypes.string.isRequired }).isRequired,
+};
 MemebersProgress.defaultProps = {};
 
 export default MemebersProgress;

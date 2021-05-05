@@ -1,0 +1,34 @@
+:root {
+  --black: #000;
+  --white: #fff;
+  --red: red;
+  --light-grey: #ccc;
+  --green: green;
+}
+.Main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100px;
+  background-color: var(--green);
+  border: 1px solid var(--black);
+  box-sizing: border-box;
+}
+
+.logo {
+  height: 100px;
+}
+.FooterList {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.icon {
+  display: block;
+  height: 50px;
+  width: 50px;
+  font-size: 20px;
+}

@@ -1,0 +1,46 @@
+:root {
+  --white: #fff;
+}
+
+.Alert {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+  height: 50px;
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  top: 100px;
+  left: 0;
+  right: 0;
+  width: 40vw;
+  height: 50px;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.8);
+  animation: alert 5000ms ease-in;
+  border-radius: 10px;
+}
+
+.Alert p {
+  font-size: 1.6rem;
+  color: var(--white);
+}
+
+@keyframes alert {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
