@@ -45,13 +45,13 @@ export class TasksModal extends PureComponent {
   componentDidMount() {
     const { index, type, users } = this.props;
     const data = this.props;
-    console.log(index, type, data.data);
+    console.log(data.data, index, type);
 
     this.setState({
-      taskName: type === 'create' ? '' : data.data[index].taskName,
-      description: type === 'create' ? '' : data.data[index].description,
-      startDate: type === 'create' ? '' : data.data[index].startDate,
-      deadLine: type === 'create' ? '' : data.data[index].deadLine,
+      taskName: type !== 'create' ? data.data[index].taskName : '',
+      description: type !== 'create' ? data.data[index].description : '',
+      startDate: type !== 'create' ? data.data[index].startDate : '',
+      deadLine: type !== 'create' ? data.data[index].deadLine : '',
       isValid: {
         taskName: type === 'edit' ? !!data.data[index].taskName : false,
         description: type === 'edit' ? !!data.data[index].description : false,

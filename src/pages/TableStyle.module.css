@@ -127,6 +127,10 @@ a {
   width: auto;
   min-width: 4.5rem;
 }
+.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
 i {
   font-style: normal;
   outline: none;

@@ -1,5 +1,8 @@
 import { Component } from 'react';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
+import { Table } from '../../hoc/Table/Table';
+import { TableHeader } from '../../components/Table/TableHeader';
+import { TableBody } from '../../components/Table/TableBody';
 /* import { getRefFirebase } from '../../firebase/helpers'; */
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
 import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
@@ -65,11 +68,8 @@ export class Tasks extends Component {
     };
   }
 
-  /*   componentDidMount() {
-      this.getData();
-    } */
 
-  openModalHandler = (type, index) => () => {
+  openModalHandler = (index, type) => () => {
     console.log(type, index);
     this.setState({ isOpen: type !== 'delete', modalType: type, index });
     if (type === 'delete') {
@@ -87,119 +87,67 @@ export class Tasks extends Component {
 
   onDelete = () => {
     const { index, fdata } = this.state;
-
     fdata.splice(index, 1);
     console.log(fdata);
     this.setState({ fdata: [...fdata], isModalOpen: false });
   };
 
-  getLink = (type, index, data) => (
+  getLink = (name, index) => (
     <i
       tabIndex={defaultProps.tabIndex}
       aria-label={defaultProps.ariaLabel}
       type={defaultProps.type}
       role='button'
-      onClick={this.openModalHandler(type, index)}
+      onClick={this.openModalHandler(index, 'details')}
       onKeyPress={noop}
     >
-      {data.taskName}
+      {name}
     </i>
   );
 
-  /*   getData = () => {
-      getRefFirebase(TASKS).onSnapshot((doc) => {
-        const tasks = doc.data() || [];
-        this.setState({
-          fdata: tasks,
-        });
-      });
-    }; */
+  getButtons = () => {
+    return [
+      {
+        component: ButtonGroup,
+        styles: `${classes.button} ${classes.warning}`,
+        title: 'Edit',
+        type: 'edit',
+        onClick: this.openModalHandler,
+      },
+      {
+        component: ButtonGroup,
+        styles: `${classes.button} ${classes.danger}`,
+        title: 'Delete',
+        type: 'delete',
+        onClick: this.openModalHandler,
+      },
+    ]
+  }
 
-  getHeader = () => {
-    return (
-      <div className={classes.TableStyle}>
-        <ul className={classes.header}>
-          <li>
-            <p>#</p>
-          </li>
-          <li>
-            <p>Task Name</p>
-          </li>
-          <li>
-            <p>Description</p>
-          </li>
-          <li>
-            <p>Start Date</p>
-          </li>
-          <li>
-            <p>Deadline</p>
-          </li>
-          <li>
-            <p>Action</p>
-          </li>
-        </ul>
-      </div>
-    );
-  };
-
-  getTable = (index, data) => {
-    return (
-      <div className={classes.TableStyle}>
-        <ul className={classes.table}>
-          <li>
-            <p>{index + 1}</p>
-          </li>
-          <li>{this.getLink('details', index, data)}</li>
-          <li>
-            <p>{data.description}</p>
-          </li>
-          <li>
-            <p>{data.startDate}</p>
-          </li>
-          <li>
-            <p>{data.deadLine}</p>
-          </li>
-          <li className={classes.actions}>
-            {
-              <ButtonGroup
-                index={index}
-                modalType='edit'
-                title='Edit'
-                styles={`${classes.warning}`}
-                onClick={this.openModalHandler('edit', index)}
-              />
-            }
-            {
-              <ButtonGroup
-                index={index}
-                modalType='delete'
-                title='Delete'
-                styles={`${classes.delete}`}
-                onClick={this.openModalHandler('delete', index)}
-              />
-            }
-          </li>
-        </ul>
-      </div>
-    );
-  };
 
   render() {
     const { isOpen, modalType, index, isModalOpen, fdata, users } = this.state;
 
     return (
       <>
-        {
-          <ButtonGroup
-            index={index}
-            modalType='create'
-            title='Create'
-            styles={`${classes.default} ${classes.pushRight}`}
-            onClick={this.openModalHandler('create')}
+
+        <ButtonGroup
+          index={index}
+          type='create'
+          title='Create'
+          styles={`${classes.default} ${classes.pushRight}`}
+          onClick={this.openModalHandler(null, 'create')}
+        />
+        <Table>
+          <TableHeader items={['#', 'Task Name', 'Description', 'Start Date', 'Dead Line', 'Action']} />
+          <TableBody
+            header={['#', 'Task Name', 'Description', 'Start Date', 'DeadLine', 'Action']}
+            items={fdata}
+            buttons={this.getButtons()}
+            detailsHeader='Task Name'
+            detailsComponent={this.getLink}
           />
-        }
-        {this.getHeader()}
-        {fdata.map((item, index) => this.getTable(index, item))}
+        </Table>
         {isOpen && (
           <TasksModal
             users={users}
