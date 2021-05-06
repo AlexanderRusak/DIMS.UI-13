@@ -38,6 +38,6 @@ Input.defaultProps = {
   type: 'text',
   errorMessage: null,
   value: null,
-  isValid: null,
+  isValid: false,
   checked: null,
 };

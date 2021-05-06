@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Members from '../pages/Members/Members';
 import MembersTasks from '../pages/MembersTasks/MembersTasks';
-import MemberTracks from '../pages/Members/MemberTracks';
+import MemberTracks from '../pages/MembersTracks/MemberTracks';
 import MembersProgress from '../pages/Progress/MembersProgress';
 import { Tasks } from '../pages/Tasks/Tasks';
 import { SignIn } from '../pages/SignIn/SignIn';

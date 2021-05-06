@@ -99,7 +99,7 @@ export class TrackModal extends Component {
 
 TrackModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
-  mode: PropTypes.string.isRequired,
+  mode: PropTypes.string,
   selectedItem: PropTypes.shape({
     task: PropTypes.string.isRequired,
     note: PropTypes.string.isRequired,
@@ -108,4 +108,5 @@ TrackModal.propTypes = {
 };
 TrackModal.defaultProps = {
   selectedItem: null,
+  mode:''
 };

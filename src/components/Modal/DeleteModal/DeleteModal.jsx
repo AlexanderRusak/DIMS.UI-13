@@ -22,11 +22,14 @@ export const DeleteModal = ({ title, onClose, item, onDelete }) => {
 };
 
 DeleteModal.propTypes = {
-  item: PropTypes.number.isRequired,
+  item: PropTypes.number,
   title: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
+DeleteModal.defaultProps = {
+  item: null
+}
 
 DeleteModal.defaultProps = {
   title: 'item',
