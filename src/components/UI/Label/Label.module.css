@@ -1,5 +1,10 @@
 .Label {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  height: 60px;
 }
 
 .Label .value {
@@ -14,8 +19,5 @@
 }
 
 .Label .title {
-  margin-bottom: 3px;
-  padding: 0;
-  display: block;
   font-weight: bold;
 }
