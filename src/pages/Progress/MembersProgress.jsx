@@ -26,9 +26,9 @@ class MemebersProgress extends Component {
   getData = () => {
     getRefFirebase(PROGRESS).onSnapshot((doc) => {
       const { memberProgress: data } = doc.data();
-     /*  setDataToLS(PROGRESS, memberProgress); */
+      /*  setDataToLS(PROGRESS, memberProgress); */
       this.setState({
-        data
+        data,
       });
     });
   };
@@ -49,7 +49,7 @@ class MemebersProgress extends Component {
         </Link>
         <Table>
           <TableHeader items={['#', 'Task Name', 'Track Note', 'Date']} />
-          <TableBody header={['#', 'Task Name', 'Track Note', 'Track Date']} items={selectedProgress}   />
+          <TableBody header={['#', 'Task Name', 'Track Note', 'Track Date']} items={selectedProgress} />
         </Table>
       </>
     );
@@ -62,5 +62,3 @@ MemebersProgress.propTypes = {
 MemebersProgress.defaultProps = {};
 
 export default MemebersProgress;
-
-

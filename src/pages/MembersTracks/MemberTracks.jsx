@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { TrackModal } from '../../components/Modal/TrackModal/TrackModal';
-import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal'
+import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
 import { Button } from '../../components/UI/Buttons/Button/Button';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import { TableHeader } from '../../components/Table/TableHeader';
@@ -9,7 +9,6 @@ import { Table } from '../../hoc/Table/Table';
 import { defaultProps } from '../../defaultValues/default';
 import noop from '../../shared/noop';
 import classes from '../TableStyle.module.css';
-
 
 const selectedProgress = [
   { task: 'create db', note: 'create', date: '2020-04-15' },
@@ -31,11 +30,11 @@ class MemebersTracks extends Component {
       isOpen: false,
       mode: '',
       selectedItem: null,
-      selectedindex: ''
+      selectedindex: '',
     };
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
   openModal = (index = null, mode) => () => {
     console.log(index, mode);
@@ -46,7 +45,7 @@ class MemebersTracks extends Component {
     console.log(index);
     selectedProgress.splice(index, 1);
     this.closeModal();
-  }
+  };
 
   closeModal = () => {
     this.setState({ isOpen: false, mode: '' });
@@ -60,7 +59,6 @@ class MemebersTracks extends Component {
     ));
   };
 
-
   getDetailsComponent = (name, index) => (
     <i
       tabIndex={defaultProps.tabIndex}
@@ -71,13 +69,10 @@ class MemebersTracks extends Component {
       onKeyPress={noop}
     >
       {name}
-    </i>)
-
-
-
+    </i>
+  );
 
   getButtons = () => {
-
     return [
       {
         component: ButtonGroup,
@@ -93,8 +88,8 @@ class MemebersTracks extends Component {
         type: 'delete',
         onClick: this.openModal,
       },
-    ]
-  }
+    ];
+  };
 
   render() {
     const { isOpen, mode, selectedItem, selectedindex } = this.state;
@@ -113,10 +108,15 @@ class MemebersTracks extends Component {
             buttons={this.getButtons()}
             items={selectedProgress}
             detailsHeader='Task'
-            detailsComponent={this.getDetailsComponent} />
+            detailsComponent={this.getDetailsComponent}
+          />
         </Table>
-        {isOpen && mode === 'delete' && <DeleteModal onDelete={this.onDelete(selectedindex)} onClose={this.closeModal} title='Track' />}
-        {isOpen && mode !== 'delete' && <TrackModal mode={mode} selectedItem={selectedItem} closeModal={this.closeModal} />}
+        {isOpen && mode === 'delete' && (
+          <DeleteModal onDelete={this.onDelete(selectedindex)} onClose={this.closeModal} title='Track' />
+        )}
+        {isOpen && mode !== 'delete' && (
+          <TrackModal mode={mode} selectedItem={selectedItem} closeModal={this.closeModal} />
+        )}
       </>
     );
   }

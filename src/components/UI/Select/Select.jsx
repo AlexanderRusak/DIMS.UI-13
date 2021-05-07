@@ -8,7 +8,7 @@ export const Select = ({ title, options, value, onChange, readonly }) => {
       <select id={title} name={title} value={value} onChange={onChange} disabled={readonly}>
         <option value=''>Please select...</option>
         {options.map((el) => (
-          <option name={value} value={el} key={el} >
+          <option name={value} value={el} key={el}>
             {el}
           </option>
         ))}

@@ -211,7 +211,6 @@ export class TasksModal extends PureComponent {
 }
 
 TasksModal.propTypes = {
-
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,

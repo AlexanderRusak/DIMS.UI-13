@@ -68,7 +68,6 @@ export class Tasks extends Component {
     };
   }
 
-
   openModalHandler = (index, type) => () => {
     console.log(type, index);
     this.setState({ isOpen: type !== 'delete', modalType: type, index });
@@ -121,16 +120,14 @@ export class Tasks extends Component {
         type: 'delete',
         onClick: this.openModalHandler,
       },
-    ]
-  }
-
+    ];
+  };
 
   render() {
     const { isOpen, modalType, index, isModalOpen, fdata, users } = this.state;
 
     return (
       <>
-
         <ButtonGroup
           index={index}
           type='create'

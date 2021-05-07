@@ -4,7 +4,7 @@ import { ButtonGroup } from '../../ButtonGroup/ButtonGroup';
 import { Input } from '../../UI/Input/Input';
 import { setMinLengthRequired, errorTitle, getCurrentDateUTC } from '../../Validation/validationHelpers';
 import { Label } from '../../UI/Label/Label';
-import { Button } from '../../UI/Buttons/Button/Button'
+import { Button } from '../../UI/Buttons/Button/Button';
 import { toTrim, toLowerCaseFirstLetter, isValidFormCreateNewUsers } from '../modalHelpers/helpers';
 import buttonClasses from '../../../pages/TableStyle.module.css';
 import classes from './TrackModal.module.css';
@@ -27,7 +27,6 @@ export class TrackModal extends Component {
     };
   }
 
-
   componentDidMount() {
     const { selectedItem } = this.props;
     this.setState({
@@ -38,8 +37,6 @@ export class TrackModal extends Component {
       },
     });
   }
-
-
 
   getInputData = () => {
     const { value } = this.state;
@@ -62,25 +59,25 @@ export class TrackModal extends Component {
         isValid: getCurrentDateUTC(value.date),
         errorMessage: 'Date should not be in past    ',
       },
-    ]
-  }
+    ];
+  };
 
   onValueHandler = (event) => {
     const { value, touched } = this.state;
-    const inputValue = event.target.value
+    const inputValue = event.target.value;
     const elementName = toLowerCaseFirstLetter(toTrim(event.target.attributes[1].nodeValue));
     this.setState({ value: { ...value, [elementName]: inputValue }, touched: { ...touched, [elementName]: true } });
     console.log({ ...this.state });
   };
-
 
   renderInputs = () => {
     const { touched, value } = this.state;
     const { mode } = this.props;
     return this.getInputData().map((inputItem) => {
       const el = toLowerCaseFirstLetter(toTrim(inputItem.title));
-      return mode === 'details' ?
-        <Label title={inputItem.title} value={value[el]} /> :
+      return mode === 'details' ? (
+        <Label title={inputItem.title} value={value[el]} />
+      ) : (
         <Input
           value={value[el]}
           key={inputItem.title}
@@ -90,9 +87,9 @@ export class TrackModal extends Component {
           isValid={!touched[el] || inputItem.isValid}
           errorMessage={inputItem.errorMessage}
         />
+      );
     });
   };
-
 
   saveHandler = () => {
     const { closeModal } = this.props;
@@ -118,14 +115,16 @@ export class TrackModal extends Component {
         <div>
           <this.renderInputs /> {/* move to comp */}
           <div className={classes.btnGroup}>
-
             {mode !== 'details' && (
-              <Button styles={`${isValid ? buttonClasses.button : buttonClasses.disabled}`} disabled={!isValidFormCreateNewUsers(value)} onClick={this.saveHandler} >
+              <Button
+                styles={`${isValid ? buttonClasses.button : buttonClasses.disabled}`}
+                disabled={!isValidFormCreateNewUsers(value)}
+                onClick={this.saveHandler}
+              >
                 Save
               </Button>
             )}
             <ButtonGroup styles={`${buttonClasses.back}`} onClick={this.cancelHandler} title='Back To List' />
-
           </div>
         </div>
       </div>
@@ -144,5 +143,5 @@ TrackModal.propTypes = {
 };
 TrackModal.defaultProps = {
   selectedItem: null,
-  mode: ''
+  mode: '',
 };

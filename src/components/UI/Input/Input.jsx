@@ -41,5 +41,5 @@ Input.defaultProps = {
   value: null,
   isValid: false,
   checked: null,
-  readonly: false
+  readonly: false,
 };

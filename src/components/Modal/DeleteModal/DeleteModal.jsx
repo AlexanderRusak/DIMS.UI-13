@@ -28,8 +28,8 @@ DeleteModal.propTypes = {
   onDelete: PropTypes.func.isRequired,
 };
 DeleteModal.defaultProps = {
-  item: null
-}
+  item: null,
+};
 
 DeleteModal.defaultProps = {
   title: 'item',

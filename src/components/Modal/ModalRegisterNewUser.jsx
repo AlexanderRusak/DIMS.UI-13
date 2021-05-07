@@ -138,18 +138,18 @@ export class ModalRegisterNewUser extends Component {
     return this.getInputsData().map((inputItem) => {
       const el = toLowerCaseFirstLetter(toTrim(inputItem.title));
 
-      return <Input
-        value={data[el]}
-        key={inputItem.title}
-        onChange={this.getValue}
-        title={inputItem.title}
-        type={inputItem.type || 'text'}
-        isValid={!touched[el] || inputItem.isValid}
-        errorMessage={inputItem.errorMessage}
-        readonly={modalType === 'details'}
-      />
-
-
+      return (
+        <Input
+          value={data[el]}
+          key={inputItem.title}
+          onChange={this.getValue}
+          title={inputItem.title}
+          type={inputItem.type || 'text'}
+          isValid={!touched[el] || inputItem.isValid}
+          errorMessage={inputItem.errorMessage}
+          readonly={modalType === 'details'}
+        />
+      );
     });
   };
 
@@ -186,8 +186,6 @@ export class ModalRegisterNewUser extends Component {
     const usersDataFields = { ...this.state };
     delete usersDataFields.touched;
     console.log(modalType);
-
-
 
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>

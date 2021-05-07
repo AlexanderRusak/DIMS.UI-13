@@ -20,7 +20,7 @@
     "lint": "eslint \"src/**/*.+(js|jsx)\"",
     "lint:fix": "eslint --fix \"src/**/*.+(js|jsx)\"",
     "clean": "rm -rf node_modules coverage build",
-    "clean:coverage": "rm -rf coverage",
+    "clean:coverage": "rm -rf coverage", 
     "cm": "cz",
     "prepare": "husky install"
   },

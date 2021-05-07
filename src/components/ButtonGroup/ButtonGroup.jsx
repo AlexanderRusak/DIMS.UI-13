@@ -6,8 +6,8 @@ export const ButtonGroup = ({ modalType, title, styles, onClick, disabled }) => 
     <Button disabled={disabled} onClick={() => onClick(modalType)} className={styles}>
       <p>{title}</p>
     </Button>
-  )
-}
+  );
+};
 
 ButtonGroup.propTypes = {
   modalType: PropTypes.string,
@@ -21,5 +21,5 @@ ButtonGroup.defaultProps = {
   modalType: null,
   title: 'Button',
   styles: null,
-  disabled: false
+  disabled: false,
 };

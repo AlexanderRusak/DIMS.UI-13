@@ -67,11 +67,9 @@ class Members extends Component {
     this.setState({ isOpenRegister: false });
   };
 
-
-
   getButtons = () => {
     const { data } = this.state;
-    const email = Object.keys(data)
+    const email = Object.keys(data);
     return [
       {
         component: LinkButton,
@@ -100,7 +98,7 @@ class Members extends Component {
         title: 'Delete',
         onClick: this.openDeleteModule,
       },
-    ]
+    ];
   };
 
   getLink = (name, index) => (
@@ -115,7 +113,6 @@ class Members extends Component {
       {name}
     </i>
   );
-
 
   render() {
     const { data, isOpenRegister, type, selectedItem, isOpenDelete } = this.state;
@@ -132,41 +129,33 @@ class Members extends Component {
           <TableBody
             header={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']}
             items={Object.values(data)}
-            buttons={
-              this.getButtons()
-            }
+            buttons={this.getButtons()}
             detailsHeader='fullName'
             detailsComponent={this.getLink}
           />
         </Table>
-        {
-          isOpenRegister && (
-            <ModalRegisterNewUser
-              editData={selectedItem !== null ? Object.values(data)[selectedItem] : {}}
-              isOpen={isOpenRegister}
-              onClose={this.onClose}
-              modalType={type}
-            />
-          )
-        }
-        {
-          isOpenDelete && (
-            <DeleteModal
-              onDelete={this.deleteMember}
-              onClose={this.closeModalHandler}
-              item={selectedItem}
-              title='member'
-            />
-          )
-        }
+        {isOpenRegister && (
+          <ModalRegisterNewUser
+            editData={selectedItem !== null ? Object.values(data)[selectedItem] : {}}
+            isOpen={isOpenRegister}
+            onClose={this.onClose}
+            modalType={type}
+          />
+        )}
+        {isOpenDelete && (
+          <DeleteModal
+            onDelete={this.deleteMember}
+            onClose={this.closeModalHandler}
+            item={selectedItem}
+            title='member'
+          />
+        )}
       </>
     );
   }
 }
 
-Members.propTypes = {
-
-};
+Members.propTypes = {};
 Members.defaultProps = {};
 
 export default Members;
