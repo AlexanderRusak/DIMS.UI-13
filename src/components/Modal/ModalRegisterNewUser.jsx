@@ -133,25 +133,29 @@ export class ModalRegisterNewUser extends Component {
 
   renderInputs = () => {
     const { touched } = this.state;
+    const { modalType } = this.props;
     const data = this.state;
     return this.getInputsData().map((inputItem) => {
       const el = toLowerCaseFirstLetter(toTrim(inputItem.title));
-      return (
-        <Input
-          value={data[el]}
-          key={inputItem.title}
-          onChange={this.getValue}
-          title={inputItem.title}
-          type={inputItem.type || 'text'}
-          isValid={!touched[el] || inputItem.isValid}
-          errorMessage={inputItem.errorMessage}
-        />
-      );
+
+      return <Input
+        value={data[el]}
+        key={inputItem.title}
+        onChange={this.getValue}
+        title={inputItem.title}
+        type={inputItem.type || 'text'}
+        isValid={!touched[el] || inputItem.isValid}
+        errorMessage={inputItem.errorMessage}
+        readonly={modalType === 'details'}
+      />
+
+
     });
   };
 
   renderSelects = () => {
     const data = this.state;
+    const { modalType } = this.props;
     return selectData.map((selectItem) => {
       const el = toLowerCaseFirstLetter(toTrim(selectItem.title));
       return (
@@ -161,6 +165,7 @@ export class ModalRegisterNewUser extends Component {
           key={selectItem.title}
           onChange={this.getValue}
           options={selectItem.options}
+          readonly={modalType === 'details'}
         />
       );
     });
@@ -177,11 +182,12 @@ export class ModalRegisterNewUser extends Component {
   };
 
   render() {
-    const { isOpen, onClose } = this.props;
+    const { isOpen, onClose, modalType } = this.props;
     const usersDataFields = { ...this.state };
     delete usersDataFields.touched;
+    console.log(modalType);
 
-    console.log(!isValidFormCreateNewUsers(usersDataFields));
+
 
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>
@@ -202,6 +208,7 @@ export class ModalRegisterNewUser extends Component {
 }
 
 ModalRegisterNewUser.propTypes = {
+  modalType: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   editData: PropTypes.shape({

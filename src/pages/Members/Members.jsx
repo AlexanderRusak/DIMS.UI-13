@@ -3,12 +3,14 @@ import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import { LinkButton } from '../../components/LinkButton/LinkButton';
 import { MEMBERS } from '../../db/tableName';
 import { Table } from '../../hoc/Table/Table';
+import { defaultProps } from '../../defaultValues/default';
 import { TableHeader } from '../../components/Table/TableHeader';
 import { TableBody } from '../../components/Table/TableBody';
 import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
 import { ModalRegisterNewUser } from '../../components/Modal/ModalRegisterNewUser';
 import classes from '../TableStyle.module.css';
 import { getRefFirebase } from '../../firebase/helpers';
+import noop from '../../shared/noop';
 
 class Members extends Component {
   constructor(props) {
@@ -101,9 +103,23 @@ class Members extends Component {
     ]
   };
 
+  getLink = (name, index) => (
+    <i
+      tabIndex={defaultProps.tabIndex}
+      aria-label={defaultProps.ariaLabel}
+      type={defaultProps.type}
+      role='button'
+      onClick={this.openRegisterModalHandler(index, 'details')}
+      onKeyPress={noop}
+    >
+      {name}
+    </i>
+  );
+
+
   render() {
     const { data, isOpenRegister, type, selectedItem, isOpenDelete } = this.state;
-
+    console.log(data, type, selectedItem);
     return (
       <>
         <ButtonGroup
@@ -119,14 +135,17 @@ class Members extends Component {
             buttons={
               this.getButtons()
             }
+            detailsHeader='fullName'
+            detailsComponent={this.getLink}
           />
         </Table>
         {
           isOpenRegister && (
             <ModalRegisterNewUser
-              editData={type === 'edit' ? Object.values(data)[selectedItem] : {}}
+              editData={selectedItem !== null ? Object.values(data)[selectedItem] : {}}
               isOpen={isOpenRegister}
               onClose={this.onClose}
+              modalType={type}
             />
           )
         }
@@ -145,7 +164,9 @@ class Members extends Component {
   }
 }
 
-Members.propTypes = {};
+Members.propTypes = {
+
+};
 Members.defaultProps = {};
 
 export default Members;
