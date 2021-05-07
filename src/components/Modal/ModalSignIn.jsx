@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+/* import PropTypes from 'prop-types'; */
+/* import { Redirect } from 'react-router-dom'; */
 import { Input } from '../UI/Input/Input';
 import { Button } from '../UI/Buttons/Button/Button';
 import { isFormValid } from './modalHelpers/helpers';
@@ -9,6 +10,7 @@ import { validateControl } from '../Auth/Auth';
 import Alert from '../UI/Alert/Alert';
 
 export class ModalSignIn extends Component {
+
   state = {
     isValid: false,
     response: null,
@@ -53,16 +55,18 @@ export class ModalSignIn extends Component {
 
   signIn = async () => {
     const { formControls } = this.state;
+/*     const { test } = this.props; */
     try {
       const response = await signIn(formControls.email.value, formControls.password.value);
       console.log(response);
+/*       test(); */
       if (response) {
+
         this.setState({
           response,
         });
       } else this.errorHandler();
     } catch (err) {
-      console.error(err);
       this.errorHandler();
     }
   };
@@ -107,6 +111,9 @@ export class ModalSignIn extends Component {
 
   render() {
     const { isValid, error, response } = this.state;
+
+    console.log(response && response.user.email);
+
     return (
       <>
         {error && <Alert text='Incorrect mail or password!' />}
@@ -116,9 +123,15 @@ export class ModalSignIn extends Component {
           <Button typeButton='primary' onClick={this.signIn} disabled={!isValid}>
             <p>Sign in</p>
           </Button>
-          {response && <Redirect to='/members' />}
+          {/*           {response && <Redirect to='/members' />} */}
         </div>
       </>
     );
   }
 }
+/* 
+ModalSignIn.propTypes = {
+  test: PropTypes.func.isRequired,
+}
+
+ */
