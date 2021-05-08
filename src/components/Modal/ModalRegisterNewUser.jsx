@@ -20,7 +20,7 @@ import classes from './ModalRegisterNewUser.module.css';
 const selectData = [
   { title: 'Direction', options: ['Frontend', 'Java', '.Net'] },
   { title: 'Sex', options: ['Male', 'Female'] },
-  { title: 'Role', options: ['Admin', 'Mentor', 'Student'] },
+  { title: 'Role', options: ['admin', 'mentor', 'member'] },
 ];
 
 export class ModalRegisterNewUser extends Component {
@@ -99,13 +99,13 @@ export class ModalRegisterNewUser extends Component {
       {
         title: 'University Average Score',
         type: 'number',
-        isValid: setScoreValue(+data.universityAverageScore, 0, 100),
+        isValid: setScoreValue(+data.universityAverageScore, 0, 101),
         errorMessage: 'Score should be between 0 to 100',
       },
       {
         title: 'Math Score',
         type: 'number',
-        isValid: setScoreValue(+data.mathScore, 0, 100),
+        isValid: setScoreValue(+data.mathScore, 0, 101),
         errorMessage: 'Score should be between 0 to 100',
       },
       { title: 'Address', type: 'text', isValid: setMinLengthRequired(data.address, 3) },

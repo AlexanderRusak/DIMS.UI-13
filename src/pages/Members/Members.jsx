@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
+import { RoleContext } from '../../hoc/RoleContext/RoleContext';
 import { LinkButton } from '../../components/LinkButton/LinkButton';
 import { MEMBERS } from '../../db/tableName';
 import { Table } from '../../hoc/Table/Table';
@@ -116,41 +117,47 @@ class Members extends Component {
 
   render() {
     const { data, isOpenRegister, type, selectedItem, isOpenDelete } = this.state;
-    console.log(data, type, selectedItem);
+
     return (
-      <>
-        <ButtonGroup
-          title='Register'
-          styles={`${classes.registration} ${classes.default}`}
-          onClick={this.openRegisterModalHandler(null, 'create')}
-        />
-        <Table>
-          <TableHeader items={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']} />
-          <TableBody
-            header={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']}
-            items={Object.values(data)}
-            buttons={this.getButtons()}
-            detailsHeader='fullName'
-            detailsComponent={this.getLink}
-          />
-        </Table>
-        {isOpenRegister && (
-          <ModalRegisterNewUser
-            editData={selectedItem !== null ? Object.values(data)[selectedItem] : {}}
-            isOpen={isOpenRegister}
-            onClose={this.onClose}
-            modalType={type}
-          />
-        )}
-        {isOpenDelete && (
-          <DeleteModal
-            onDelete={this.deleteMember}
-            onClose={this.closeModalHandler}
-            item={selectedItem}
-            title='member'
-          />
-        )}
-      </>
+      <RoleContext.Consumer>
+        {value =>
+
+          <>
+            {console.log(value, sessionStorage.getItem('role'))}
+            <ButtonGroup
+              title='Register'
+              styles={`${classes.registration} ${classes.default}`}
+              onClick={this.openRegisterModalHandler(null, 'create')}
+            />
+            <Table>
+              <TableHeader items={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']} />
+              <TableBody
+                header={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']}
+                items={Object.values(data)}
+                buttons={this.getButtons()}
+                detailsHeader='fullName'
+                detailsComponent={this.getLink}
+              />
+            </Table>
+            {isOpenRegister && (
+              <ModalRegisterNewUser
+                editData={selectedItem !== null ? Object.values(data)[selectedItem] : {}}
+                isOpen={isOpenRegister}
+                onClose={this.onClose}
+                modalType={type}
+              />
+            )}
+            {isOpenDelete && (
+              <DeleteModal
+                onDelete={this.deleteMember}
+                onClose={this.closeModalHandler}
+                item={selectedItem}
+                title='member'
+              />
+            )}
+          </>
+        }
+      </RoleContext.Consumer>
     );
   }
 }

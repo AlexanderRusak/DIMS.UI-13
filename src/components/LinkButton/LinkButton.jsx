@@ -17,7 +17,7 @@ export const LinkButton = ({ pathname, emailId, styles, title }) => (
 LinkButton.propTypes = {
   pathname: PropTypes.string.isRequired,
   emailId: PropTypes.string.isRequired,
-  styles: PropTypes.shape({}).isRequired,
+  styles: PropTypes.string.isRequired,
   title: PropTypes.string,
 };
 LinkButton.defaultProps = {

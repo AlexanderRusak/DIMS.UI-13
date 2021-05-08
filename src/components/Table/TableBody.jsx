@@ -12,7 +12,7 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
         <tr className={classes.table}>
           {newHeader.map((header) => {
             return (
-              <td className={header === '#' ? classes.index : classes[header]}>
+              <td key={header} className={header === '#' ? classes.index : classes[header]}>
                 {(item[header] && (
                   <p>
                     {' '}
@@ -24,13 +24,17 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
                   (header === '#' ? (
                     <p>{selectedIndex + 1}</p>
                   ) : (
-                    buttons.map((button) => (
-                      <button.component
-                        {...button}
-                        emailId={button.emailId && button.emailId.email[selectedIndex]}
-                        onClick={button.onClick && button.onClick(selectedIndex, button.type && button.type)}
-                      />
-                    ))
+                    buttons.map((button) => {
+                      console.log(`${button.title}-${item.email}`);
+                      return (
+                        <button.component
+                          {...button}
+                          key={`${button.emailId && button.emailId.email[selectedIndex]} ${button.title}`}
+                          emailId={button.emailId && button.emailId.email[selectedIndex]}
+                          onClick={button.onClick && button.onClick(selectedIndex, button.type && button.type)}
+                        />
+                      )
+                    })
                   ))}
               </td>
             );
@@ -42,24 +46,16 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
 };
 
 TableBody.propTypes = {
-  items: PropTypes.shape([]).isRequired,
-  header: PropTypes.shape([]).isRequired,
-  buttons: PropTypes.shape([]),
+  items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  header: PropTypes.arrayOf(PropTypes.string).isRequired,
+  buttons: PropTypes.arrayOf(PropTypes.shape({})),
   detailsHeaderName: PropTypes.string,
 };
 
 TableBody.defaultProps = {
-  buttons: [],
+  buttons: {},
   detailsHeader: null,
   detailsComponent: null,
 };
 
-/*
 
-header === detailsHeader && header!=='#'? <detailsComponent.component
-                                    {...detailsComponent}
-                                    title={item[header]}
-                                    onClick={detailsComponent.onClick(selectedIndex, detailsComponent.type)}
-                                >
-                                    {item[header]}
-                                </detailsComponent.component> : */
