@@ -1,7 +1,6 @@
 import { PureComponent } from "react";
 /* import PropTypes from 'prop-types'; */
 import { Switch } from 'react-router-dom';
-import { RoleContext } from '../../hoc/RoleContext/RoleContext';
 import { PrivateRoute } from '../PrivateRoute/PrivateRoute';
 import Members from '../../pages/Members/Members';
 import MembersTasks from '../../pages/MembersTasks/MembersTasks';
@@ -21,22 +20,25 @@ import classes from "./Main.module.css";
 export class Main extends PureComponent {
 
     state = {
-        isLogged: false,
         data: [],
-        /*         role: '', */
+        isLogged: false,
     }
 
     componentDidMount() {
         this.getData();
+        this.setState({
+            isLogged: JSON.parse(localStorage.getItem('isLogged')),
+            data: JSON.parse(localStorage.getItem('isLogged')) ? this.getData() : []
+        })
     }
 
     onClickHandlerSignInResult = (email) => {
-        const { isLogged, data } = this.state;
-        this.setState({ isLogged: !isLogged });
+        const { data } = this.state;
         const { role } = data[email];
-        sessionStorage.setItem('isLogged', 'true');
-        sessionStorage.setItem('role', role.toString());
-        console.log(role);
+        localStorage.setItem('role', role.toString());
+        this.setState({
+            isLogged: !!email,
+        })
     }
 
     getData = () => {
@@ -51,24 +53,20 @@ export class Main extends PureComponent {
     render() {
         const { isLogged } = this.state;
 
-
         return (
             <Switch>
-                <RoleContext.Provider value={isLogged}>
-                    <PrivateRoute path='/signin' redirectPath='/members' component={() => <SignIn onClick={this.onClickHandlerSignInResult} />} condition={!isLogged} />
-                    <Layout>
-                        <Header />
-                        <div className={classes.Main}>
-
-                            <PrivateRoute path='/members-tasks' component={MembersTasks} condition={isLogged} />
-                            <PrivateRoute path='/members-progress' component={MembersProgress} condition={isLogged} />
-                            <PrivateRoute path='/members' component={Members} condition={isLogged} />
-                            <PrivateRoute path='/members-tracks' component={MemberTracks} condition={isLogged} />
-                            <PrivateRoute path='/tasks' component={Tasks} condition={isLogged} />
-                        </div>
-                        <Footer />
-                    </Layout>
-                </RoleContext.Provider>
+                <PrivateRoute path='/signin' redirectPath='/members-tasks' component={() => <SignIn onClick={this.onClickHandlerSignInResult} />} condition={!isLogged} />
+                <Layout>
+                    <Header />
+                    <div className={classes.Main}>
+                        <PrivateRoute path='/members-tasks' component={MembersTasks} condition={isLogged} />
+                        <PrivateRoute path='/members-progress' component={MembersProgress} condition={isLogged} />
+                        <PrivateRoute path='/members' component={Members} condition={isLogged} />
+                        <PrivateRoute path='/members-tracks' component={MemberTracks} condition={isLogged} />
+                        <PrivateRoute path='/tasks' component={Tasks} condition={isLogged} />
+                    </div>
+                    <Footer />
+                </Layout>
             </Switch>
         )
     }

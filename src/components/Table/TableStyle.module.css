@@ -41,3 +41,13 @@ tbody tr td p {
 .age {
   width: 7%;
 }
+
+.active {
+  color: blue;
+}
+.success {
+  color: green;
+}
+.fail {
+  color: red;
+}

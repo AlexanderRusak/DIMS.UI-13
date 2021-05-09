@@ -67,6 +67,8 @@ export class ModalSignIn extends Component {
 
       if (response) {
         onClick(response.user.email);
+        localStorage.setItem('isLogged', 'true');
+        localStorage.setItem('email', response.user.email.toString());
         this.setState({
           response,
         });
