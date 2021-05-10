@@ -43,11 +43,11 @@ tbody tr td p {
 }
 
 .active {
-  color: blue;
+  color: #0275d8;
 }
 .success {
   color: green;
 }
 .fail {
-  color: red;
+  color: #d9534f;
 }

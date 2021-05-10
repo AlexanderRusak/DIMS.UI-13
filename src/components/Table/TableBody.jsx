@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { getActiveButtonStyle } from '../../pages/MembersTasks/MembersTasksHelper';
 import { toLowerCaseFirstLetter } from '../Modal/modalHelpers/helpers';
 import { getColoredText } from './TableHelpers';
 import classes from './TableStyle.module.css';
@@ -37,9 +38,11 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
                     <p>{selectedIndex + 1}</p>
                   ) : (
                     buttons.map((button, index) => {
+
                       return (
                         <button.component
                           {...button}
+                          styles={button.types ? getActiveButtonStyle(button.data[selectedIndex].state)[index] : button.styles}
                           title={button.title || button.types && button.types.filter(type => type !== button.data[selectedIndex].state)[index]}
                           key={`${button.emailId && button.emailId.email[selectedIndex]} ${button.title}`}
                           emailId={button.emailId && button.emailId.email[selectedIndex]}

@@ -8,6 +8,7 @@ import { TASKS } from '../../db/tableName';
 import classes from '../TableStyle.module.css';
 import { getRefFirebase } from '../../firebase/helpers';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
+import { getActiveButtonStyle } from './MembersTasksHelper';
 
 class MemebersTasks extends Component {
   constructor(props) {
@@ -30,13 +31,17 @@ class MemebersTasks extends Component {
   }
 
   changeTaskState = (index, type, name) => () => {
-    console.log(index, type, name);
+    const { data } = this.state;
+    const newData = [...data];
+    newData[index].state = name;
+    this.setState({ data: newData });
+    console.log(index, type, name, newData);
   }
 
   getButtons = () => {
     const { data } = this.state;
-    console.log(data);
-
+    const activeStyle = getActiveButtonStyle(data);
+    console.log(activeStyle);
 
     return [
       {
@@ -48,18 +53,14 @@ class MemebersTasks extends Component {
       },
       {
         component: ButtonGroup,
-        styles: `${classes.button} ${classes.default}`,
-        /*         title: 'Active',
-                type: 'active', */
+        styles: activeStyle[0],
         types: ['active', 'success', 'fail'],
         data,
         onClick: this.changeTaskState,
       },
       {
         component: ButtonGroup,
-        styles: `${classes.button} ${classes.danger}`,
-        /*         title: 'Fail',
-                type: 'fail', */
+        styles: activeStyle[1],
         types: ['active', 'success', 'fail'],
         data,
         onClick: this.changeTaskState,
