@@ -193,11 +193,11 @@ export class ModalRegisterNewUser extends Component {
         <div className={classes.container}>{this.renderInputs()}</div>
         <div className={classes.container}> {this.renderSelects()}</div>
         <div className={classes.buttonGroup}>
-          <Button onClick={this.createUser} disabled={!isValidFormCreateNewUsers(usersDataFields)}>
+          {modalType !== 'details' && <Button onClick={this.createUser} disabled={!isValidFormCreateNewUsers(usersDataFields)}>
             Save
-          </Button>
+          </Button>}
           <Button onClick={onClose} className={classes.CancelButton}>
-            Cancel
+            {modalType === 'details' ? 'Back ' : 'Cancel'}
           </Button>
         </div>
       </div>

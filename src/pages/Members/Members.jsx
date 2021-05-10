@@ -19,6 +19,7 @@ class Members extends Component {
     this.state = {
       data: [],
       type: '',
+      role: '',
       selectedItem: -1,
       isOpenRegister: false,
       isOpenDelete: false,
@@ -26,6 +27,10 @@ class Members extends Component {
   }
 
   componentDidMount() {
+    const { role } = this.context;
+    this.setState({
+      role
+    })
     this.getData();
   }
 
@@ -116,51 +121,47 @@ class Members extends Component {
   );
 
   render() {
-    const { data, isOpenRegister, type, selectedItem, isOpenDelete } = this.state;
+    const { data, isOpenRegister, type, selectedItem, isOpenDelete, role } = this.state;
 
     return (
-      <RoleContext.Consumer>
-        {value =>
-
-          <>
-            {console.log(value, sessionStorage.getItem('role'))}
-            <ButtonGroup
-              title='Register'
-              styles={`${classes.registration} ${classes.default}`}
-              onClick={this.openRegisterModalHandler(null, 'create')}
-            />
-            <Table>
-              <TableHeader items={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']} />
-              <TableBody
-                header={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']}
-                items={Object.values(data)}
-                buttons={this.getButtons()}
-                detailsHeader='fullName'
-                detailsComponent={this.getLink}
-              />
-            </Table>
-            {isOpenRegister && (
-              <ModalRegisterNewUser
-                editData={selectedItem !== null ? Object.values(data)[selectedItem] : {}}
-                isOpen={isOpenRegister}
-                onClose={this.onClose}
-                modalType={type}
-              />
-            )}
-            {isOpenDelete && (
-              <DeleteModal
-                onDelete={this.deleteMember}
-                onClose={this.closeModalHandler}
-                item={selectedItem}
-                title='member'
-              />
-            )}
-          </>
-        }
-      </RoleContext.Consumer>
+      <>
+        {role === 'admin' && <ButtonGroup
+          title='Register'
+          styles={`${classes.registration} ${classes.default}`}
+          onClick={this.openRegisterModalHandler(null, 'create')}
+        />}
+        <Table>
+          <TableHeader items={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']} />
+          <TableBody
+            header={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']}
+            items={Object.values(data)}
+            buttons={this.getButtons()}
+            detailsHeader='fullName'
+            detailsComponent={this.getLink}
+          />
+        </Table>
+        {isOpenRegister && (
+          <ModalRegisterNewUser
+            editData={selectedItem !== null ? Object.values(data)[selectedItem] : {}}
+            isOpen={isOpenRegister}
+            onClose={this.onClose}
+            modalType={type}
+          />
+        )}
+        {isOpenDelete && (
+          <DeleteModal
+            onDelete={this.deleteMember}
+            onClose={this.closeModalHandler}
+            item={selectedItem}
+            title='member'
+          />
+        )}
+      </>
     );
   }
 }
+
+Members.contextType = RoleContext
 
 Members.propTypes = {};
 Members.defaultProps = {};

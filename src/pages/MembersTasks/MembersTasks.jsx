@@ -9,6 +9,7 @@ import classes from '../TableStyle.module.css';
 import { getRefFirebase } from '../../firebase/helpers';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import { getActiveButtonStyle } from './MembersTasksHelper';
+import { RoleContext } from '../../hoc/RoleContext/RoleContext';
 
 class MemebersTasks extends Component {
   constructor(props) {
@@ -21,10 +22,10 @@ class MemebersTasks extends Component {
   }
 
   componentDidMount() {
-
+    const { role, email } = this.context;
     this.setState({
-      role: localStorage.getItem('role'),
-      email: localStorage.getItem('email'),
+      role,
+      email
     })
 
     this.getData();
@@ -79,6 +80,7 @@ class MemebersTasks extends Component {
 
   render() {
     const { data, role, email } = this.state;
+    console.log(data, role, email);
     const userData = role === 'member' ? data.filter((arr) => {
       return arr.userId === email;
     }) : data;
@@ -109,5 +111,7 @@ MemebersTasks.propTypes = {
   }).isRequired,
 };
 MemebersTasks.defaultProps = {};
+
+MemebersTasks.contextType = RoleContext;
 
 export default MemebersTasks;
