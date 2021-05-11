@@ -8,7 +8,7 @@ import classes from './Drawer.module.css';
 const links = [
   { to: '/members', label: 'Members', exact: true },
   { to: '/tasks', label: 'Create Task', exact: true },
-  { to: '/members-tasks', label: 'Members Task', exact: true },
+  { to: '/members-tasks', label: 'My Tasks', exact: true },
 ];
 
 export class Drawer extends Component {
@@ -24,9 +24,8 @@ export class Drawer extends Component {
   renderLinks = () => {
     const { onClose } = this.props;
     const { role } = this.context;
-    console.log(role, this.context);
-    const filteredLinks = role === 'member' ? links.filter(link => link.label !== 'Members' && link.label !== 'Create Task') : links;
-    console.log(filteredLinks);
+    const filteredLinks = role === 'member' ?
+      links.filter(link => link.label !== 'Members' && link.label !== 'Create Task') : links.filter(link => link.label !== 'My Tasks');
 
     return filteredLinks.map((link) => {
       return (

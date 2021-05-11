@@ -8,6 +8,7 @@ import MemberTracks from '../../pages/MembersTracks/MemberTracks';
 import MembersProgress from '../../pages/Progress/MembersProgress';
 import { Tasks } from '../../pages/Tasks/Tasks';
 import { SignIn } from '../../pages/SignIn/SignIn';
+import { About } from "../../pages/About/About";
 import Layout from '../../hoc/Layout';
 import { Header } from '../Header/Header';
 import { Footer } from '../Footer/Footer';
@@ -39,6 +40,8 @@ export class Main extends PureComponent {
         const { data } = this.state;
         const { role } = data[email];
         localStorage.setItem('role', role.toString());
+        localStorage.setItem('email', email.toString());
+        localStorage.setItem('data', JSON.stringify(data));
         this.setState({
             isLogged: !!email,
             role,
@@ -61,10 +64,11 @@ export class Main extends PureComponent {
         return (
             <Switch>
                 <RoleContext.Provider value={{ ...this.state }} >
-                    <PrivateRoute path='/signin' redirectPath='/members-tasks' component={() => <SignIn onClick={this.onClickHandlerSignInResult} />} condition={!isLogged} />
+                    <PrivateRoute path='/signin' redirectPath='/about' component={() => <SignIn onClick={this.onClickHandlerSignInResult} />} condition={!isLogged} />
                     <Layout>
                         <Header />
                         <div className={classes.Main}>
+                            <PrivateRoute path='/about' component={About} condition={isLogged} />
                             <PrivateRoute path='/members-tasks' component={MembersTasks} condition={isLogged} />
                             <PrivateRoute path='/members-progress' component={MembersProgress} condition={isLogged} />
                             <PrivateRoute path='/members' component={Members} condition={isLogged} />

@@ -38,12 +38,12 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
                     <p>{selectedIndex + 1}</p>
                   ) : (
                     buttons.map((button, index) => {
-
+                      console.log(button);
                       return (
                         <button.component
                           {...button}
-                          styles={button.types ? getActiveButtonStyle(button.data[selectedIndex].state)[index] : button.styles}
-                          title={button.title || button.types && button.types.filter(type => type !== button.data[selectedIndex].state)[index]}
+                          styles={button.types ? getActiveButtonStyle(button.data[selectedIndex].state)[index].style : button.styles}
+                          title={button.types ? getActiveButtonStyle(button.data[selectedIndex].state)[index].title : button.title}
                           key={`${button.emailId && button.emailId.email[selectedIndex]} ${button.title}`}
                           emailId={button.emailId && button.emailId.email[selectedIndex]}
                           onClick={button.onClick && button.onClick(selectedIndex, button.type && button.type, button.types && button.types.filter(type => type !== button.data[selectedIndex].state)[index])}
