@@ -38,7 +38,7 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
                     <p>{selectedIndex + 1}</p>
                   ) : (
                     buttons.map((button, index) => {
-                      console.log(button);
+
                       return (
                         <button.component
                           {...button}

@@ -4,6 +4,7 @@ import { Switch } from 'react-router-dom';
 import { PrivateRoute } from '../PrivateRoute/PrivateRoute';
 import Members from '../../pages/Members/Members';
 import MembersTasks from '../../pages/MembersTasks/MembersTasks';
+import {MemberTasks} from '../../pages/MembersTasks/MemberTasks';
 import MemberTracks from '../../pages/MembersTracks/MemberTracks';
 import MembersProgress from '../../pages/Progress/MembersProgress';
 import { Tasks } from '../../pages/Tasks/Tasks';
@@ -69,6 +70,7 @@ export class Main extends PureComponent {
                         <Header />
                         <div className={classes.Main}>
                             <PrivateRoute path='/about' component={About} condition={isLogged} />
+                            <PrivateRoute path='/members-tasks/:userName' component={MemberTasks} condition={isLogged} />
                             <PrivateRoute path='/members-tasks' component={MembersTasks} condition={isLogged} />
                             <PrivateRoute path='/members-progress' component={MembersProgress} condition={isLogged} />
                             <PrivateRoute path='/members' component={Members} condition={isLogged} />

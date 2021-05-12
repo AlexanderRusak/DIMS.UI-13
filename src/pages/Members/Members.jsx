@@ -88,7 +88,7 @@ class Members extends Component {
         component: LinkButton,
         styles: `${classes.button} `,
         title: 'Tasks',
-        pathname: '/members-tasks',
+        pathname: '/members-tasks/:userName',
         emailId: { email },
       },
       {
