@@ -134,7 +134,7 @@ export class TasksModal extends PureComponent {
     ];
   };
 
-  onSubmitHandler = (data, users, index, type) => {
+  onSubmitHandler = (data, users, index, type) => () => {
     const { onSubmit } = this.props;
     onSubmit(data, users, index, type);
   };
@@ -189,9 +189,7 @@ export class TasksModal extends PureComponent {
           <Button
             disabled={!isValidForm(isValid)}
             typeButton='primary'
-            onClick={() =>
-              this.onSubmitHandler({ taskName, deadLine, description, startDate }, currentUsers, index, type)
-            }
+            onClick={this.onSubmitHandler({ taskName, deadLine, description, startDate }, currentUsers, index, type)}
           >
             Create
           </Button>
