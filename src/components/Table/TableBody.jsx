@@ -9,46 +9,61 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
   const detailsName = detailsHeader && toLowerCaseFirstLetter(detailsHeader.replace(/\s/g, ''));
   const setColourState = [];
 
-
+  console.log(buttons);
   return items.map((item, selectedIndex) => {
-
     if (item.state !== null) {
-      setColourState.push(item.state)
+      setColourState.push(item.state);
     }
 
     return (
       <tbody className={classes.TableStyle}>
         <tr className={classes.table}>
           {newHeader.map((header) => {
-
             return (
               <td key={header} className={header === '#' ? classes.index : classes[header]}>
-                {(item[header] && (
-                  header === 'state' ? getColoredText(item[header], setColourState[selectedIndex]) :
+                {(item[header] &&
+                  (header === 'state' ? (
+                    getColoredText(item[header], setColourState[selectedIndex])
+                  ) : (
                     <p>
                       {' '}
                       {detailsComponent && header === detailsName
                         ? detailsComponent(item[header], selectedIndex)
                         : item[header]}
                     </p>
-
-
-                )) ||
+                  ))) ||
                   (header === '#' ? (
                     <p>{selectedIndex + 1}</p>
                   ) : (
                     buttons.map((button, index) => {
+                      const Component = button.component;
 
                       return (
-                        <button.component
+                        <Component
                           {...button}
-                          styles={button.types ? getActiveButtonStyle(button.data[selectedIndex].state)[index].style : button.styles}
-                          title={button.types ? getActiveButtonStyle(button.data[selectedIndex].state)[index].title : button.title}
+                          styles={
+                            button.types
+                              ? getActiveButtonStyle(button.data[selectedIndex].state)[index].style
+                              : button.styles
+                          }
+                          title={
+                            button.types
+                              ? getActiveButtonStyle(button.data[selectedIndex].state)[index].title
+                              : button.title
+                          }
                           key={`${button.emailId && button.emailId.email[selectedIndex]} ${button.title}`}
                           emailId={button.emailId && button.emailId.email[selectedIndex]}
-                          onClick={button.onClick && button.onClick(selectedIndex, button.type && button.type, button.types && button.types.filter(type => type !== button.data[selectedIndex].state)[index])}
+                          onClick={
+                            button.onClick &&
+                            button.onClick(
+                              selectedIndex,
+                              button.type && button.type,
+                              button.types &&
+                                button.types.filter((type) => type !== button.data[selectedIndex].state)[index],
+                            )
+                          }
                         />
-                      )
+                      );
                     })
                   ))}
               </td>
@@ -72,5 +87,3 @@ TableBody.defaultProps = {
   detailsHeader: null,
   detailsComponent: null,
 };
-
-

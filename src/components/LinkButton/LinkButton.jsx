@@ -1,18 +1,21 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { ButtonGroup } from '../ButtonGroup/ButtonGroup';
 import noop from '../../shared/noop';
 
-export const LinkButton = ({ pathname, emailId, styles, title }) => (
-  <Link
-    to={{
-      pathname,
-      emailId,
-    }}
-  >
-    <ButtonGroup styles={`${styles} `} title={title} onClick={noop} />
-  </Link>
-);
+export const LinkButton = ({ pathname: p, emailId: e, styles, title }) => {
+  console.log(p, e, styles, title, 'LinkButton');
+  return (
+    <NavLink
+      to={{
+        pathname: p,
+        emailId: e,
+      }}
+    >
+      <ButtonGroup styles={`${styles} `} title={title} onClick={noop} />
+    </NavLink>
+  );
+};
 
 LinkButton.propTypes = {
   pathname: PropTypes.string.isRequired,

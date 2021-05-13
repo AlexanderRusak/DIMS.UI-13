@@ -8,7 +8,7 @@ import { PROGRESS } from '../../db/tableName';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import classes from '../TableStyle.module.css';
 import noop from '../../shared/noop';
-import { TableBody } from '../../components/Table/TableBody';
+/* import { TableBody } from '../../components/Table/TableBody'; */
 import { Table } from '../../hoc/Table/Table';
 
 class MemebersProgress extends Component {
@@ -35,11 +35,11 @@ class MemebersProgress extends Component {
 
   render() {
     const { data } = this.state;
-    const { location } = this.props;
-    const selectedProgress = data.filter((item) => item.userID === location.emailId);
-    /* const { TaskName, TrackNote, TrackDate } = selectedProgress; */
+    console.log(this.props);
+    /*   const { location } = this.props;
+      const selectedProgress = data.filter((item) => item.userID === location.emailId); */
+    /*     const { TaskName, TrackNote, TrackDate } = selectedProgress; */
     const { UserName } = data[0] || '';
-    console.log(selectedProgress);
 
     return (
       <>
@@ -49,7 +49,7 @@ class MemebersProgress extends Component {
         </Link>
         <Table>
           <TableHeader items={['#', 'Task Name', 'Track Note', 'Date']} />
-          <TableBody header={['#', 'Task Name', 'Track Note', 'Track Date']} items={selectedProgress} />
+          {/*    <TableBody header={['#', 'Task Name', 'Track Note', 'Track Date']} items={data} /> */}
         </Table>
       </>
     );
