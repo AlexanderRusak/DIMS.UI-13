@@ -1,161 +1,178 @@
 import { Component } from 'react';
+
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
-import { Table } from '../../hoc/Table/Table';
-import { TableHeader } from '../../components/Table/TableHeader';
-import { TableBody } from '../../components/Table/TableBody';
-/* import { getRefFirebase } from '../../firebase/helpers'; */
+import { getRefFirebase } from '../../firebase/helpers';
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
-import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
-/* import { TASKS } from '../../db/tableName'; */
+import { TASKS } from '../../db/tableName';
 import { defaultProps } from '../../defaultValues/default';
 import classes from './TableStyle.module.css';
 import noop from '../../shared/noop';
 
 const fakeData = [
   {
-    deadLine: '2021-04-28',
+    deadLine: '04/20/2021',
     description: 'Do smth',
-    startDate: '2021-04-25',
+    startDate: '04/04/2021',
     state: true,
     taskId: 1,
     taskName: 'Fix bugs',
     userId: 'rusak.alexander2017@yandex.ru',
   },
   {
-    deadLine: '2021-04-28',
+    deadLine: '04/15/2021',
     description: 'Set new values',
-    startDate: '2021-04-22',
+    startDate: '04/04/2021',
     state: true,
     taskId: 2,
     taskName: 'Update your DB',
     userId: 'rusak.alexander2017@yande.ru',
   },
   {
-    deadLine: '2021-04-28',
+    deadLine: '04/10/2021',
     description: 'Do smt else',
-    startDate: '2021-04-23',
+    startDate: '04/09/2021',
     state: false,
     taskId: 2,
     taskName: 'Do smt',
     userId: 'rusak.alexander2017@yandex.ru',
   },
 ];
-const fakeUsers = [
-  { name: 'John Travolt1a', isCheck: true },
-  { name: 'Harry Shproptter', isCheck: false },
-  { name: 'Vasya Kat2apulta', isCheck: false },
-  { name: 'John Trav3olta', isCheck: true },
-  { name: 'Harry Sh4proptter', isCheck: false },
-  { name: 'Vasya K3tapulta', isCheck: false },
-  { name: 'Harry Sh5proptter', isCheck: true },
-  { name: 'Harry Sh3proptter', isCheck: true },
-  { name: 'Haerry Sh3proptter', isCheck: true },
-  { name: 'Ha4rry Shproptter', isCheck: false },
-  { name: 'Ha4rry Shpr4optter', isCheck: true },
-  { name: 'H4arry Shpr4optter', isCheck: true },
-];
 
 export class Tasks extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: [],
       isOpen: false,
       modalType: '',
-      index: null,
-      isModalOpen: false,
-      users: fakeUsers,
-      fdata: fakeData,
     };
   }
 
-  openModalHandler = (index, type) => () => {
-    console.log(type, index);
-    this.setState({ isOpen: type !== 'delete', modalType: type, index });
-    if (type === 'delete') {
-      this.onDeleteModalOpen(index);
-    }
+  componentDidMount() {
+    this.getData();
+  }
+
+  openModalHandler = (type) => {
+    this.setState({ isOpen: true, modalType: type });
   };
 
   onClose = () => {
-    this.setState({ isOpen: false, isModalOpen: false });
+    this.setState({ isOpen: false });
   };
 
-  onDeleteModalOpen = (index) => {
-    this.setState({ isModalOpen: true, index });
-  };
-
-  onDelete = () => {
-    const { index, fdata } = this.state;
-    fdata.splice(index, 1);
-    console.log(fdata);
-    this.setState({ fdata: [...fdata], isModalOpen: false });
-  };
-
-  getLink = (name, index) => (
+  getLink = (data) => (
     <i
       tabIndex={defaultProps.tabIndex}
       aria-label={defaultProps.ariaLabel}
       type={defaultProps.type}
       role='button'
-      onClick={this.openModalHandler(index, 'details')}
+      onClick={this.openModalHandler}
       onKeyPress={noop}
     >
-      {name}
+      {data.taskName}
     </i>
   );
 
-  getButtons = () => {
-    return [
-      {
-        component: ButtonGroup,
-        styles: `${classes.button} ${classes.warning}`,
-        title: 'Edit',
-        type: 'edit',
-        onClick: this.openModalHandler,
-      },
-      {
-        component: ButtonGroup,
-        styles: `${classes.button} ${classes.danger}`,
-        title: 'Delete',
-        type: 'delete',
-        onClick: this.openModalHandler,
-      },
-    ];
+  onSubmitData = () => {
+    /*  to db */
+    this.onClose();
+  };
+
+  getData = () => {
+    getRefFirebase(TASKS).onSnapshot((doc) => {
+      const tasks = doc.data() || [];
+      this.setState({
+        data: tasks,
+      });
+    });
+  };
+
+  getHeader = () => {
+    return (
+      <div className={classes.TableStyle}>
+        <ul className={classes.header}>
+          <li>
+            <p>#</p>
+          </li>
+          <li>
+            <p>Task Name</p>
+          </li>
+          <li>
+            <p>Description</p>
+          </li>
+          <li>
+            <p>Start Date</p>
+          </li>
+          <li>
+            <p>Deadline</p>
+          </li>
+          <li>
+            <p>Action</p>
+          </li>
+        </ul>
+      </div>
+    );
+  };
+
+  getTable = (data, index) => {
+    return (
+      <div className={classes.TableStyle}>
+        <ul className={classes.table}>
+          <li>
+            <p>{index + 1}</p>
+          </li>
+          <li>{this.getLink(data)}</li>
+          <li>
+            <p>{data.description}</p>
+          </li>
+          <li>
+            <p>{data.startDate}</p>
+          </li>
+          <li>
+            <p>{data.deadLine}</p>
+          </li>
+          <li className={classes.actions}>
+            {
+              <ButtonGroup
+                modalType='edit'
+                title='Edit'
+                styles={`${classes.warning}`}
+                onClick={this.openModalHandler}
+              />
+            }
+            {
+              <ButtonGroup
+                modalType='delete'
+                title='Delete'
+                styles={`${classes.delete}`}
+                onClick={this.openModalHandler}
+              />
+            }
+          </li>
+        </ul>
+      </div>
+    );
   };
 
   render() {
-    const { isOpen, modalType, index, isModalOpen, fdata, users } = this.state;
+    const { data, isOpen, modalType } = this.state;
+    console.log(data); // i need it later
 
     return (
       <>
-        <ButtonGroup
-          index={index}
-          type='create'
-          title='Create'
-          styles={`${classes.default} ${classes.pushRight}`}
-          onClick={this.openModalHandler(null, 'create')}
-        />
-        <Table>
-          <TableHeader items={['#', 'Task Name', 'Description', 'Start Date', 'Dead Line', 'Action']} />
-          <TableBody
-            header={['#', 'Task Name', 'Description', 'Start Date', 'DeadLine', 'Action']}
-            items={fdata}
-            buttons={this.getButtons()}
-            detailsHeader='Task Name'
-            detailsComponent={this.getLink}
+        {
+          <ButtonGroup
+            modalType='create'
+            title='Create'
+            styles={`${classes.default} ${classes.pushRight}`}
+            onClick={this.openModalHandler}
           />
-        </Table>
-        {isOpen && (
-          <TasksModal
-            users={users}
-            data={fdata}
-            index={index}
-            type={modalType}
-            onClose={this.onClose}
-            onSubmit={this.onSubmitData}
-          />
-        )}
-        {isModalOpen && <DeleteModal onClose={this.onClose} onDelete={() => this.onDelete(index)} />}
+        }
+        {this.getHeader()}
+        {fakeData.map((item, index) => (
+          <div key={item.taskName}>{this.getTable(item, index)}</div>
+        ))}
+        {isOpen && <TasksModal type={modalType} onClose={this.onClose} onSubmit={this.onSubmitData} />}
       </>
     );
   }

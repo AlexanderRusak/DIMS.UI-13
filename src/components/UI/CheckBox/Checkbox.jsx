@@ -7,6 +7,7 @@ export class Checkbox extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      test: 'dsds',
       users: [],
     };
   }
@@ -18,44 +19,32 @@ export class Checkbox extends Component {
     });
   }
 
-  checkBoxHandler = (index) => () => {
-    const { checkHandler } = this.props;
-    checkHandler(index);
-  };
-
   render() {
-    const { users } = this.state;
-    const { isValid, errorMessage } = this.props;
-    console.log(users);
+    const { test, users } = this.state;
+    const { checkHandler } = this.props;
+
     return (
-      <>
-        <div className={classes.Checkbox}>
-          {users.map((user, index) => (
-            <Input
-              type='checkbox'
-              title={user.name}
-              key={user.name.toString()}
-              checked={user.isCheck}
-              isValid={!!user.name}
-              onChange={this.checkBoxHandler(index)}
-            />
-          ))}
-        </div>
-        {!isValid && <span className={classes.error}>{errorMessage || 'Required'}</span>}
-      </>
+      <div className={classes.Checkbox}>
+        {users.map((user, index) => (
+          <Input
+            type='checkbox'
+            title={user.name}
+            key={user.name.toString()}
+            checked={user.isCheck}
+            isValid={!!test}
+            onChange={() => checkHandler(index)}
+          />
+        ))}
+      </div>
     );
   }
 }
 
 Checkbox.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.shape({})),
+  users: PropTypes.arrayOf(PropTypes.string),
   checkHandler: PropTypes.func.isRequired,
-  isValid: PropTypes.bool,
-  errorMessage: PropTypes.string,
 };
 
 Checkbox.defaultProps = {
   users: [],
-  isValid: false,
-  errorMessage: 'Requried',
 };

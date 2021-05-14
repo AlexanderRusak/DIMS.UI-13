@@ -1,0 +1,52 @@
+:root {
+  --black: #000;
+  --white: #fff;
+  --red: red;
+  --light-grey: #ccc;
+  --green: green;
+}
+
+.ModalRegisterNewUser {
+  display: flex;
+  width: 500px;
+  height: auto;
+  background-color: var(--white);
+  border: 2px solid var(--light-grey);
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: 50px;
+  position: absolute;
+  z-index: 99;
+  padding-bottom: 20px;
+}
+h4 {
+  font-size: 2rem;
+  margin: 10px;
+  text-align: center;
+}
+
+.close {
+  display: none;
+}
+.open {
+  display: flex;
+  flex-direction: column;
+}
+
+.SaveButton {
+  background-color: var(--green);
+}
+.CancelButton {
+  background-color: var(--red);
+}
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+.buttonGroup {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}

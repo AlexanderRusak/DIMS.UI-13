@@ -29,9 +29,7 @@
   height: auto;
   padding: 0;
 }
-.TableStyle ul li i {
-  cursor: pointer;
-}
+
 ul {
   display: flex;
   flex-direction: row;
