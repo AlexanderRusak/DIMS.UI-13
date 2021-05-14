@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { getRefFirebase } from '../../firebase/helpers';
 import { TableHeader } from '../../components/Table/TableHeader';
 /* import { setDataToLS } from '../../localStorage/localStorageFunctions'; */
@@ -8,7 +8,7 @@ import { PROGRESS } from '../../db/tableName';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import classes from '../TableStyle.module.css';
 import noop from '../../shared/noop';
-/* import { TableBody } from '../../components/Table/TableBody'; */
+import { TableBody } from '../../components/Table/TableBody';
 import { Table } from '../../hoc/Table/Table';
 
 class MemebersProgress extends Component {
@@ -35,10 +35,11 @@ class MemebersProgress extends Component {
 
   render() {
     const { data } = this.state;
-    console.log(this.props);
-    /*   const { location } = this.props;
-      const selectedProgress = data.filter((item) => item.userID === location.emailId); */
-    /*     const { TaskName, TrackNote, TrackDate } = selectedProgress; */
+    const { location } = this.props;
+    console.log(this.props, location);
+    const selectedProgress = data.filter((item) => item.userID === location.emailId);
+    /*  const { TaskName, TrackNote, TrackDate } = selectedProgress; */
+
     const { UserName } = data[0] || '';
 
     return (
@@ -49,7 +50,7 @@ class MemebersProgress extends Component {
         </Link>
         <Table>
           <TableHeader items={['#', 'Task Name', 'Track Note', 'Date']} />
-          {/*    <TableBody header={['#', 'Task Name', 'Track Note', 'Track Date']} items={data} /> */}
+          <TableBody header={['#', 'Task Name', 'Track Note', 'Track Date']} items={selectedProgress} />
         </Table>
       </>
     );
@@ -61,4 +62,4 @@ MemebersProgress.propTypes = {
 };
 MemebersProgress.defaultProps = {};
 
-export default MemebersProgress;
+export default withRouter(MemebersProgress);

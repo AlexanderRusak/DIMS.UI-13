@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { getActiveButtonStyle } from '../../pages/MembersTasks/MembersTasksHelper';
 import { toLowerCaseFirstLetter } from '../Modal/modalHelpers/helpers';
 import { getColoredText } from './TableHelpers';
@@ -35,6 +36,7 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
                   (header === '#' ? (
                     <p>{selectedIndex + 1}</p>
                   ) : (
+                    buttons &&
                     buttons.map((button, index) => {
                       const Component = button.component;
 
@@ -83,7 +85,9 @@ TableBody.propTypes = {
 };
 
 TableBody.defaultProps = {
-  buttons: {},
+  buttons: null,
   detailsHeader: null,
   detailsComponent: null,
 };
+
+withRouter(TableBody);
