@@ -29,14 +29,14 @@ class MemebersTracks extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   openModal = (mode, index = null) => {
     this.setState({ isOpen: true, mode, selectedItem: selectedProgress[index] });
   };
 
-  onClick = () => {
-    this.openModal();
+  onClick = (type, index) => () => {
+    this.openModal(type, index);
   };
 
   closeModal = () => {
@@ -83,7 +83,7 @@ class MemebersTracks extends Component {
             aria-label={defaultProps.ariaLabel}
             type={defaultProps.type}
             role='button'
-            onClick={() => this.openModal('details', index)}
+            onClick={this.onClick('details', index)}
             onKeyPress={noop}
           >
             {item.task}
@@ -106,7 +106,7 @@ class MemebersTracks extends Component {
       <>
         <h4>Task Track</h4>
         <div>
-          <Button className={classes.default} onClick={() => this.openModal('create')}>
+          <Button className={classes.default} onClick={this.onClick('create')}>
             <p>Create</p>
           </Button>
         </div>
