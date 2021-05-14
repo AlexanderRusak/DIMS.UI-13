@@ -152,5 +152,8 @@
                 "path": "cz-conventional-changelog"
             }
         }
+    },
+    "dependencies": {
+        "react": "^17.0.2"
     }
 }

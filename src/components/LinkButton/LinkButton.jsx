@@ -14,12 +14,14 @@ export const LinkButton = ({ pathname, emailId, styles, title }) => (
   </Link>
 );
 
+
 LinkButton.propTypes = {
   pathname: PropTypes.string.isRequired,
   emailId: PropTypes.string.isRequired,
   styles: PropTypes.string.isRequired,
   title: PropTypes.string,
-};
+}; 
+
 LinkButton.defaultProps = {
   title: 'Link',
 };
