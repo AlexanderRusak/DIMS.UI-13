@@ -69,7 +69,7 @@ export class ModalRegisterNewUser extends Component {
       startDate: editData.startDate || null,
       role: editData.role || '',
     });
-  }
+  } 
 
   getValue = (value) => {
     const { touched } = this.state;
