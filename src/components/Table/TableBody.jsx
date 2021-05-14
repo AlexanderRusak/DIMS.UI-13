@@ -73,4 +73,3 @@ TableBody.defaultProps = {
   detailsComponent: null,
 };
 
-

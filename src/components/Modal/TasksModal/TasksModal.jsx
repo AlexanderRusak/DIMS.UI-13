@@ -3,24 +3,19 @@ import PropTypes from 'prop-types';
 import { Button } from '../../UI/Buttons/Button/Button';
 import { Checkbox } from '../../UI/CheckBox/Checkbox';
 import { Input } from '../../UI/Input/Input';
+import { isNotCreateType, isEditValid } from './helpers';
 import { toLowerCaseFirstLetter, toTrim } from '../modalHelpers/helpers';
 import classes from './TasksModal.module.css';
 import { Label } from '../../UI/Label/Label';
-import {
-  setMinLengthRequired,
-  isCheckBoxValueRequired,
-  isValidForm,
-  errorTitle,
-} from '../../Validation/validationHelpers';
+import { setMinLengthRequired, isCheckBoxValueRequired, isValidForm } from '../../Validation/validationHelpers';
+import { getUserDataArray } from './taskModalData';
 
 export class TasksModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      users: [...props.users],
-      userList: props.users.map((user) => {
-        return { name: user.name, isCheck: false };
-      }),
+      users: [],
+      userList: [],
       taskName: '',
       description: '',
       startDate: '',
@@ -45,34 +40,37 @@ export class TasksModal extends PureComponent {
   componentDidMount() {
     const { index, type, users } = this.props;
     const data = this.props;
-    console.log(data.data, index, type);
+    console.log(users);
 
     this.setState({
-      taskName: type !== 'create' ? data.data[index].taskName : '',
-      description: type !== 'create' ? data.data[index].description : '',
-      startDate: type !== 'create' ? data.data[index].startDate : '',
-      deadLine: type !== 'create' ? data.data[index].deadLine : '',
+      users: [...users],
+      userList: users.map((user) => {
+        return { name: user.name, isCheck: false };
+      }),
+
+      taskName: isNotCreateType(type, data, index).taskName,
+      description: isNotCreateType(type, data, index).description,
+      startDate: isNotCreateType(type, data, index).startDate,
+      deadLine: isNotCreateType(type, data, index).deadLine,
       isValid: {
-        taskName: type === 'edit' ? !!data.data[index].taskName : false,
-        description: type === 'edit' ? !!data.data[index].description : false,
-        startDate: type === 'edit' ? !!data.data[index].startDate : false,
-        deadLine: type === 'edit' ? !!data.data[index].deadLine : false,
-        checkbox: type === 'edit' ? !!users : false,
+        taskName: isEditValid(type, data, index).taskName,
+        description: isEditValid(type, data, index).description,
+        startDate: isEditValid(type, data, index).startDate,
+        deadLine: isEditValid(type, data, index).deadLine,
+        checkbox: type === 'edit' ? !!users : false, // i don't know future logic for users
       },
     });
   }
 
   setTouched = (elementName) => {
     const { touched } = this.state;
-    const newTouched = { ...touched, [elementName]: true };
-    this.setState({ touched: newTouched });
+    this.setState({ touched: { ...touched, [elementName]: true } });
   };
 
   setValid = (elementName, validFunc) => {
+    console.log(this.state);
     const { isValid } = this.state;
-
-    const newValid = { ...isValid, [elementName]: validFunc };
-    this.setState({ isValid: newValid });
+    this.setState({ isValid: { ...isValid, [elementName]: validFunc } });
   };
 
   getInputValue = (event) => {
@@ -84,54 +82,14 @@ export class TasksModal extends PureComponent {
     });
   };
 
-  setCheckedUser = (index) => {
+  setCheckedUser = (index, type) => () => {
+    console.log(index, type);
     const { users } = this.state;
     const newUsers = [...users];
     newUsers[index].isCheck = !users[index].isCheck;
     this.setValid('checkbox', isCheckBoxValueRequired(newUsers));
     this.setTouched('checkbox');
-    this.setState({ users: newUsers });
-  };
-
-  setCreateCheckedUser = (index) => {
-    const { userList } = this.state;
-    const newUsers = [...userList];
-    newUsers[index].isCheck = !userList[index].isCheck;
-    this.setValid('checkbox', isCheckBoxValueRequired(newUsers));
-    this.setTouched('checkbox');
-    this.setState({ userList: newUsers });
-  };
-
-  getUserDataArray = () => {
-    const { taskName, deadLine, description, startDate, touched } = this.state;
-    return [
-      {
-        value: taskName,
-        title: 'Task Name',
-        isValid: !!setMinLengthRequired(taskName, 5) || !touched.taskName,
-        errorMessage: errorTitle(5).minLength,
-      },
-      {
-        value: description,
-        title: 'Description',
-        isValid: !!setMinLengthRequired(description, 10) || !touched.description,
-        errorMessage: errorTitle(10).minLength,
-      },
-      {
-        value: startDate,
-        title: 'Start Date',
-        inputType: 'date',
-        isValid: startDate <= deadLine || !touched.startDate,
-        errorMessage: 'Start Date should be less or equal "Dead Line"',
-      },
-      {
-        value: deadLine,
-        title: 'Dead Line',
-        inputType: 'date',
-        isValid: deadLine >= startDate || !touched.deadLine,
-        errorMessage: 'Dead Line should be more or equal "Start Date"',
-      },
-    ];
+    this.setState(type === 'create' ? { users: newUsers } : { userList: newUsers });
   };
 
   onSubmitHandler = (data, users, index, type) => () => {
@@ -146,8 +104,8 @@ export class TasksModal extends PureComponent {
 
   renderItems = () => {
     const { type } = this.props;
-    const currentUsers = this.getUserDataArray();
-    return currentUsers.map(({ value, title, isValid, inputType, errorMessage }) =>
+
+    return getUserDataArray(this.state).map(({ value, title, isValid, inputType, errorMessage }) =>
       type === 'details' ? (
         <Label value={value} title={title} />
       ) : (
@@ -181,7 +139,7 @@ export class TasksModal extends PureComponent {
         ) : (
           <Checkbox
             isValid={isCheckBoxValueRequired(currentUsers) || !touched.checkbox}
-            checkHandler={type === 'create' ? this.setCreateCheckedUser : this.setCheckedUser}
+            checkHandler={this.setCheckedUser(index, type)}
             users={currentUsers}
           />
         )}
@@ -219,20 +177,8 @@ TasksModal.propTypes = {
       isCheck: PropTypes.bool.isRequired,
     },
   ]),
-  data: PropTypes.shape([
-    {
-      deadLine: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      startDate: PropTypes.string.isRequired,
-      state: PropTypes.bool.isRequired,
-      taskId: PropTypes.number.isRequired,
-      taskName: PropTypes.string.isRequired,
-      userId: PropTypes.string.isRequired,
-    },
-  ]),
 };
 TasksModal.defaultProps = {
   index: null,
   users: [],
-  data: [],
 };

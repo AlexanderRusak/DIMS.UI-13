@@ -63,8 +63,6 @@ export class ModalSignIn extends Component {
 
     try {
       const response = await signIn(formControls.email.value, formControls.password.value);
-      console.log(response.user.email);
-
       if (response) {
         onClick(response.user.email);
         localStorage.setItem('isLogged', 'true');

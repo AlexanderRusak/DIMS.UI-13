@@ -1,20 +1,13 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import { MEMBERS } from '../../db/tableName';
-import { createNewUser } from '../../firebase/auth';
-import { setData } from '../../firebase/firebase';
-import { Input } from '../UI/Input/Input';
-import { Select } from '../UI/Select/Select';
-import {
-  setMinLengthRequired,
-  isValidEmail,
-  errorTitle,
-  isValidAge,
-  setScoreValue,
-  getCurrentDateUTC,
-} from '../Validation/validationHelpers';
-import { Button } from '../UI/Buttons/Button/Button';
-import { toLowerCaseFirstLetter, toTrim, isValidFormCreateNewUsers } from './modalHelpers/helpers';
+import { MEMBERS } from '../../../db/tableName';
+import { createNewUser } from '../../../firebase/auth';
+import { setData } from '../../../firebase/firebase';
+import { Input } from '../../UI/Input/Input';
+import { getInputsData } from './helpers';
+import { Select } from '../../UI/Select/Select';
+import { Button } from '../../UI/Buttons/Button/Button';
+import { toLowerCaseFirstLetter, toTrim, isValidFormCreateNewUsers } from '../modalHelpers/helpers';
 import classes from './ModalRegisterNewUser.module.css';
 
 const selectData = [
@@ -60,7 +53,7 @@ export class ModalRegisterNewUser extends Component {
 
   componentDidMount() {
     const { editData } = this.props;
-    console.log(editData);
+
     this.setState({
       fullName: editData.fullName || '',
       email: editData.email || '',
@@ -78,53 +71,6 @@ export class ModalRegisterNewUser extends Component {
     });
   }
 
-  getInputsData = () => {
-    const data = this.state;
-
-    return [
-      {
-        title: 'Full Name',
-        type: 'text',
-        isValid: setMinLengthRequired(data.fullName, 2),
-        errorMessage: errorTitle(2).minLength,
-      },
-      { title: 'Email', type: 'email', isValid: isValidEmail(data.email), errorMessage: 'Invalid email' },
-      {
-        title: 'Education',
-        type: 'text',
-        isValid: setMinLengthRequired(data.education, 3),
-        errorMessage: errorTitle(3).minLength,
-      },
-      { title: 'Age', type: 'number', isValid: isValidAge(data.age), errorMessage: 'Age should be between 1 to 100' },
-      {
-        title: 'University Average Score',
-        type: 'number',
-        isValid: setScoreValue(+data.universityAverageScore, 0, 101),
-        errorMessage: 'Score should be between 0 to 100',
-      },
-      {
-        title: 'Math Score',
-        type: 'number',
-        isValid: setScoreValue(+data.mathScore, 0, 101),
-        errorMessage: 'Score should be between 0 to 100',
-      },
-      { title: 'Address', type: 'text', isValid: setMinLengthRequired(data.address, 3) },
-      {
-        title: 'Mobile Phone',
-        type: 'number',
-        isValid: setMinLengthRequired(data.mobilePhone, 12),
-        errorMessage: 'Number should has 12 numbers',
-      },
-      { title: 'Skype', type: 'text', isValid: setMinLengthRequired(data.skype, 3) },
-      {
-        title: 'Start Date',
-        type: 'date',
-        isValid: getCurrentDateUTC(data.startDate),
-        errorMessage: 'Date should not be in past    ',
-      },
-    ];
-  };
-
   getValue = (value) => {
     const { touched } = this.state;
     const el = toLowerCaseFirstLetter(toTrim(value.target.attributes[1].nodeValue));
@@ -135,7 +81,7 @@ export class ModalRegisterNewUser extends Component {
     const { touched } = this.state;
     const { modalType } = this.props;
     const data = this.state;
-    return this.getInputsData().map((inputItem) => {
+    return getInputsData(data).map((inputItem) => {
       const el = toLowerCaseFirstLetter(toTrim(inputItem.title));
 
       return (
@@ -182,10 +128,10 @@ export class ModalRegisterNewUser extends Component {
   };
 
   render() {
-    const { isOpen, onClose, modalType } = this.props;
-    const usersDataFields = { ...this.state };
-    delete usersDataFields.touched;
-    console.log(modalType);
+    const { isOpen, onClose } = this.props;
+    let usersDataFields = { ...this.state };
+    const { touched, ...rest } = usersDataFields;
+    usersDataFields = { ...rest };
 
     return (
       <div className={`${classes.ModalRegisterNewUser} ${isOpen ? classes.open : classes.close}`}>

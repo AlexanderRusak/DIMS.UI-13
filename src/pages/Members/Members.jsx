@@ -8,7 +8,7 @@ import { defaultProps } from '../../defaultValues/default';
 import { TableHeader } from '../../components/Table/TableHeader';
 import { TableBody } from '../../components/Table/TableBody';
 import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
-import { ModalRegisterNewUser } from '../../components/Modal/ModalRegisterNewUser';
+import { ModalRegisterNewUser } from '../../components/Modal/ModalRegisterNewUsers/ModalRegisterNewUser';
 import classes from '../TableStyle.module.css';
 import { getRefFirebase } from '../../firebase/helpers';
 import noop from '../../shared/noop';
@@ -136,16 +136,13 @@ class Members extends Component {
             header={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']}
             items={Object.values(data)}
             buttons={this.getButtons()}
-            detailsHeader='fullName'
-            detailsComponent={this.getLink}
           />
         </Table>
         {isOpenRegister && (
           <ModalRegisterNewUser
-            editData={selectedItem !== null ? Object.values(data)[selectedItem] : {}}
+            editData={type === 'edit' ? Object.values(data)[selectedItem] : {}}
             isOpen={isOpenRegister}
             onClose={this.onClose}
-            modalType={type}
           />
         )}
         {isOpenDelete && (
