@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { getRefFirebase } from '../../firebase/helpers';
 import { TableHeader } from '../../components/Table/TableHeader';
 /* import { setDataToLS } from '../../localStorage/localStorageFunctions'; */
@@ -36,10 +36,11 @@ class MemebersProgress extends Component {
   render() {
     const { data } = this.state;
     const { location } = this.props;
+    console.log(this.props, location);
     const selectedProgress = data.filter((item) => item.userID === location.emailId);
-    /* const { TaskName, TrackNote, TrackDate } = selectedProgress; */
+    /*  const { TaskName, TrackNote, TrackDate } = selectedProgress; */
+
     const { UserName } = data[0] || '';
-    console.log(selectedProgress);
 
     return (
       <>
@@ -61,4 +62,4 @@ MemebersProgress.propTypes = {
 };
 MemebersProgress.defaultProps = {};
 
-export default MemebersProgress;
+export default withRouter(MemebersProgress);

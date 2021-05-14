@@ -29,8 +29,8 @@ class Members extends Component {
   componentDidMount() {
     const { role } = this.context;
     this.setState({
-      role
-    })
+      role,
+    });
     this.getData();
   }
 
@@ -125,11 +125,13 @@ class Members extends Component {
 
     return (
       <>
-        {role === 'admin' && <ButtonGroup
-          title='Register'
-          styles={`${classes.registration} ${classes.default}`}
-          onClick={this.openRegisterModalHandler(null, 'create')}
-        />}
+        {role === 'admin' && (
+          <ButtonGroup
+            title='Register'
+            styles={`${classes.registration} ${classes.default}`}
+            onClick={this.openRegisterModalHandler(null, 'create')}
+          />
+        )}
         <Table>
           <TableHeader items={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']} />
           <TableBody
@@ -158,7 +160,7 @@ class Members extends Component {
   }
 }
 
-Members.contextType = RoleContext
+Members.contextType = RoleContext;
 
 Members.propTypes = {};
 Members.defaultProps = {};

@@ -3,16 +3,18 @@ import { Link } from 'react-router-dom';
 import { ButtonGroup } from '../ButtonGroup/ButtonGroup';
 import noop from '../../shared/noop';
 
-export const LinkButton = ({ pathname, emailId, styles, title }) => (
-  <Link
-    to={{
-      pathname,
-      emailId,
-    }}
-  >
-    <ButtonGroup styles={`${styles} `} title={title} onClick={noop} />
-  </Link>
-);
+export const LinkButton = ({ pathname, emailId, styles, title }) => {
+  return (
+    <Link
+      to={{
+        pathname,
+        emailId,
+      }}
+    >
+      <ButtonGroup styles={`${styles} `} title={title} onClick={noop} />
+    </Link>
+  );
+};
 
 
 LinkButton.propTypes = {
