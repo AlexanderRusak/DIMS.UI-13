@@ -35,7 +35,5 @@ export default class Layout extends PureComponent {
   }
 }
 Layout.propTypes = {
-  children: PropTypes.shape({
-    children: PropTypes.elementType,
-  }).isRequired,
+  children: PropTypes.node.isRequired,
 };

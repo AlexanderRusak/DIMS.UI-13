@@ -3,12 +3,16 @@ import { Button } from '../../UI/Buttons/Button/Button';
 import classes from './DeleteModal.module.css';
 
 export const DeleteModal = ({ title, onClose, item, onDelete }) => {
-  const getDeleteModal = (title, onClose, item, onDelete) => (
+  const onDeleteHandler = (item) => () => {
+    onDelete(item);
+  };
+
+  const getDeleteModal = (title, onClose, item) => (
     <>
       <h1>Delete {title}</h1>
       <p>Are you sure you want to delete the current {title} ?</p>
       <div className={classes.buttonGroup}>
-        <Button onClick={() => onDelete(item)}>
+        <Button onClick={onDeleteHandler(item)}>
           <i>Delete</i>
         </Button>
         <Button onClick={onClose}>
@@ -18,14 +22,17 @@ export const DeleteModal = ({ title, onClose, item, onDelete }) => {
     </>
   );
 
-  return <div className={classes.DeleteModal}>{getDeleteModal(title, onClose, item, onDelete)}</div>;
+  return <div className={classes.DeleteModal}>{getDeleteModal(title, onClose, item)}</div>;
 };
 
 DeleteModal.propTypes = {
-  item: PropTypes.number.isRequired,
+  item: PropTypes.number,
   title: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+};
+DeleteModal.defaultProps = {
+  item: null,
 };
 
 DeleteModal.defaultProps = {

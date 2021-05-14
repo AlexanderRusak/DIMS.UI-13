@@ -1,15 +1,19 @@
 import { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+/* import { Redirect } from 'react-router-dom'; */
 import { Input } from '../UI/Input/Input';
 import { Button } from '../UI/Buttons/Button/Button';
+import { isFormValid } from './modalHelpers/helpers';
 import classes from './ModalSignIn.module.css';
 import { signIn } from '../../firebase/auth';
 import { validateControl } from '../Auth/Auth';
 import Alert from '../UI/Alert/Alert';
 
 export class ModalSignIn extends Component {
+
   state = {
     isValid: false,
+    response: null,
     formControls: {
       email: {
         value: '',
@@ -38,6 +42,10 @@ export class ModalSignIn extends Component {
     },
   };
 
+  componentWillUnmount() {
+    this.signIn = null;
+  }
+
   errorHandler = () => {
     this.setState({
       error: true,
@@ -51,15 +59,21 @@ export class ModalSignIn extends Component {
 
   signIn = async () => {
     const { formControls } = this.state;
+    const { onClick } = this.props;
+
     try {
       const response = await signIn(formControls.email.value, formControls.password.value);
+      console.log(response.user.email);
+
       if (response) {
+        onClick(response.user.email);
+        localStorage.setItem('isLogged', 'true');
+        localStorage.setItem('email', response.user.email.toString());
         this.setState({
-          isValid: true,
+          response,
         });
       } else this.errorHandler();
     } catch (err) {
-      console.error(err);
       this.errorHandler();
     }
   };
@@ -75,14 +89,9 @@ export class ModalSignIn extends Component {
 
     form[controlName] = control;
 
-    let isValid = true;
-    Object.keys(form).forEach((name) => {
-      isValid = form[name].valid && isValid;
-    });
-
     this.setState({
       formControls: form,
-      isValid,
+      isValid: isFormValid(form),
     });
   };
 
@@ -108,19 +117,27 @@ export class ModalSignIn extends Component {
   }
 
   render() {
-    const { isValid, error } = this.state;
+    const { isValid, error, response } = this.state;
+    console.log(response && response.user.email);
+
     return (
       <>
-        {error && <Alert text='Incorrect mail or password!' />}
+        { error && <Alert text='Incorrect mail or password!' />}
         <div className={classes.ModalSignIn}>
           <h4>Wellcome to DIMS</h4>
           {this.renderInputs()}
           <Button typeButton='primary' onClick={this.signIn} disabled={!isValid}>
             <p>Sign in</p>
           </Button>
-          {isValid && <Redirect to='/members' />}
+          {/*           {response && <Redirect to='/members' />} */}
         </div>
       </>
+
+
     );
   }
+}
+
+ModalSignIn.propTypes = {
+  onClick: PropTypes.func.isRequired
 }

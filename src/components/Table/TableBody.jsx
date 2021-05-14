@@ -91,4 +91,3 @@ TableBody.defaultProps = {
 };
 
 withRouter(TableBody);
- 

@@ -78,7 +78,7 @@ export class ModalRegisterNewUser extends Component {
   };
 
   renderInputs = () => {
-    const { touched } = this.state;
+    const { touched } = this.state; 
     const { modalType } = this.props;
     const data = this.state;
     return getInputsData(data).map((inputItem) => {

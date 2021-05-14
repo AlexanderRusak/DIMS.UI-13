@@ -6,7 +6,7 @@ function isInvalid({ valid, touched, shouldValidate }) {
 }
 
 export const Input = (props) => {
-  const { type, title, onChange, errorMessage, value, isValid, checked } = props;
+  const { type, title, onChange, errorMessage, value, isValid, checked, readonly } = props;
   const inputType = type || 'text';
   const htmlFor = `${inputType}-${Math.random()}`;
   return (
@@ -16,7 +16,7 @@ export const Input = (props) => {
       <label htmlFor={htmlFor}>{title}</label>
 
       {inputType !== 'textarea ' ? (
-        <input checked={checked} value={value} type={inputType} id={title} onChange={onChange} />
+        <input checked={checked} value={value} type={inputType} id={title} onChange={onChange} readOnly={readonly} />
       ) : (
         <textarea value={value} type={inputType} id={title} onChange={onChange} />
       )}
@@ -25,6 +25,7 @@ export const Input = (props) => {
   );
 };
 Input.propTypes = {
+  readonly: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   title: PropTypes.string,
   type: PropTypes.string,
@@ -38,6 +39,7 @@ Input.defaultProps = {
   type: 'text',
   errorMessage: null,
   value: null,
-  isValid: null,
+  isValid: false,
   checked: null,
+  readonly: false,
 };

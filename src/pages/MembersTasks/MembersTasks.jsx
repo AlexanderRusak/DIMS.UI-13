@@ -7,6 +7,9 @@ import { Table } from '../../hoc/Table/Table';
 import { TASKS } from '../../db/tableName';
 import classes from '../TableStyle.module.css';
 import { getRefFirebase } from '../../firebase/helpers';
+import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
+import { getActiveButtonStyle } from './MembersTasksHelper';
+import { RoleContext } from '../../hoc/RoleContext/RoleContext';
 
 class MemebersTasks extends Component {
   constructor(props) {
@@ -28,7 +31,19 @@ class MemebersTasks extends Component {
     this.getData();
   }
 
+  changeTaskState = (index, type, name) => () => {
+    const { data } = this.state;
+    const newData = [...data];
+    newData[index].state = name;
+    this.setState({ data: newData });
+    console.log(index, type, name, newData);
+  }
+
   getButtons = () => {
+    const { data } = this.state;
+    const activeStyle = getActiveButtonStyle(data);
+    console.log(activeStyle);
+
     return [
       {
         component: LinkButton,
@@ -36,6 +51,20 @@ class MemebersTasks extends Component {
         title: 'Create',
         pathname: '/members-tracks',
         emailId: null,
+      },
+      {
+        component: ButtonGroup,
+        styles: activeStyle[0],
+        types: ['active', 'success', 'fail'],
+        data,
+        onClick: this.changeTaskState,
+      },
+      {
+        component: ButtonGroup,
+        styles: activeStyle[1],
+        types: ['active', 'success', 'fail'],
+        data,
+        onClick: this.changeTaskState,
       },
     ];
   };
@@ -65,9 +94,9 @@ class MemebersTasks extends Component {
         <Table>
           <TableHeader items={['#', 'Task Name', 'Description', 'DeadLine', 'State', 'Track']} />
           <TableBody
-            items={newData}
+            items={userData}
             header={['#', 'Task Name', 'Description', 'DeadLine', 'State', 'Track']}
-            buttons={this.getButtons()}
+            buttons={role === 'member' ? [this.getButtons()[0]] : [this.getButtons()[1], this.getButtons()[2]]}
           />
         </Table>
       </>

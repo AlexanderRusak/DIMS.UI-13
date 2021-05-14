@@ -21,21 +21,24 @@ export class Checkbox extends Component {
 
   render() {
     const { test, users } = this.state;
-    const { checkHandler } = this.props;
+    const { checkHandler, isValid, errorMessage } = this.props;
 
     return (
-      <div className={classes.Checkbox}>
-        {users.map((user, index) => (
-          <Input
-            type='checkbox'
-            title={user.name}
-            key={user.name.toString()}
-            checked={user.isCheck}
-            isValid={!!test}
-            onChange={() => checkHandler(index)}
-          />
-        ))}
-      </div>
+      <>
+        <div className={classes.Checkbox}>
+          {users.map((user, index) => (
+            <Input
+              type='checkbox'
+              title={user.name}
+              key={user.name.toString()}
+              checked={user.isCheck}
+              isValid={!!test}
+              onChange={() => checkHandler(index)}
+            />
+          ))}
+        </div>
+        {!isValid && <span className={classes.error}>{errorMessage || 'Required'}</span>}
+      </>
     );
   }
 }
@@ -43,8 +46,12 @@ export class Checkbox extends Component {
 Checkbox.propTypes = {
   users: PropTypes.arrayOf(PropTypes.string),
   checkHandler: PropTypes.func.isRequired,
+  isValid: PropTypes.bool,
+  errorMessage: PropTypes.string,
 };
 
 Checkbox.defaultProps = {
   users: [],
+  isValid: false,
+  errorMessage: 'Requried',
 };

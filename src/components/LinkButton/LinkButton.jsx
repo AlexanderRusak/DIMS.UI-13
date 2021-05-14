@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { ButtonGroup } from '../ButtonGroup/ButtonGroup';
 import noop from '../../shared/noop';
 
-
-
 export const LinkButton = ({ pathname, emailId, styles, title }) => {
   return (
     <Link
@@ -18,14 +16,12 @@ export const LinkButton = ({ pathname, emailId, styles, title }) => {
   );
 };
 
-
 LinkButton.propTypes = {
   pathname: PropTypes.string.isRequired,
   emailId: PropTypes.string.isRequired,
   styles: PropTypes.string.isRequired,
   title: PropTypes.string,
 };
-
 LinkButton.defaultProps = {
   title: 'Link',
 };
