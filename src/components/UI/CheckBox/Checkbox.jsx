@@ -7,7 +7,6 @@ export class Checkbox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      test: 'dsds',
       users: [],
     };
   }
@@ -19,10 +18,15 @@ export class Checkbox extends Component {
     });
   }
 
-  render() {
-    const { test, users } = this.state;
-    const { checkHandler, isValid, errorMessage } = this.props;
+  checkBoxHandler = (index) => () => {
+    const { checkHandler } = this.props;
+    checkHandler(index);
+  };
 
+  render() {
+    const { users } = this.state;
+    const { isValid, errorMessage } = this.props;
+    console.log(users);
     return (
       <>
         <div className={classes.Checkbox}>
@@ -32,8 +36,8 @@ export class Checkbox extends Component {
               title={user.name}
               key={user.name.toString()}
               checked={user.isCheck}
-              isValid={!!test}
-              onChange={() => checkHandler(index)}
+              isValid={!!user.name}
+              onChange={this.checkBoxHandler(index)}
             />
           ))}
         </div>
@@ -44,7 +48,7 @@ export class Checkbox extends Component {
 }
 
 Checkbox.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.string),
+  users: PropTypes.arrayOf(PropTypes.shape({})),
   checkHandler: PropTypes.func.isRequired,
   isValid: PropTypes.bool,
   errorMessage: PropTypes.string,

@@ -55,7 +55,6 @@ export class ModalSignIn extends Component {
     const { formControls } = this.state;
     try {
       const response = await signIn(formControls.email.value, formControls.password.value);
-      console.log(response);
       if (response) {
         this.setState({
           response,

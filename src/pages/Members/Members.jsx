@@ -6,7 +6,7 @@ import { Table } from '../../hoc/Table/Table';
 import { TableHeader } from '../../components/Table/TableHeader';
 import { TableBody } from '../../components/Table/TableBody';
 import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
-import { ModalRegisterNewUser } from '../../components/Modal/ModalRegisterNewUser';
+import { ModalRegisterNewUser } from '../../components/Modal/ModalRegisterNewUsers/ModalRegisterNewUser';
 import classes from '../TableStyle.module.css';
 import { getRefFirebase } from '../../firebase/helpers';
 
@@ -65,11 +65,9 @@ class Members extends Component {
     this.setState({ isOpenRegister: false });
   };
 
-
-
   getButtons = () => {
     const { data } = this.state;
-    const email = Object.keys(data)
+    const email = Object.keys(data);
     return [
       {
         component: LinkButton,
@@ -98,7 +96,7 @@ class Members extends Component {
         title: 'Delete',
         onClick: this.openDeleteModule,
       },
-    ]
+    ];
   };
 
   render() {
@@ -116,30 +114,24 @@ class Members extends Component {
           <TableBody
             header={['#', 'Full Name', 'Direction', 'Education', 'Age', 'Actions']}
             items={Object.values(data)}
-            buttons={
-              this.getButtons()
-            }
+            buttons={this.getButtons()}
           />
         </Table>
-        {
-          isOpenRegister && (
-            <ModalRegisterNewUser
-              editData={type === 'edit' ? Object.values(data)[selectedItem] : {}}
-              isOpen={isOpenRegister}
-              onClose={this.onClose}
-            />
-          )
-        }
-        {
-          isOpenDelete && (
-            <DeleteModal
-              onDelete={this.deleteMember}
-              onClose={this.closeModalHandler}
-              item={selectedItem}
-              title='member'
-            />
-          )
-        }
+        {isOpenRegister && (
+          <ModalRegisterNewUser
+            editData={type === 'edit' ? Object.values(data)[selectedItem] : {}}
+            isOpen={isOpenRegister}
+            onClose={this.onClose}
+          />
+        )}
+        {isOpenDelete && (
+          <DeleteModal
+            onDelete={this.deleteMember}
+            onClose={this.closeModalHandler}
+            item={selectedItem}
+            title='member'
+          />
+        )}
       </>
     );
   }

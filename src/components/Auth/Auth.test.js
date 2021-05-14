@@ -2,10 +2,10 @@ import { validateControl } from './Auth';
 import { isValidEmail, isValidMinLength, validateRequired } from './helpers';
 
 describe('validateControl', () => {
-  //Act
+  /* //Act */
   const actual = 'fake@mail.com';
 
-  //Arrange
+  /* //Arrange */
   const data = { required: true, email: true };
   const fake = 'fake@mail';
 
@@ -16,20 +16,20 @@ describe('validateControl', () => {
     expect(validateControl(fake, { required: true, email: true })).toBeFalsy();
   });
 
-  //Assert
+  /* //Assert */
   test('Should has undefined for non validation', () => {
     expect(validateControl(fake, undefined)).toBeFalsy();
   });
 });
 
 describe('validateControl', () => {
-  //Act
+  /* //Act */
   const actual = validateControl.length;
+  console.log(actual, 'test');
+  /* //Arrange */
+  const expected = 2;
 
-  //Arrange
-  const expected = actual;
-
-  //Assert
+  /* //Assert */
   test('Should has value and validation arguments', () => {
     expect(actual).toBe(expected);
   });
@@ -39,13 +39,13 @@ describe('validateControl', () => {
 });
 
 describe('isValidMinLength', () => {
-  //Act
+  /* //Act */
   const actual = 'string';
 
-  //Arrange
+  /* //Arrange */
   const fake = 'string   ';
 
-  //Assert
+  /*  //Assert */
   test('Should return true', () => {
     expect(isValidMinLength(actual, 6)).toBe(true);
   });
@@ -55,13 +55,13 @@ describe('isValidMinLength', () => {
 });
 
 describe('isValidEmail', () => {
-  //Act
+  /* //Act */
   const actual = 'test@mail.ru';
 
-  //Arrange
+  /* //Arrange */
   const fake = 'test@mail';
 
-  //Assert
+  /* //Assert */
   test('Should return true if valid email', () => {
     expect(isValidEmail(actual)).toBe(true);
   });
@@ -71,13 +71,13 @@ describe('isValidEmail', () => {
 });
 
 describe('validateRequired', () => {
-  //Act
+  /*    //Act */
   const actual = 'string     ';
 
-  //Arrange
+  /* //Arrange */
   const expected = actual.trim().length;
 
-  //Assert
+  /* //Assert */
   test('Should return string without spaces', () => {
     expect(validateRequired(actual).length).toBe(expected);
   });

@@ -2,12 +2,16 @@ import PropTypes from 'prop-types';
 import { Button } from '../UI/Buttons/Button/Button';
 
 export const ButtonGroup = ({ modalType, title, styles, onClick, disabled }) => {
+  const onClickHandler = (modalType) => () => {
+    onClick(modalType);
+  };
+
   return (
-    <Button disabled={disabled} onClick={() => onClick(modalType)} className={styles}>
+    <Button disabled={disabled} onClick={onClickHandler(modalType)} className={styles}>
       <p>{title}</p>
     </Button>
-  )
-}
+  );
+};
 
 ButtonGroup.propTypes = {
   modalType: PropTypes.string,
@@ -21,5 +25,5 @@ ButtonGroup.defaultProps = {
   modalType: null,
   title: 'Button',
   styles: null,
-  disabled: false
+  disabled: false,
 };

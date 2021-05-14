@@ -8,8 +8,6 @@ import { TASKS } from '../../db/tableName';
 import classes from '../TableStyle.module.css';
 import { getRefFirebase } from '../../firebase/helpers';
 
-
-
 class MemebersTasks extends Component {
   constructor(props) {
     super(props);
@@ -22,27 +20,23 @@ class MemebersTasks extends Component {
     this.getData();
   }
 
-
   getButtons = () => {
-
     return [
       {
         component: LinkButton,
         styles: `${classes.button} ${classes.default}`,
         title: 'Create',
         pathname: '/members-tracks',
-        emailId: null
-      }
-    ]
-  }
-
-
+        emailId: null,
+      },
+    ];
+  };
 
   getData = () => {
     getRefFirebase(TASKS).onSnapshot((doc) => {
       const { tasksMembers: data } = doc.data() || [];
       this.setState({
-        data
+        data,
       });
     });
   };
@@ -59,7 +53,11 @@ class MemebersTasks extends Component {
       <>
         <Table>
           <TableHeader items={['#', 'Task Name', 'Description', 'DeadLine', 'State', 'Track']} />
-          <TableBody items={newData} header={['#', 'Task Name', 'Description', 'DeadLine', 'State', 'Track']} buttons={this.getButtons()} />
+          <TableBody
+            items={newData}
+            header={['#', 'Task Name', 'Description', 'DeadLine', 'State', 'Track']}
+            buttons={this.getButtons()}
+          />
         </Table>
       </>
     );
