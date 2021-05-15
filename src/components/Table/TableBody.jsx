@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { generatePath, withRouter } from 'react-router-dom';
 import { getActiveButtonStyle } from '../../pages/MembersTasks/MembersTasksHelper';
 import { toLowerCaseFirstLetter } from '../Modal/modalHelpers/helpers';
 import { getColoredText } from './TableHelpers';
@@ -10,7 +10,6 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
   const detailsName = detailsHeader && toLowerCaseFirstLetter(detailsHeader.replace(/\s/g, ''));
   const setColourState = [];
 
-  console.log(buttons);
   return items.map((item, selectedIndex) => {
     if (item.state !== null) {
       setColourState.push(item.state);
@@ -43,6 +42,9 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
                       return (
                         <Component
                           {...button}
+                          pathname={generatePath(button.pathname, {
+                            userName: item.fullName,
+                          })}
                           styles={
                             button.types
                               ? getActiveButtonStyle(button.data[selectedIndex].state)[index].style
@@ -61,7 +63,7 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
                               selectedIndex,
                               button.type && button.type,
                               button.types &&
-                                button.types.filter((type) => type !== button.data[selectedIndex].state)[index],
+                              button.types.filter((type) => type !== button.data[selectedIndex].state)[index],
                             )
                           }
                         />

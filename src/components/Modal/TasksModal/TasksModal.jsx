@@ -43,11 +43,13 @@ export class TasksModal extends PureComponent {
   }
 
   componentDidMount() {
-    const { index, type, users } = this.props;
+    const { index, type, users, onSubmit } = this.props;
+    console.log(onSubmit);
     const data = this.props;
-    console.log(data.data, index, type);
+
 
     this.setState({
+
       taskName: type !== 'create' ? data.data[index].taskName : '',
       description: type !== 'create' ? data.data[index].description : '',
       startDate: type !== 'create' ? data.data[index].startDate : '',
@@ -136,6 +138,7 @@ export class TasksModal extends PureComponent {
 
   onSubmitHandler = (data, users, index, type) => () => {
     const { onSubmit } = this.props;
+    console.log();
     onSubmit(data, users, index, type);
   };
 
@@ -166,7 +169,6 @@ export class TasksModal extends PureComponent {
   getModal = (index, type) => {
     const { taskName, deadLine, description, startDate, userList, users, touched, isValid } = this.state;
     const currentUsers = type === 'create' ? userList : users;
-
     const detailsUsers = users.filter((user) => user.isCheck);
 
     return (

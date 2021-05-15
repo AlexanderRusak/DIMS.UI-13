@@ -36,13 +36,11 @@ class MemebersTasks extends Component {
     const newData = [...data];
     newData[index].state = name;
     this.setState({ data: newData });
-    console.log(index, type, name, newData);
   }
 
   getButtons = () => {
     const { data } = this.state;
     const activeStyle = getActiveButtonStyle(data);
-    console.log(activeStyle);
 
     return [
       {
@@ -80,14 +78,10 @@ class MemebersTasks extends Component {
 
   render() {
     const { data, role, email } = this.state;
-    console.log(data, role, email);
     const userData = role === 'member' ? data.filter((arr) => {
+      
       return arr.userId === email;
     }) : data;
-
-
-
-
 
     return (
       <>

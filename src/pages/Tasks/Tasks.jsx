@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { getData, setData } from '../../firebase/firebase';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import { Table } from '../../hoc/Table/Table';
 import { TableHeader } from '../../components/Table/TableHeader';
@@ -68,6 +69,15 @@ export class Tasks extends Component {
     };
   }
 
+  async componentDidMount() {
+    const currentTasksData = await getData('test-tasks');
+    console.log(currentTasksData, '21212');
+    this.setState({
+      /*  currentTasksData, */
+      tasksLength: currentTasksData.length
+    })
+  }
+
   openModalHandler = (index, type) => () => {
     console.log(type, index);
     this.setState({ isOpen: type !== 'delete', modalType: type, index });
@@ -75,6 +85,12 @@ export class Tasks extends Component {
       this.onDeleteModalOpen(index);
     }
   };
+
+  onSubmitData = async (data, users, index, type) => {
+    const { tasksLength } = this.state
+    console.log(data, users, index, type);
+    await setData('test-tasks', { ...data, users }, tasksLength + 1);
+  }
 
   onClose = () => {
     this.setState({ isOpen: false, isModalOpen: false });
@@ -84,8 +100,8 @@ export class Tasks extends Component {
     this.setState({ isModalOpen: true, index });
   };
 
-  onDelete = () => {
-    const { index, fdata } = this.state;
+  onDelete = (index) => () => {
+    const { fdata } = this.state;
     fdata.splice(index, 1);
     console.log(fdata);
     this.setState({ fdata: [...fdata], isModalOpen: false });
@@ -155,7 +171,7 @@ export class Tasks extends Component {
             onSubmit={this.onSubmitData}
           />
         )}
-        {isModalOpen && <DeleteModal onClose={this.onClose} onDelete={() => this.onDelete(index)} />}
+        {isModalOpen && <DeleteModal onClose={this.onClose} onDelete={this.onDelete(index)} />}
       </>
     );
   }

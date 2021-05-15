@@ -34,6 +34,8 @@ class Members extends Component {
     this.getData();
   }
 
+
+
   deleteMember = (index) => {
     const { data } = this.state;
     const newData = Object.values(data);
@@ -76,12 +78,13 @@ class Members extends Component {
   getButtons = () => {
     const { data } = this.state;
     const email = Object.keys(data);
+
     return [
       {
         component: LinkButton,
         styles: `${classes.button} ${classes.default}`,
         title: 'Progress',
-        pathname: '/members-progress',
+        pathname: '/members-progress/:userName',
         emailId: { email },
       },
       {
