@@ -36,8 +36,7 @@ export const setData = async (field, value, email) => {
 };
 
 export const getData = async (field) => {
-  const data = await db.collection('data').doc(field);
-
+  const data = db.collection('data').doc(field);
   return data
     .get()
     .then((doc) => {
@@ -51,5 +50,17 @@ export const getData = async (field) => {
     })
     .catch((error) => {
       console.error('Error with data loading:', error);
+    });
+};
+
+export const deleteData = async (field, index) => {
+  console.log(field, index);
+  db.collection('data')
+    .doc(field)
+    .update({
+      [index]: firebase.firestore.FieldValue.delete(),
+    })
+    .then(() => {
+      console.error(`${field} task successfully deleted!`);
     });
 };

@@ -9,8 +9,8 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
   const newHeader = header.map((head) => toLowerCaseFirstLetter(head.replace(/\s/g, '')));
   const detailsName = detailsHeader && toLowerCaseFirstLetter(detailsHeader.replace(/\s/g, ''));
   const setColourState = [];
-
-  return items.map((item, selectedIndex) => {
+  console.log(items);
+  return items && items.map((item, selectedIndex) => {
     if (item.state !== null) {
       setColourState.push(item.state);
     }

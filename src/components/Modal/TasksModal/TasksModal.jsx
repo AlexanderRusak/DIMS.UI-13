@@ -43,8 +43,8 @@ export class TasksModal extends PureComponent {
   }
 
   componentDidMount() {
-    const { index, type, users, onSubmit } = this.props;
-    console.log(onSubmit);
+    const { index, type, users } = this.props;
+
     const data = this.props;
 
 

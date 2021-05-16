@@ -40,21 +40,24 @@ export class Main extends PureComponent {
     onClickHandlerSignInResult = (email) => {
         const { data } = this.state;
         const { role } = data[email];
+        const members = Object.values(data).filter(user => user.role === 'member');
         localStorage.setItem('role', role.toString());
         localStorage.setItem('email', email.toString());
         localStorage.setItem('data', JSON.stringify(data));
         this.setState({
             isLogged: !!email,
             role,
-            email
+            email,
+            data: members,
         })
     }
 
     getData = () => {
         getRefFirebase(MEMBERS).onSnapshot((doc) => {
             const members = doc.data() || [];
+
             this.setState({
-                data: members,
+                data: members
             });
         });
     };

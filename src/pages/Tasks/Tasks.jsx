@@ -1,5 +1,7 @@
 import { Component } from 'react';
-import { getData, setData } from '../../firebase/firebase';
+import { RoleContext } from '../../hoc/RoleContext/RoleContext';
+import { deleteData, getData, setData } from '../../firebase/firebase';
+import { getUsers, getMaxValue } from './helpers';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import { Table } from '../../hoc/Table/Table';
 import { TableHeader } from '../../components/Table/TableHeader';
@@ -12,7 +14,7 @@ import { defaultProps } from '../../defaultValues/default';
 import classes from './TableStyle.module.css';
 import noop from '../../shared/noop';
 
-const fakeData = [
+/* const fakeData = [
   {
     deadLine: '2021-04-28',
     description: 'Do smth',
@@ -40,8 +42,8 @@ const fakeData = [
     taskName: 'Do smt',
     userId: 'rusak.alexander2017@yandex.ru',
   },
-];
-const fakeUsers = [
+]; */
+/* const fakeUsers = [
   { name: 'John Travolt1a', isCheck: true },
   { name: 'Harry Shproptter', isCheck: false },
   { name: 'Vasya Kat2apulta', isCheck: false },
@@ -54,7 +56,7 @@ const fakeUsers = [
   { name: 'Ha4rry Shproptter', isCheck: false },
   { name: 'Ha4rry Shpr4optter', isCheck: true },
   { name: 'H4arry Shpr4optter', isCheck: true },
-];
+]; */
 
 export class Tasks extends Component {
   constructor(props) {
@@ -64,17 +66,19 @@ export class Tasks extends Component {
       modalType: '',
       index: null,
       isModalOpen: false,
-      users: fakeUsers,
-      fdata: fakeData,
+      users: [],
+      currentTasksData: [],
     };
   }
 
   async componentDidMount() {
+
     const currentTasksData = await getData('test-tasks');
-    console.log(currentTasksData, '21212');
+    const { data } = this.context;
     this.setState({
-      /*  currentTasksData, */
-      tasksLength: currentTasksData.length
+      currentTasksData,
+
+      users: getUsers(data),
     })
   }
 
@@ -87,9 +91,25 @@ export class Tasks extends Component {
   };
 
   onSubmitData = async (data, users, index, type) => {
-    const { tasksLength } = this.state
-    console.log(data, users, index, type);
-    await setData('test-tasks', { ...data, users }, tasksLength + 1);
+    const { currentTasksData } = this.state;
+
+    const nextIndex = getMaxValue({ ...currentTasksData });
+    console.log(currentTasksData, type);
+    if (type === 'create') {
+      const newCurrentData = currentTasksData.push({ ...data, taskId: nextIndex, users })
+      await setData('test-tasks', { ...data, taskId: nextIndex, users }, nextIndex);
+      this.setState({
+        currentTasksData: newCurrentData
+      })
+    }
+    else {
+      currentTasksData[index] = { ...data, users };
+      this.setState({
+        currentTasksData
+      })
+      await setData('test-tasks', { ...data, users }, index + 1);
+    }
+    this.onClose();
   }
 
   onClose = () => {
@@ -101,10 +121,11 @@ export class Tasks extends Component {
   };
 
   onDelete = (index) => () => {
-    const { fdata } = this.state;
-    fdata.splice(index, 1);
-    console.log(fdata);
-    this.setState({ fdata: [...fdata], isModalOpen: false });
+    const { currentTasksData } = this.state;
+    deleteData('test-tasks', index)
+    currentTasksData.splice(index, 1);
+    console.log(currentTasksData);
+    this.setState({ currentTasksData: [...currentTasksData], isModalOpen: false });
   };
 
   getLink = (name, index) => (
@@ -140,8 +161,8 @@ export class Tasks extends Component {
   };
 
   render() {
-    const { isOpen, modalType, index, isModalOpen, fdata, users } = this.state;
-
+    const { isOpen, modalType, index, isModalOpen, currentTasksData, users } = this.state;
+    console.log(currentTasksData);
     return (
       <>
         <ButtonGroup
@@ -155,7 +176,7 @@ export class Tasks extends Component {
           <TableHeader items={['#', 'Task Name', 'Description', 'Start Date', 'Dead Line', 'Action']} />
           <TableBody
             header={['#', 'Task Name', 'Description', 'Start Date', 'DeadLine', 'Action']}
-            items={fdata}
+            items={currentTasksData}
             buttons={this.getButtons()}
             detailsHeader='Task Name'
             detailsComponent={this.getLink}
@@ -164,7 +185,7 @@ export class Tasks extends Component {
         {isOpen && (
           <TasksModal
             users={users}
-            data={fdata}
+            data={currentTasksData}
             index={index}
             type={modalType}
             onClose={this.onClose}
@@ -176,3 +197,5 @@ export class Tasks extends Component {
     );
   }
 }
+
+Tasks.contextType = RoleContext;
