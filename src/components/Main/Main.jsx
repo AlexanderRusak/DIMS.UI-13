@@ -75,8 +75,7 @@ export class Main extends PureComponent {
                             <PrivateRoute path='/about' component={About} condition={isLogged} />
                             <PrivateRoute path='/members-tasks/:userName' component={MemberTasks} condition={isLogged} />
                             <PrivateRoute path='/members-tasks' component={MembersTasks} condition={isLogged} />
-                            <PrivateRoute path='/members-progress' component={MembersProgress} condition={isLogged} />
-                            {/* <PrivateRoute path='/members-progress/:userName' component={MembersProgress} condition={isLogged} /> */}
+                            <PrivateRoute path='/members-progress/:userName' component={MembersProgress} condition={isLogged} />
                             <PrivateRoute path='/members' component={Members} condition={isLogged} />
                             <PrivateRoute path='/members-tracks' component={MemberTracks} condition={isLogged} />
                             <PrivateRoute path='/tasks' component={Tasks} condition={isLogged && role !== 'member'} />

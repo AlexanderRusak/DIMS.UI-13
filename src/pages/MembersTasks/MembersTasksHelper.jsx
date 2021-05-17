@@ -2,22 +2,6 @@ import classes from '../TableStyle.module.css';
 
 
 
-/* export const getActiveButtonStyle = (status) => {
-    console.log(status);
-    switch (status) {
-
-        case 'active':
-            return [`  ${classes.danger}`, ` ${classes.button}`]
-        case 'fail':
-            return [`  ${classes.default}`, `${classes.button}`]
-        case 'success':
-            return [`  ${classes.danger}`, `  ${classes.default}`]
-        default:
-            return []
-    }
-} */
-
-
 
 export const getActiveButtonStyle = (status) => {
     console.log(status);

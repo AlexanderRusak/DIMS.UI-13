@@ -9,6 +9,7 @@ import { TableBody } from '../../components/Table/TableBody';
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
 import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
 import { defaultProps } from '../../defaultValues/default';
+import { TASKS } from '../../db/tableName';
 import classes from './TableStyle.module.css';
 import noop from '../../shared/noop';
 
@@ -26,7 +27,7 @@ export class Tasks extends Component {
   }
 
   async componentDidMount() {
-    const currentTasksData = await getData('test-tasks');
+    const currentTasksData = await getData(TASKS);
 
     const { data } = this.context;
     this.setState({
@@ -49,7 +50,7 @@ export class Tasks extends Component {
 
     if (type === 'create') {
       currentTasksData.push({ ...data, taskId: nextIndex, users });
-      await setData('test-tasks', { ...data, taskId: nextIndex, users }, nextIndex);
+      await setData(TASKS, { ...data, taskId: nextIndex, users }, nextIndex);
       this.setState({
         currentTasksData,
       });
@@ -58,7 +59,7 @@ export class Tasks extends Component {
       this.setState({
         currentTasksData,
       });
-      await setData('test-tasks', { ...data, users }, index + 1);
+      await setData(TASKS, { ...data, users }, index + 1);
     }
     this.onClose();
   };
@@ -75,7 +76,7 @@ export class Tasks extends Component {
     const { currentTasksData } = this.state;
     const selectedCurrentId = currentTasksData[index].taskId;
 
-    deleteData('test-tasks', selectedCurrentId);
+    deleteData(TASKS, selectedCurrentId);
     currentTasksData.splice(index, 1);
 
     this.setState({ currentTasksData: [...currentTasksData], isModalOpen: false });
