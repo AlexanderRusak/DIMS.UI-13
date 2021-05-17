@@ -6,57 +6,11 @@ import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import { Table } from '../../hoc/Table/Table';
 import { TableHeader } from '../../components/Table/TableHeader';
 import { TableBody } from '../../components/Table/TableBody';
-/* import { getRefFirebase } from '../../firebase/helpers'; */
 import { TasksModal } from '../../components/Modal/TasksModal/TasksModal';
 import { DeleteModal } from '../../components/Modal/DeleteModal/DeleteModal';
-/* import { TASKS } from '../../db/tableName'; */
 import { defaultProps } from '../../defaultValues/default';
 import classes from './TableStyle.module.css';
 import noop from '../../shared/noop';
-
-/* const fakeData = [
-  {
-    deadLine: '2021-04-28',
-    description: 'Do smth',
-    startDate: '2021-04-25',
-    state: true,
-    taskId: 1,
-    taskName: 'Fix bugs',
-    userId: 'rusak.alexander2017@yandex.ru',
-  },
-  {
-    deadLine: '2021-04-28',
-    description: 'Set new values',
-    startDate: '2021-04-22',
-    state: true,
-    taskId: 2,
-    taskName: 'Update your DB',
-    userId: 'rusak.alexander2017@yande.ru',
-  },
-  {
-    deadLine: '2021-04-28',
-    description: 'Do smt else',
-    startDate: '2021-04-23',
-    state: false,
-    taskId: 2,
-    taskName: 'Do smt',
-    userId: 'rusak.alexander2017@yandex.ru',
-  },
-]; */
-/* const fakeUsers = [
-  { name: 'John Travolt1a', isCheck: true },
-  { name: 'Harry Shproptter', isCheck: false },
-  { name: 'Vasya Kat2apulta', isCheck: false },
-  { name: 'John Trav3olta', isCheck: true },
-  { name: 'Harry Sh4proptter', isCheck: false },
-  { name: 'Vasya K3tapulta', isCheck: false },
-  { name: 'Harry Sh5proptter', isCheck: true },
-  { name: 'Harry Sh3proptter', isCheck: true },
-  { name: 'Haerry Sh3proptter', isCheck: true },
-  { name: 'Ha4rry Shproptter', isCheck: false },
-  { name: 'Ha4rry Shpr4optter', isCheck: true },
-  { name: 'H4arry Shpr4optter', isCheck: true },
-]; */
 
 export class Tasks extends Component {
   constructor(props) {
@@ -72,18 +26,17 @@ export class Tasks extends Component {
   }
 
   async componentDidMount() {
-
     const currentTasksData = await getData('test-tasks');
+
     const { data } = this.context;
     this.setState({
       currentTasksData,
 
       users: getUsers(data),
-    })
+    });
   }
 
   openModalHandler = (index, type) => () => {
-    console.log(type, index);
     this.setState({ isOpen: type !== 'delete', modalType: type, index });
     if (type === 'delete') {
       this.onDeleteModalOpen(index);
@@ -92,25 +45,23 @@ export class Tasks extends Component {
 
   onSubmitData = async (data, users, index, type) => {
     const { currentTasksData } = this.state;
-
     const nextIndex = getMaxValue({ ...currentTasksData });
-    console.log(currentTasksData, type);
+
     if (type === 'create') {
-      const newCurrentData = currentTasksData.push({ ...data, taskId: nextIndex, users })
+      currentTasksData.push({ ...data, taskId: nextIndex, users });
       await setData('test-tasks', { ...data, taskId: nextIndex, users }, nextIndex);
       this.setState({
-        currentTasksData: newCurrentData
-      })
-    }
-    else {
+        currentTasksData,
+      });
+    } else {
       currentTasksData[index] = { ...data, users };
       this.setState({
-        currentTasksData
-      })
+        currentTasksData,
+      });
       await setData('test-tasks', { ...data, users }, index + 1);
     }
     this.onClose();
-  }
+  };
 
   onClose = () => {
     this.setState({ isOpen: false, isModalOpen: false });
@@ -122,9 +73,11 @@ export class Tasks extends Component {
 
   onDelete = (index) => () => {
     const { currentTasksData } = this.state;
-    deleteData('test-tasks', index)
+    const selectedCurrentId = currentTasksData[index].taskId;
+
+    deleteData('test-tasks', selectedCurrentId);
     currentTasksData.splice(index, 1);
-    console.log(currentTasksData);
+
     this.setState({ currentTasksData: [...currentTasksData], isModalOpen: false });
   };
 
@@ -162,7 +115,7 @@ export class Tasks extends Component {
 
   render() {
     const { isOpen, modalType, index, isModalOpen, currentTasksData, users } = this.state;
-    console.log(currentTasksData);
+
     return (
       <>
         <ButtonGroup
