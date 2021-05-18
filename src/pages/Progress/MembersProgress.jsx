@@ -12,7 +12,6 @@ import noop from '../../shared/noop';
 import { TableBody } from '../../components/Table/TableBody';
 import { Table } from '../../hoc/Table/Table';
 
-
 class MemebersProgress extends Component {
   constructor(props) {
     super(props);
@@ -28,20 +27,17 @@ class MemebersProgress extends Component {
   }
 
   getData = async (userName) => {
-    const data = await getData(TASKS)
+    const data = await getData(TASKS);
     this.setState({
-      data,
-      userName
-    })
+      data: data.filter((task) => task.users.find((user) => user.name === userName && user.isCheck)),
+      userName,
+    });
   };
 
   render() {
-    const { data, userName } = this.state;
-    const { location, match } = this.props;
-    console.log(location, data, match);
-    const selectedProgress = []
+    const { userName, data } = this.state;
 
-
+    console.log(data);
 
     return (
       <>
@@ -51,7 +47,7 @@ class MemebersProgress extends Component {
         </Link>
         <Table>
           <TableHeader items={['#', 'Task Name', 'Track Note', 'Date']} />
-          <TableBody header={['#', 'Task Name', 'Track Note', 'Track Date']} items={selectedProgress} />
+          <TableBody header={['#', 'Task Name', 'Description', 'DeadLine']} items={data} />
         </Table>
       </>
     );

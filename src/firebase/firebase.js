@@ -18,7 +18,6 @@ const db = firebase.firestore();
 export default firebase;
 
 export const setData = async (field, value, email) => {
-  console.log('inner');
   db.collection('data')
     .doc(field)
     .set(
@@ -41,7 +40,6 @@ export const getData = async (field) => {
     .get()
     .then((doc) => {
       if (doc.exists) {
-        console.log(Object.values(doc.data()));
         return Object.values(doc.data());
       }
       console.error(`Cannot find ${field} data`);
@@ -54,7 +52,6 @@ export const getData = async (field) => {
 };
 
 export const deleteData = async (field, index) => {
-  console.log(field, index);
   db.collection('data')
     .doc(field)
     .update({
