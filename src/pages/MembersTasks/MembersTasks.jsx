@@ -1,12 +1,13 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { getData } from '../../firebase/firebase';
 import { TableHeader } from '../../components/Table/TableHeader';
 import { TableBody } from '../../components/Table/TableBody';
 import { LinkButton } from '../../components/LinkButton/LinkButton';
 import { Table } from '../../hoc/Table/Table';
 import { TASKS } from '../../db/tableName';
 import classes from '../TableStyle.module.css';
-import { getRefFirebase } from '../../firebase/helpers';
 import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
 import { getActiveButtonStyle } from './MembersTasksHelper';
 import { RoleContext } from '../../hoc/RoleContext/RoleContext';
@@ -23,12 +24,15 @@ class MemebersTasks extends Component {
 
   componentDidMount() {
     const { role, email } = this.context;
+    console.log(role, email);
+    this.getData();
+
     this.setState({
       role,
-      email
+      email,
+      buttons: this.getButtons()
     })
 
-    this.getData();
   }
 
   changeTaskState = (index, type, name) => () => {
@@ -40,7 +44,9 @@ class MemebersTasks extends Component {
 
   getButtons = () => {
     const { data } = this.state;
+    console.log();
     const activeStyle = getActiveButtonStyle(data);
+    console.log(activeStyle);
 
     return [
       {
@@ -67,32 +73,33 @@ class MemebersTasks extends Component {
     ];
   };
 
-  getData = () => {
-    getRefFirebase(TASKS).onSnapshot((doc) => {
-      const { tasksMembers: data } = doc.data() || [];
-      this.setState({
-        data,
-      });
+  getData = async () => {
+    const data = await getData(TASKS);
+    console.log(data);
+    this.setState({
+      data,
     });
   };
 
   render() {
-    const { data, role, email } = this.state;
+    const { data, role, email, buttons } = this.state;
+    console.log(buttons);
+
     const userData = role === 'member' ? data.filter((arr) => {
-      
       return arr.userId === email;
     }) : data;
 
     return (
       <>
-        <Table>
+        <LinkButton pathname='/members' title='Back to list' styles={`${classes.button} ${classes.back}`} />
+        {  data.length && <Table>
           <TableHeader items={['#', 'Task Name', 'Description', 'DeadLine', 'State', 'Track']} />
           <TableBody
             items={userData}
             header={['#', 'Task Name', 'Description', 'DeadLine', 'State', 'Track']}
-            buttons={role === 'member' ? [this.getButtons()[0]] : [this.getButtons()[1], this.getButtons()[2]]}
+            buttons={role === 'member' ? [buttons[0]] : [buttons[1], buttons[2]]}
           />
-        </Table>
+        </Table>}
       </>
     );
   }
@@ -108,4 +115,4 @@ MemebersTasks.defaultProps = {};
 
 MemebersTasks.contextType = RoleContext;
 
-export default MemebersTasks;
+export default withRouter(MemebersTasks);

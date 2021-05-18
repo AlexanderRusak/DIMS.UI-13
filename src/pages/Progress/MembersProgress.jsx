@@ -1,14 +1,14 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
-/* import { getRefFirebase } from '../../firebase/helpers'; */
+import { /* Link, */ withRouter } from 'react-router-dom';
+import { LinkButton } from '../../components/LinkButton/LinkButton'
 import { getData } from '../../firebase/firebase';
 import { TableHeader } from '../../components/Table/TableHeader';
 /* import { setDataToLS } from '../../localStorage/localStorageFunctions'; */
 import { TASKS } from '../../db/tableName';
-import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup';
+/* import { ButtonGroup } from '../../components/ButtonGroup/ButtonGroup'; */
 import classes from '../TableStyle.module.css';
-import noop from '../../shared/noop';
+/* import noop from '../../shared/noop'; */
 import { TableBody } from '../../components/Table/TableBody';
 import { Table } from '../../hoc/Table/Table';
 
@@ -42,9 +42,7 @@ class MemebersProgress extends Component {
     return (
       <>
         <h4>{userName} Progress</h4>
-        <Link to='/members'>
-          <ButtonGroup styles={`${classes.button} ${classes.back}`} title='Back to List' onClick={noop} />
-        </Link>
+        <LinkButton pathname='/members' title='Back to list' styles={`${classes.button} ${classes.back}`} />
         <Table>
           <TableHeader items={['#', 'Task Name', 'Track Note', 'Date']} />
           <TableBody header={['#', 'Task Name', 'Description', 'DeadLine']} items={data} />
