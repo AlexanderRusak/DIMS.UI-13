@@ -9,10 +9,6 @@ export const TableHeader = ({ items }) => {
           <p>{item}</p>
         </td>
       )}
-
-      {/*             <li className={classes.date}>
-                <p>Date</p>
-            </li> */}
     </tr>
   </thead>)
 }

@@ -42,9 +42,6 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
                       buttons &&
                       buttons.map((button, index) => {
                         const Component = button.component;
-                        /*  console.log(button.data[selectedIndex].status); */
-                        /* const newButton = button.types.filter((type) => type !== button.data[selectedIndex].status) */
-                        /*   console.log(newButton); */
                         return (
                           <Component
                             {...button}
@@ -61,18 +58,18 @@ export const TableBody = ({ items, header, buttons, detailsHeader, detailsCompon
                                 ? getActiveButtonStyle(button.data[selectedIndex].status)[index].title
                                 : button.title
                             }
-                            key={`${
-                              button.emailId
+                            key={`${button.emailId
                                 ? button.emailId.email[selectedIndex]
                                 : `${header}-${classes[header] || index}`
-                            }`}
+                              }`}
                             emailId={button.emailId && button.emailId.email[selectedIndex]}
                             onClick={
                               button.onClick &&
                               button.onClick(
                                 selectedIndex,
-                                button.types && getActiveButtonStyle(button.data[selectedIndex].status)[index].title,
                                 button.type && button.type,
+                                button.types && getActiveButtonStyle(button.data[selectedIndex].status)[index].title,
+
                               )
                             }
                           />

@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { getData, setData } from '../../firebase/firebase';
+import { getData, updateData } from '../../firebase/firebase';
 import { TableHeader } from '../../components/Table/TableHeader';
 import { TableBody } from '../../components/Table/TableBody';
 import { LinkButton } from '../../components/LinkButton/LinkButton';
@@ -34,13 +34,13 @@ class MemebersTasks extends Component {
     });
   }
 
-  changeTaskState = (index, name) => () => {
+  changeTaskState = (index, type, name) => () => {
     const { data } = this.state;
     const newData = [...data];
     newData[index].status = name;
-    console.log(index, name);
+
     this.setState({ data: newData });
-    setData(TASKS, newData[index], index + 1);
+    updateData(TASKS, index, newData[index])
   };
 
   getButtons = () => {
@@ -85,8 +85,8 @@ class MemebersTasks extends Component {
     const userData =
       role === 'member'
         ? data.filter((arr) => {
-            return arr.userId === email;
-          })
+          return arr.userId === email;
+        })
         : data;
 
     return (

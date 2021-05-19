@@ -61,3 +61,16 @@ export const deleteData = async (field, index) => {
       console.error(`${field} task successfully deleted!`);
     });
 };
+
+export const updateData = async (field, index, value) => {
+  db.collection('data')
+    .doc(field)
+    .update({
+      [index + 1]: { ...value }
+    }, {
+      merge: true
+    })
+    .then(() => {
+      console.error(`${field} task successfully updated!`);
+    });
+};

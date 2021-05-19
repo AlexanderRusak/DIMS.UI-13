@@ -45,8 +45,9 @@ export class TasksModal extends PureComponent {
   componentDidMount() {
     const { index, type, users } = this.props;
 
-    const data = this.props;
 
+    const data = this.props;
+    console.log(type);
 
     this.setState({
 
@@ -61,7 +62,16 @@ export class TasksModal extends PureComponent {
         deadLine: type === 'edit' ? !!data.data[index].deadLine : false,
         checkbox: type === 'edit' ? !!users : false,
       },
+      touched: {
+        taskName: type === 'edit' ? !!data.data[index].taskName : false,
+        description: type === 'edit' ? !!data.data[index].description : false,
+        startDate: type === 'edit' ? !!data.data[index].startDate : false,
+        deadLine: type === 'edit' ? !!data.data[index].deadLine : false,
+        checkbox: type === 'edit' ? !!users : false,
+      },
     });
+
+
   }
 
   setTouched = (elementName) => {
@@ -205,6 +215,8 @@ export class TasksModal extends PureComponent {
 
   render() {
     const { type, index } = this.props;
+    const { isValid, taskName } = this.state;
+    console.log(isValid, taskName);
 
     return <div className={classes.TasksModal}>{this.getModal(index, type)}</div>;
   }
