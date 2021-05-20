@@ -6,21 +6,17 @@ import { Input } from '../../UI/Input/Input';
 import { toLowerCaseFirstLetter, toTrim } from '../modalHelpers/helpers';
 import classes from './TasksModal.module.css';
 import { Label } from '../../UI/Label/Label';
-import {
-  setMinLengthRequired,
-  isCheckBoxValueRequired,
-  isValidForm,
-  errorTitle,
-} from '../../Validation/validationHelpers';
+import { setMinLengthRequired, isCheckBoxValueRequired, isValidForm } from '../../Validation/validationHelpers';
+import { getUserDataArray } from './helpers';
 
 export class TasksModal extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       users: [...props.users],
-      userList: props.users.map((user) => {
-        return { name: user.name, isCheck: false };
-      }),
+      /*       userList: props.users.map((user) => {
+              return { name: user.name, isCheck: false };
+            }), */
       taskName: '',
       description: '',
       startDate: '',
@@ -45,16 +41,15 @@ export class TasksModal extends PureComponent {
   componentDidMount() {
     const { index, type, users } = this.props;
 
-
     const data = this.props;
-    console.log(type);
+    console.log(data.data[index].users);
 
     this.setState({
-
       taskName: type !== 'create' ? data.data[index].taskName : '',
       description: type !== 'create' ? data.data[index].description : '',
       startDate: type !== 'create' ? data.data[index].startDate : '',
       deadLine: type !== 'create' ? data.data[index].deadLine : '',
+      userList: type !== 'create' ? data.data[index].users : [],
       isValid: {
         taskName: type === 'edit' ? !!data.data[index].taskName : false,
         description: type === 'edit' ? !!data.data[index].description : false,
@@ -70,8 +65,6 @@ export class TasksModal extends PureComponent {
         checkbox: type === 'edit' ? !!users : false,
       },
     });
-
-
   }
 
   setTouched = (elementName) => {
@@ -97,12 +90,12 @@ export class TasksModal extends PureComponent {
   };
 
   setCheckedUser = (index) => {
-    const { users } = this.state;
-    const newUsers = [...users];
-    newUsers[index].isCheck = !users[index].isCheck;
+    const { userList } = this.state;
+    const newUsers = [...userList];
+    newUsers[index].isCheck = !userList[index].isCheck;
     this.setValid('checkbox', isCheckBoxValueRequired(newUsers));
     this.setTouched('checkbox');
-    this.setState({ users: newUsers });
+    this.setState({ userList: newUsers });
   };
 
   setCreateCheckedUser = (index) => {
@@ -112,38 +105,6 @@ export class TasksModal extends PureComponent {
     this.setValid('checkbox', isCheckBoxValueRequired(newUsers));
     this.setTouched('checkbox');
     this.setState({ userList: newUsers });
-  };
-
-  getUserDataArray = () => {
-    const { taskName, deadLine, description, startDate, touched } = this.state;
-    return [
-      {
-        value: taskName,
-        title: 'Task Name',
-        isValid: !!setMinLengthRequired(taskName, 5) || !touched.taskName,
-        errorMessage: errorTitle(5).minLength,
-      },
-      {
-        value: description,
-        title: 'Description',
-        isValid: !!setMinLengthRequired(description, 10) || !touched.description,
-        errorMessage: errorTitle(10).minLength,
-      },
-      {
-        value: startDate,
-        title: 'Start Date',
-        inputType: 'date',
-        isValid: startDate <= deadLine || !touched.startDate,
-        errorMessage: 'Start Date should be less or equal "Dead Line"',
-      },
-      {
-        value: deadLine,
-        title: 'Dead Line',
-        inputType: 'date',
-        isValid: deadLine >= startDate || !touched.deadLine,
-        errorMessage: 'Dead Line should be more or equal "Start Date"',
-      },
-    ];
   };
 
   onSubmitHandler = (data, users, index, type) => () => {
@@ -159,7 +120,7 @@ export class TasksModal extends PureComponent {
 
   renderItems = () => {
     const { type } = this.props;
-    const currentUsers = this.getUserDataArray();
+    const currentUsers = getUserDataArray(this.state);
     return currentUsers.map(({ value, title, isValid, inputType, errorMessage }) =>
       type === 'details' ? (
         <Label value={value} title={title} />

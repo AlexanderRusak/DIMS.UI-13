@@ -49,7 +49,7 @@ export class Tasks extends Component {
     const nextIndex = getMaxValue({ ...currentTasksData });
 
     if (type === 'create') {
-      currentTasksData.push({ ...data, taskId: nextIndex, status: 'active'/* , users */ });
+      currentTasksData.push({ ...data, taskId: nextIndex, status: 'active', users });
       await setData(TASKS, { ...data, taskId: nextIndex, status: 'active', users }, nextIndex);
       this.setState({
         currentTasksData,
@@ -116,6 +116,7 @@ export class Tasks extends Component {
 
   render() {
     const { isOpen, modalType, index, isModalOpen, currentTasksData, users } = this.state;
+    console.log(currentTasksData);
 
     return (
       <>

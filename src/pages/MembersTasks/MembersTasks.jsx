@@ -24,13 +24,10 @@ class MemebersTasks extends Component {
 
   componentDidMount() {
     const { role, email } = this.context;
-    /*    console.log(role, email); */
     this.getData();
-
     this.setState({
       role,
       email,
-      /*       buttons: this.getButtons() */
     });
   }
 
@@ -40,7 +37,7 @@ class MemebersTasks extends Component {
     newData[index].status = name;
 
     this.setState({ data: newData });
-    updateData(TASKS, index, newData[index])
+    updateData(TASKS, index, newData[index]);
   };
 
   getButtons = () => {
@@ -73,7 +70,6 @@ class MemebersTasks extends Component {
 
   getData = async () => {
     const data = await getData(TASKS);
-    /*     console.log(data); */
     this.setState({
       data,
     });
@@ -85,8 +81,8 @@ class MemebersTasks extends Component {
     const userData =
       role === 'member'
         ? data.filter((arr) => {
-          return arr.userId === email;
-        })
+            return arr.userId === email;
+          })
         : data;
 
     return (
